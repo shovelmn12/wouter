@@ -4,8 +4,7 @@ import 'package:provider/provider.dart';
 import '../models/models.dart';
 import 'delegate.dart';
 
-/// A delegate that is used by the [Router] widget
-/// to build and configure a widget.
+/// A delegate that is used by the [Router] widget to build and configure a navigating widget.
 abstract class WouterBaseRouterDelegate<T extends WouterDelegateState>
     extends BaseRouterDelegate<T> with ValueRouterState<T>, RoutingActions<T> {
   final PathMatcher matcher;
