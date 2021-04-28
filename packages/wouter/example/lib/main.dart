@@ -89,18 +89,15 @@ class PeopleScreen extends StatelessWidget {
           base: "/people",
           child: WouterSwitch(
             routes: {
-              r"/:id(\d+)": (context, [Map<String, dynamic>? data]) =>
-                  MaterialPage(
+              r"/:id(\d+)": (context, arguments) => MaterialPage(
                     child: PersonDetailsScreen(
-                      person: people[data!["id"]]!,
+                      person: people[arguments["id"]]!,
                     ),
                   ),
-              "/": (context, [Map<String, dynamic>? data]) =>
-                  const MaterialPage(
+              "/": (context, arguments) => const MaterialPage(
                     child: AllPeopleScreen(),
                   ),
-              "/*": (context, [Map<String, dynamic>? data]) =>
-                  const MaterialPage(
+              "/*": (context, arguments) => const MaterialPage(
                     child: Redirect(
                       to: "/people",
                     ),
@@ -185,10 +182,10 @@ class MyApp extends StatelessWidget {
     tag: "home",
     child: WouterSwitch(
       routes: {
-        "/": (context, [Map<String, dynamic>? data]) => MaterialPage(
+        "/": (context, arguments) => MaterialPage(
               child: HomeScreen(),
             ),
-        "/people": (context, [Map<String, dynamic>? data]) => MaterialPage(
+        "/people": (context, arguments) => MaterialPage(
               child: PeopleScreen(),
             ),
       },

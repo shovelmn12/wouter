@@ -3,9 +3,9 @@ import 'package:flutter/widgets.dart';
 import 'models.dart';
 
 typedef WouterRouteBuilder<T> = T Function(
-  BuildContext context, [
+  BuildContext context,
   Map<String, dynamic> arguments,
-]);
+);
 
 typedef RegexpBuilder = RegexpData Function(
   String pattern, {
