@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'delegate/delegate.dart';
 
-/// Central place for creating, accessing and modifying a Router subtree.
+/// A [Widget] to use when using nested routing with base path
 class Wouter extends StatelessWidget {
   final WouterBaseRouterDelegate delegate;
 

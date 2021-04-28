@@ -1,3 +1,7 @@
+## [0.0.4] - Introducing BaseWouterNavigator.builder.
+- WouterNavigator and WouterRow using builder
+- added popUntil and popAndPush
+
 ## [0.0.3] - Docs WIP.
 - added simple example
 - added wildcard support (only at the end of the path)

@@ -3,23 +3,19 @@ import 'package:wouter/wouter.dart';
 
 import 'base.dart';
 
-class WouterRow<T extends Widget> extends WouterBaseNavigator<T> {
+class WouterRow<T extends Widget> extends StatelessWidget {
+  final Map<String, WouterRouteBuilder<T>> routes;
+
   const WouterRow({
     Key? key,
-    required Map<String, WouterRouteBuilder<T>> routes,
-  }) : super(
-          key: key,
-          routes: routes,
-        );
+    required this.routes,
+  }) : super(key: key);
 
   @override
-  WouterRowState<T> createState() => WouterRowState<T>();
-}
-
-class WouterRowState<T extends Widget>
-    extends WouterBaseNavigatorState<WouterRow<T>, T> {
-  @override
-  Widget builder(BuildContext context, List<T> stack) => Row(
-        children: stack,
+  Widget build(BuildContext context) => BaseWouterNavigator<T>.builder(
+        routes: routes,
+        builder: (context, delegate, stack) => Row(
+          children: stack,
+        ),
       );
 }

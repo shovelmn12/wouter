@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:wouter/wouter.dart';
 
-abstract class WouterBaseNavigator<T> extends StatefulWidget {
+part 'base.builder.dart';
+
+abstract class BaseWouterNavigator<T> extends StatefulWidget {
   final Map<String, WouterRouteBuilder<T>> routes;
 
-  const WouterBaseNavigator({
+  const BaseWouterNavigator({
     Key? key,
     required this.routes,
   }) : super(key: key);
+
+  const factory BaseWouterNavigator.builder({
+    Key? key,
+    required Map<String, WouterRouteBuilder<T>> routes,
+    required WouterStackBuilder<T> builder,
+  }) = BaseWouterNavigatorBuilder;
 }
 
-abstract class WouterBaseNavigatorState<T extends WouterBaseNavigator<W>, W>
+abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
     extends State<T> {
   bool _isDisposed = false;
 
@@ -115,7 +123,6 @@ abstract class WouterBaseNavigatorState<T extends WouterBaseNavigator<W>, W>
   List<W> buildStack(BuildContext context, List<StackItem<W>> stack) =>
       stack.map((builder) => builder(context)).toList();
 
-  @protected
   Widget builder(BuildContext context, List<W> stack);
 
   @override
