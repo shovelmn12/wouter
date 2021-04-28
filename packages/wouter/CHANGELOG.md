@@ -1,3 +1,5 @@
+## [0.0.5] - Docs WIP.
+
 ## [0.0.4] - Introducing BaseWouterNavigator.builder.
 - WouterNavigator and WouterRow using builder
 - added popUntil and popAndPush

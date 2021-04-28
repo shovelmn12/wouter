@@ -85,7 +85,6 @@ class PeopleScreen extends StatelessWidget {
       return Wouter(
         delegate: WouterRouterDelegate.withParent(
           parent: context.wouter,
-          tag: "people",
           base: "/people",
           child: WouterSwitch(
             routes: {
@@ -179,7 +178,6 @@ class PersonDetailsScreen extends StatelessWidget {
 
 class MyApp extends StatelessWidget {
   final delegate = WouterRouterDelegate(
-    tag: "home",
     child: WouterSwitch(
       routes: {
         "/": (context, arguments) => MaterialPage(

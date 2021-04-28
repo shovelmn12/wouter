@@ -1,14 +1,35 @@
 # wouter
 
-wouter
+Supercharge your routering with wouter, simple yet advanced and fully customizable routing package.
 
-## Getting Started
+## BETA Release - Docs WIP
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+this package is using [path_to_regexp](https://pub.dev/packages/path_to_regexp) in order to match route pattern to a path
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+simple example:
+
+```dart
+class MyApp extends StatelessWidget {
+  final delegate = WouterRouterDelegate(
+    child: WouterSwitch(
+      routes: {
+        "/": (context, arguments) => MaterialPage(
+              child: HomeScreen(),
+            ),
+        "/people": (context, arguments) => MaterialPage(
+              child: PeopleScreen(),
+            ),
+      },
+    ),
+  );
+
+  @override
+  Widget build(BuildContext context) => MaterialApp.router(
+        routerDelegate: delegate,
+        routeInformationParser: WouterRouteInformationParser(),
+        backButtonDispatcher: WouterBackButtonDispatcher(
+          delegate: delegate,
+        ),
+      );
+}
+```
