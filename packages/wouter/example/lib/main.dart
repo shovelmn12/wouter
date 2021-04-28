@@ -80,9 +80,7 @@ class PeopleScreen extends StatelessWidget {
   const PeopleScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    try {
-      return Wouter(
+  Widget build(BuildContext context) => Wouter(
         delegate: WouterRouterDelegate.withParent(
           parent: context.wouter,
           base: "/people",
@@ -105,13 +103,6 @@ class PeopleScreen extends StatelessWidget {
           ),
         ),
       );
-    } catch (e, stack) {
-      print(e);
-      print(stack);
-
-      rethrow;
-    }
-  }
 }
 
 class AllPeopleScreen extends StatelessWidget {
