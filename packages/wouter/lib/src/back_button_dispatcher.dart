@@ -3,9 +3,9 @@ import 'package:flutter/widgets.dart';
 
 import 'delegate/delegate.dart';
 
-/// Overrides default back button behavior in [RootBackButtonDispatcher]
+/// Overrides default back button behavior in [BackButtonDispatcher]
 /// to call [WouterRouterDelegate.pop].
-class WouterBackButtonDispatcher extends RootBackButtonDispatcher {
+class WouterBackButtonDispatcher extends BackButtonDispatcher {
   final BaseRouterDelegate delegate;
 
   WouterBackButtonDispatcher({

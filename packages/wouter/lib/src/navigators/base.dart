@@ -12,15 +12,16 @@ abstract class WouterBaseNavigator<T> extends StatefulWidget {
 
 abstract class WouterBaseNavigatorState<T extends WouterBaseNavigator<W>, W>
     extends State<T> {
-  @protected
-  bool isDisposed = false;
+  bool _isDisposed = false;
+
+  bool get isDisposed => _isDisposed;
+
   @protected
   List<StackItem<W>> stack = const [];
 
   @protected
   late WouterBaseRouterDelegate delegate;
 
-  @protected
   Map<String, WouterRouteBuilder<W>> get routes => widget.routes;
 
   @override
@@ -40,8 +41,17 @@ abstract class WouterBaseNavigatorState<T extends WouterBaseNavigator<W>, W>
   }
 
   @override
+  void setState(fn) {
+    if (isDisposed) {
+      return;
+    }
+
+    super.setState(fn);
+  }
+
+  @override
   void dispose() {
-    isDisposed = true;
+    _isDisposed = true;
 
     super.dispose();
   }
@@ -68,9 +78,10 @@ abstract class WouterBaseNavigatorState<T extends WouterBaseNavigator<W>, W>
   @protected
   void init(WouterBaseRouterDelegate delegate) {
     this.delegate = delegate;
+
     delegate.addListener(onDelegateUpdated);
 
-    onUpdate(delegate);
+    stack = onUpdate(delegate);
   }
 
   @protected
@@ -82,16 +93,14 @@ abstract class WouterBaseNavigatorState<T extends WouterBaseNavigator<W>, W>
 
   @protected
   void onDelegateUpdated() {
-    onUpdate(delegate);
+    stack = onUpdate(delegate);
 
-    if (!isDisposed) {
-      setState(() {});
-    }
+    setState(() {});
   }
 
   @protected
-  void onUpdate(WouterBaseRouterDelegate delegate) =>
-      stack = delegate.state.route.stack
+  List<StackItem<W>> onUpdate(WouterBaseRouterDelegate delegate) =>
+      delegate.state.route?.stack
           .map((route) => matchPathToRoute(
                 route,
                 delegate.matcher,
@@ -99,7 +108,8 @@ abstract class WouterBaseNavigatorState<T extends WouterBaseNavigator<W>, W>
               ))
           .where((item) => item != null)
           .toList()
-          .cast();
+          .cast() ??
+      const [];
 
   @protected
   List<W> buildStack(BuildContext context, List<StackItem<W>> stack) =>

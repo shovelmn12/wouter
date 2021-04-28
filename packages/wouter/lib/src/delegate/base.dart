@@ -32,6 +32,7 @@ abstract class BaseRouterDelegate<T> extends RouterDelegate<Uri>
   /// Resets the state as if only [path] been pushed.
   void reset(String path);
 
+  /// Calling [pop]
   @override
   Future<bool> popRoute() => Future.value(pop());
 

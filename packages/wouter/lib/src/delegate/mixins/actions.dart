@@ -12,21 +12,16 @@ mixin RoutingActions<T extends WouterDelegateState> on BaseRouterDelegate<T> {
 
   WouterBaseRouterDelegate? get parent;
 
+  bool get hasParent;
+
   void update(T? Function(T state) callback) {
-    try {
-      final nextState = callback(state);
+    final nextState = callback(state);
 
-      if (nextState == null) {
-        return;
-      }
-
-      state = nextState;
-    } catch (e, stack) {
-      print(e);
-      print(stack);
-
-      rethrow;
+    if (nextState == null) {
+      return;
     }
+
+    state = nextState;
   }
 
   @protected
@@ -35,68 +30,61 @@ mixin RoutingActions<T extends WouterDelegateState> on BaseRouterDelegate<T> {
       return;
     }
 
-    reset(path);
+    state = policy.onReset(
+      state.base,
+      policy.pushPath(
+        state.base,
+        state.fullPath,
+        path,
+      ),
+    );
   }
 
   @override
   Future<R?> push<R>(String path) {
-    try {
-      final nextPath = policy.constructPath(state.base, state.path, path);
-
-      if (parent == null) {
-        final completer = Completer<R?>();
-
-        state = policy.onPush(
-          _removeBaseFromPath(state.base, nextPath),
-          state,
-          completer.complete,
-        );
-
-        return completer.future;
-      } else {
-        return parent!.push<R>(nextPath);
-      }
-    } catch (e, stack) {
-      print(e);
-      print(stack);
-
-      rethrow;
+    if (hasParent) {
+      return parent!.push<R>('./$path');
     }
+
+    final completer = Completer<R?>();
+
+    state = policy.onPush(
+      policy.pushPath(state.base, state.fullPath, path),
+      state,
+      completer.complete,
+    );
+
+    return completer.future;
   }
 
   @override
   bool pop([dynamic? result]) {
-    if (parent == null) {
-      if (state.canPop) {
-        state = policy.onPop(state, result);
-
-        return true;
-      }
-
-      return false;
-    } else {
+    if (hasParent) {
       return parent!.pop(result);
-    }
-  }
+    } else if (state.canPop) {
+      state = policy.onPop(state, result);
 
-  String _removeBaseFromPath(String base, String path) {
-    if (base.isEmpty || !path.startsWith(base)) {
-      return path;
+      return true;
     }
 
-    final newPath = path.substring(base.length);
-
-    if (newPath.isEmpty) {
-      return '/';
-    }
-
-    return newPath;
+    return false;
   }
 
   @override
   void reset(String path) {
     state.stack.forEach((route) => route.onResult?.call(null));
 
-    state = policy.onReset(state.base, _removeBaseFromPath(state.base, path));
+    if (hasParent) {
+      return parent!.reset(path);
+    }
+
+    if (path == state.fullPath) {
+      return;
+    }
+
+    state = policy.onReset(
+      state.base,
+      policy.pushPath(state.base, state.fullPath, path),
+    );
   }
 }

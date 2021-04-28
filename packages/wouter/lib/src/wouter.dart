@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import 'delegate/delegate.dart';
-import 'models/models.dart';
 
 /// Central place for creating, accessing and modifying a Router subtree.
 class Wouter extends StatelessWidget {
@@ -16,8 +15,7 @@ class Wouter extends StatelessWidget {
   /// Retrieves the immediate [WouterBaseRouterDelegate] ancestor from the given context.
   ///
   /// If no Router ancestor exists for the given context, this will assert in debug mode, and throw an exception in release mode.
-  static WouterBaseRouterDelegate of<T extends WouterDelegateState>(
-      BuildContext context) {
+  static T of<T extends WouterBaseRouterDelegate>(BuildContext context) {
     final delegate = maybeOf<T>(context);
 
     assert(delegate != null, 'There was no Router in current context.');
@@ -28,10 +26,9 @@ class Wouter extends StatelessWidget {
   /// Retrieves the immediate [WouterBaseRouterDelegate] ancestor from the given context.
   ///
   /// If no Router ancestor exists for the given context, this will return null.
-  static WouterBaseRouterDelegate<T>? maybeOf<T extends WouterDelegateState>(
-      BuildContext context) {
+  static T? maybeOf<T extends WouterBaseRouterDelegate>(BuildContext context) {
     try {
-      return context.read<WouterBaseRouterDelegate<T>>();
+      return context.read<T>();
     } catch (e) {
       return null;
     }

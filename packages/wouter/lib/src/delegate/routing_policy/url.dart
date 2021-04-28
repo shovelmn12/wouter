@@ -29,33 +29,63 @@ class URLRoutingPolicy<T extends WouterDelegateState>
     return onPush(path, prevState);
   }
 
-  @override
-  String pushPath(String next) {
-    if (next == initial || next.isEmpty) {
-      return initial;
-    } else if (next.endsWith('/')) {
-      return next.substring(0, next.length - 1);
+  String _removeBaseFromPath(String base, String path) {
+    if (base.isEmpty || !path.startsWith(base)) {
+      return path;
     }
 
-    return next;
+    final newPath = path.substring(base.length);
+
+    if (newPath.isEmpty) {
+      return '/';
+    }
+
+    return newPath;
+  }
+
+  String _normalize(String base, String current, String path) {
+    if (path.startsWith(".")) {
+      return normalize("$current/$path");
+    } else if (path.startsWith("/")) {
+      return path;
+    } else {
+      return "$base/$path";
+    }
+  }
+
+  @override
+  String pushPath(String base, String current, String next) {
+    if (next == initial || next.isEmpty) {
+      return initial;
+    }
+
+    final path = _removeBaseFromPath(
+      base,
+      _normalize(base, current, next),
+    );
+
+    if (path.endsWith('/')) {
+      return path.substring(0, path.length - 1);
+    }
+
+    return path;
   }
 
   @override
   T onPush<R>(String path, T state, [ValueSetter<R>? onResult]) {
-    final nextPath = pushPath(path);
     final nextStack = List<RouteHistory>.of(state.stack);
 
     nextStack.add(RouteHistory<R>(
-      path: nextPath,
+      path: path,
       stack: [
         if (nextStack.isNotEmpty) ...nextStack.last.stack,
-        nextPath,
+        path,
       ],
       onResult: onResult,
     ));
 
     return state.copyWith.call(
-      path: nextPath,
+      path: path,
       stack: List<RouteHistory>.unmodifiable(nextStack),
     ) as T;
   }
@@ -88,17 +118,4 @@ class URLRoutingPolicy<T extends WouterDelegateState>
   @override
   bool isCurrentPath(T state, String path) =>
       state.fullPath == path && state.path.isNotEmpty;
-
-  @override
-  String constructPath(String base, String current, String path) {
-    if (path.isEmpty) {
-      return '$base/$current';
-    } else if (path.startsWith('/')) {
-      return path;
-    } else if (path.startsWith('.')) {
-      return normalize('$base$current/$path');
-    } else {
-      return normalize('$base/$path');
-    }
-  }
 }

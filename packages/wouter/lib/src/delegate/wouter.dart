@@ -20,6 +20,9 @@ abstract class WouterBaseRouterDelegate<T extends WouterDelegateState>
   @override
   final Widget child;
 
+  @override
+  bool get hasParent => parent != null;
+
   WouterBaseRouterDelegate({
     required this.child,
     this.policy = const URLRoutingPolicy(),
@@ -43,7 +46,7 @@ abstract class WouterBaseRouterDelegate<T extends WouterDelegateState>
   })  : parent = parent,
         matcher = matcher(),
         super() {
-    onInitialize(base, '${parent.state.uri}');
+    onInitialize(base, parent.state.fullPath);
   }
 
   @protected
@@ -52,7 +55,7 @@ abstract class WouterBaseRouterDelegate<T extends WouterDelegateState>
       base: base,
     ) as T;
 
-    reset(path);
+    onParentPathUpdated(path);
 
     parent?.addListener(_onParentUpdated);
   }
