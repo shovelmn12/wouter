@@ -8,7 +8,6 @@ part 'model.freezed.dart';
 class RouteHistory<T> with _$RouteHistory<T> {
   const factory RouteHistory({
     required String path,
-    required List<String> stack,
     ValueSetter<T>? onResult,
   }) = _RouteHistory;
 }

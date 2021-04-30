@@ -14,7 +14,7 @@ class WouterRouterDelegate
     required Widget child,
     RoutingPolicy<WouterDelegateState> policy = const URLRoutingPolicy(),
     PathMatcherBuilder matcher = PathMatchers.regexp,
-    String? tag,
+    String tag = '',
     String initial = '/',
     String base = '',
   }) : super(
@@ -31,7 +31,7 @@ class WouterRouterDelegate
     required Widget child,
     RoutingPolicy<WouterDelegateState> policy = const URLRoutingPolicy(),
     PathMatcherBuilder matcher = PathMatchers.regexp,
-    String? tag,
+    String tag = '',
     String base = '',
   }) : super.withParent(
           child: child,

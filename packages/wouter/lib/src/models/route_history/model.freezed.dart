@@ -16,13 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$RouteHistoryTearOff {
   const _$RouteHistoryTearOff();
 
-  _RouteHistory<T> call<T>(
-      {required String path,
-      required List<String> stack,
-      void Function(T)? onResult}) {
+  _RouteHistory<T> call<T>({required String path, void Function(T)? onResult}) {
     return _RouteHistory<T>(
       path: path,
-      stack: stack,
       onResult: onResult,
     );
   }
@@ -33,8 +29,8 @@ const $RouteHistory = _$RouteHistoryTearOff();
 
 /// @nodoc
 mixin _$RouteHistory<T> {
-  String get path => throw _privateConstructorUsedError;
-  List<String> get stack => throw _privateConstructorUsedError;
+  String get path =>
+      throw _privateConstructorUsedError; // required List<String> stack,
   void Function(T)? get onResult => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -47,7 +43,7 @@ abstract class $RouteHistoryCopyWith<T, $Res> {
   factory $RouteHistoryCopyWith(
           RouteHistory<T> value, $Res Function(RouteHistory<T>) then) =
       _$RouteHistoryCopyWithImpl<T, $Res>;
-  $Res call({String path, List<String> stack, void Function(T)? onResult});
+  $Res call({String path, void Function(T)? onResult});
 }
 
 /// @nodoc
@@ -62,7 +58,6 @@ class _$RouteHistoryCopyWithImpl<T, $Res>
   @override
   $Res call({
     Object? path = freezed,
-    Object? stack = freezed,
     Object? onResult = freezed,
   }) {
     return _then(_value.copyWith(
@@ -70,10 +65,6 @@ class _$RouteHistoryCopyWithImpl<T, $Res>
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
               as String,
-      stack: stack == freezed
-          ? _value.stack
-          : stack // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       onResult: onResult == freezed
           ? _value.onResult
           : onResult // ignore: cast_nullable_to_non_nullable
@@ -89,7 +80,7 @@ abstract class _$RouteHistoryCopyWith<T, $Res>
           _RouteHistory<T> value, $Res Function(_RouteHistory<T>) then) =
       __$RouteHistoryCopyWithImpl<T, $Res>;
   @override
-  $Res call({String path, List<String> stack, void Function(T)? onResult});
+  $Res call({String path, void Function(T)? onResult});
 }
 
 /// @nodoc
@@ -106,7 +97,6 @@ class __$RouteHistoryCopyWithImpl<T, $Res>
   @override
   $Res call({
     Object? path = freezed,
-    Object? stack = freezed,
     Object? onResult = freezed,
   }) {
     return _then(_RouteHistory<T>(
@@ -114,10 +104,6 @@ class __$RouteHistoryCopyWithImpl<T, $Res>
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
               as String,
-      stack: stack == freezed
-          ? _value.stack
-          : stack // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       onResult: onResult == freezed
           ? _value.onResult
           : onResult // ignore: cast_nullable_to_non_nullable
@@ -131,19 +117,16 @@ class __$RouteHistoryCopyWithImpl<T, $Res>
 class _$_RouteHistory<T>
     with DiagnosticableTreeMixin
     implements _RouteHistory<T> {
-  const _$_RouteHistory(
-      {required this.path, required this.stack, this.onResult});
+  const _$_RouteHistory({required this.path, this.onResult});
 
   @override
   final String path;
-  @override
-  final List<String> stack;
-  @override
+  @override // required List<String> stack,
   final void Function(T)? onResult;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RouteHistory<$T>(path: $path, stack: $stack, onResult: $onResult)';
+    return 'RouteHistory<$T>(path: $path, onResult: $onResult)';
   }
 
   @override
@@ -152,7 +135,6 @@ class _$_RouteHistory<T>
     properties
       ..add(DiagnosticsProperty('type', 'RouteHistory<$T>'))
       ..add(DiagnosticsProperty('path', path))
-      ..add(DiagnosticsProperty('stack', stack))
       ..add(DiagnosticsProperty('onResult', onResult));
   }
 
@@ -162,8 +144,6 @@ class _$_RouteHistory<T>
         (other is _RouteHistory<T> &&
             (identical(other.path, path) ||
                 const DeepCollectionEquality().equals(other.path, path)) &&
-            (identical(other.stack, stack) ||
-                const DeepCollectionEquality().equals(other.stack, stack)) &&
             (identical(other.onResult, onResult) ||
                 const DeepCollectionEquality()
                     .equals(other.onResult, onResult)));
@@ -173,7 +153,6 @@ class _$_RouteHistory<T>
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(path) ^
-      const DeepCollectionEquality().hash(stack) ^
       const DeepCollectionEquality().hash(onResult);
 
   @JsonKey(ignore: true)
@@ -184,15 +163,11 @@ class _$_RouteHistory<T>
 
 abstract class _RouteHistory<T> implements RouteHistory<T> {
   const factory _RouteHistory(
-      {required String path,
-      required List<String> stack,
-      void Function(T)? onResult}) = _$_RouteHistory<T>;
+      {required String path, void Function(T)? onResult}) = _$_RouteHistory<T>;
 
   @override
   String get path => throw _privateConstructorUsedError;
-  @override
-  List<String> get stack => throw _privateConstructorUsedError;
-  @override
+  @override // required List<String> stack,
   void Function(T)? get onResult => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)

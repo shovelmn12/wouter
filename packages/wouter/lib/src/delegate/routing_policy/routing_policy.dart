@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 
 export 'url.dart';
@@ -18,4 +20,6 @@ abstract class RoutingPolicy<T> {
   String popPath(String path);
 
   T onPop(T state, [dynamic result]);
+
+  ValueSetter<R?> buildSetter<R>(Completer<R?> completer);
 }

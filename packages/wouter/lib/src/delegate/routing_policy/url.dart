@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 
@@ -38,7 +40,7 @@ class URLRoutingPolicy<T extends WouterDelegateState>
     final newPath = path.substring(base.length);
 
     if (newPath.isEmpty) {
-      return '/';
+      return initial;
     }
 
     return newPath;
@@ -75,10 +77,6 @@ class URLRoutingPolicy<T extends WouterDelegateState>
 
     nextStack.add(RouteHistory<R>(
       path: path,
-      stack: [
-        if (nextStack.isNotEmpty) ...nextStack.last.stack,
-        path,
-      ],
       onResult: onResult,
     ));
 
@@ -103,12 +101,13 @@ class URLRoutingPolicy<T extends WouterDelegateState>
   @override
   T onPop(T state, [dynamic? result]) {
     final nextStack = List<RouteHistory>.of(state.stack);
-    final route = nextStack.removeLast();
 
-    route.onResult?.call(result);
+    if (nextStack.isNotEmpty) {
+      nextStack.removeLast().onResult?.call(result);
+    }
 
     return state.copyWith.call(
-      path: nextStack.last.path,
+      path: nextStack.isEmpty ? "" : nextStack.last.path,
       stack: List<RouteHistory>.unmodifiable(nextStack),
     ) as T;
   }
@@ -116,4 +115,13 @@ class URLRoutingPolicy<T extends WouterDelegateState>
   @override
   bool isCurrentPath(T state, String path) =>
       state.fullPath == path && state.path.isNotEmpty;
+
+  @override
+  ValueSetter<R?> buildSetter<R>(Completer<R?> completer) => (R? value) {
+      if (completer.isCompleted) {
+        return;
+      }
+
+      completer.complete(value);
+    };
 }

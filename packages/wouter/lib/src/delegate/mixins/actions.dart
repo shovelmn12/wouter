@@ -30,20 +30,22 @@ mixin RoutingActions<T extends WouterDelegateState> on BaseRouterDelegate<T> {
       return;
     }
 
-    state = policy.onReset(
-      state.base,
-      policy.pushPath(
-        state.base,
-        state.fullPath,
-        path,
-      ),
+    state = policy.onPush(
+      policy.removeBase(state.base, path),
+      state.stack.isEmpty ? state : policy.onPop(state),
     );
   }
 
   @override
   Future<R?> push<R>(String path) {
     if (hasParent) {
-      return parent!.push<R>(policy.pushPath(state.base, state.fullPath, path));
+      return parent!.push<R>(
+        policy.pushPath(
+          state.base,
+          state.fullPath,
+          path,
+        ),
+      );
     }
 
     final completer = Completer<R?>();
@@ -51,8 +53,10 @@ mixin RoutingActions<T extends WouterDelegateState> on BaseRouterDelegate<T> {
     state = policy.onPush(
       policy.removeBase(state.base, path),
       state,
-      completer.complete,
+      policy.buildSetter(completer),
     );
+
+    print(state);
 
     return completer.future;
   }

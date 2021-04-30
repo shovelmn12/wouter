@@ -21,18 +21,25 @@ extension RoutingActionsExtensions<T extends WouterDelegateState>
     });
   }
 
-  Future<T> popAndPush<T>(String path, [dynamic? result]) {
+  Future<T> replace<T>(String path, [dynamic? result]) {
     if (hasParent) {
-      return parent!.popAndPush(path, result);
+      return parent!.replace(
+        policy.pushPath(
+          state.base,
+          state.fullPath,
+          path,
+        ),
+        result,
+      );
     }
 
     final completer = Completer<T>();
 
-    update((state) {
-      final prevState = policy.onPop(state, result);
-
-      return policy.onPush(path, prevState, completer.complete);
-    });
+    update((state) => policy.onPush(
+          policy.removeBase(state.base, path),
+          state.stack.isEmpty ? state : policy.onPop(state, result),
+          policy.buildSetter(completer),
+        ));
 
     return completer.future;
   }

@@ -10,7 +10,7 @@ abstract class WouterBaseRouterDelegate<T extends WouterDelegateState>
   final PathMatcher matcher;
 
   @override
-  final String? tag;
+  final String tag;
   @override
   @protected
   final RoutingPolicy<T> policy;
@@ -27,7 +27,7 @@ abstract class WouterBaseRouterDelegate<T extends WouterDelegateState>
     required this.child,
     this.policy = const URLRoutingPolicy(),
     PathMatcherBuilder matcher = PathMatchers.regexp,
-    this.tag,
+    this.tag = '',
     String initial = '/',
     String base = '',
   })  : parent = null,
@@ -41,7 +41,7 @@ abstract class WouterBaseRouterDelegate<T extends WouterDelegateState>
     required WouterBaseRouterDelegate parent,
     this.policy = const URLRoutingPolicy(),
     PathMatcherBuilder matcher = PathMatchers.regexp,
-    this.tag,
+    this.tag = '',
     String base = '',
   })  : parent = parent,
         matcher = matcher(),

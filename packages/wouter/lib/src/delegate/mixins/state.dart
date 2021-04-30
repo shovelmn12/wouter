@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 
 mixin RouterState<T> on ChangeNotifier {
-  @protected
   T get state;
 
   @protected

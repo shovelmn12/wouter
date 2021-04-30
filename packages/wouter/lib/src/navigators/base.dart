@@ -108,16 +108,15 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
 
   @protected
   List<StackItem<W>> onUpdate(WouterBaseRouterDelegate delegate) =>
-      delegate.state.route?.stack
+      delegate.state.stack
           .map((route) => matchPathToRoute(
-                route,
+                route.path,
                 delegate.matcher,
                 routes.entries.toList(),
               ))
           .where((item) => item != null)
           .toList()
-          .cast() ??
-      const [];
+          .cast();
 
   @protected
   List<W> buildStack(BuildContext context, List<StackItem<W>> stack) =>

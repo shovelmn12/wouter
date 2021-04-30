@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import 'extensions/extensions.dart';
 
-class Redirect extends StatelessWidget {
+class Redirect extends StatefulWidget {
   final Widget child;
   final String to;
 
@@ -13,10 +13,20 @@ class Redirect extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    WidgetsBinding.instance
-        ?.addPostFrameCallback((_) => context.wouter.reset(to));
+  _RedirectState createState() => _RedirectState();
+}
 
-    return child;
+class _RedirectState extends State<Redirect> {
+  @override
+  void initState() {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      print("redirecting to ${widget.to}");
+      context.wouter.replace(widget.to);
+    });
+
+    super.initState();
   }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
 }
