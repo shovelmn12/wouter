@@ -9,7 +9,9 @@ abstract class RoutingPolicy<T> {
 
   T onReset(String base, String path);
 
-  String pushPath(String base, String current, String next);
+  String removeBase(String base, String path);
+
+  String pushPath(String base, String current, String path);
 
   T onPush<R>(String path, T state, [ValueSetter<R>? onResult]);
 

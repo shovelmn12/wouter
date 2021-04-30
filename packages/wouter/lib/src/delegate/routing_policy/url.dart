@@ -29,7 +29,8 @@ class URLRoutingPolicy<T extends WouterDelegateState>
     return onPush(path, prevState);
   }
 
-  String _removeBaseFromPath(String base, String path) {
+  @override
+  String removeBase(String base, String path) {
     if (base.isEmpty || !path.startsWith(base)) {
       return path;
     }
@@ -54,21 +55,18 @@ class URLRoutingPolicy<T extends WouterDelegateState>
   }
 
   @override
-  String pushPath(String base, String current, String next) {
-    if (next == initial || next.isEmpty) {
+  String pushPath(String base, String current, String path) {
+    if (path == initial || path.isEmpty) {
       return initial;
     }
 
-    final path = _removeBaseFromPath(
-      base,
-      _normalize(base, current, next),
-    );
+    final nextPath = _normalize(base, current, path);
 
-    if (path.endsWith('/')) {
-      return path.substring(0, path.length - 1);
+    if (nextPath.endsWith('/')) {
+      return path.substring(0, nextPath.length - 1);
     }
 
-    return path;
+    return nextPath;
   }
 
   @override

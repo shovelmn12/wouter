@@ -43,13 +43,13 @@ mixin RoutingActions<T extends WouterDelegateState> on BaseRouterDelegate<T> {
   @override
   Future<R?> push<R>(String path) {
     if (hasParent) {
-      return parent!.push<R>('./$path');
+      return parent!.push<R>(policy.pushPath(state.base, state.fullPath, path));
     }
 
     final completer = Completer<R?>();
 
     state = policy.onPush(
-      policy.pushPath(state.base, state.fullPath, path),
+      policy.removeBase(state.base, path),
       state,
       completer.complete,
     );
