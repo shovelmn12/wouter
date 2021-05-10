@@ -19,10 +19,8 @@ class Redirect extends StatefulWidget {
 class _RedirectState extends State<Redirect> {
   @override
   void initState() {
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      print("redirecting ${widget.to}");
-      context.wouter.replace(widget.to);
-    });
+    WidgetsBinding.instance
+        ?.addPostFrameCallback((_) => context.wouter.replace(widget.to));
 
     super.initState();
   }
