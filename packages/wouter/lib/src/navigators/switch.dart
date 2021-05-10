@@ -25,7 +25,6 @@ class WouterSwitch<T extends Page> extends StatelessWidget {
           : Navigator(
               pages: [
                 if (delegate.canPop)
-                  /// TODO: PageRoute without animation
                   const MaterialPage(
                     child: SizedBox.shrink(),
                   ),

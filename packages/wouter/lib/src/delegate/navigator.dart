@@ -8,7 +8,7 @@ import 'delegate.dart';
 class WouterRouterDelegate
     extends WouterBaseRouterDelegate<WouterDelegateState> {
   @override
-  final WouterDelegateState initialState = const WouterDelegateState();
+  final WouterDelegateState initialState;
 
   WouterRouterDelegate({
     required Widget child,
@@ -17,13 +17,15 @@ class WouterRouterDelegate
     String tag = '',
     String initial = '/',
     String base = '',
-  }) : super(
+  })  : initialState = WouterDelegateState(
+          base: base,
+        ),
+        super(
           child: child,
           policy: policy,
           matcher: matcher,
           tag: tag,
           initial: initial,
-          base: base,
         );
 
   WouterRouterDelegate.withParent({
@@ -33,12 +35,14 @@ class WouterRouterDelegate
     PathMatcherBuilder matcher = PathMatchers.regexp,
     String tag = '',
     String base = '',
-  }) : super.withParent(
+  })  : initialState = WouterDelegateState(
+          base: base,
+        ),
+        super.withParent(
           child: child,
           parent: parent,
           policy: policy,
           matcher: matcher,
           tag: tag,
-          base: base,
         );
 }

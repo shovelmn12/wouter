@@ -29,11 +29,10 @@ abstract class WouterBaseRouterDelegate<T extends WouterDelegateState>
     PathMatcherBuilder matcher = PathMatchers.regexp,
     this.tag = '',
     String initial = '/',
-    String base = '',
   })  : parent = null,
         matcher = matcher(),
         super() {
-    onInitialize(base, initial);
+    onInitialize(initial);
   }
 
   WouterBaseRouterDelegate.withParent({
@@ -42,19 +41,14 @@ abstract class WouterBaseRouterDelegate<T extends WouterDelegateState>
     this.policy = const URLRoutingPolicy(),
     PathMatcherBuilder matcher = PathMatchers.regexp,
     this.tag = '',
-    String base = '',
   })  : parent = parent,
         matcher = matcher(),
         super() {
-    onInitialize(base, parent.state.fullPath);
+    onInitialize(parent.state.fullPath);
   }
 
   @protected
-  void onInitialize(String base, String path) {
-    state = state.copyWith.call(
-      base: base,
-    ) as T;
-
+  void onInitialize(String path) {
     onParentPathUpdated(path);
 
     parent?.addListener(_onParentUpdated);

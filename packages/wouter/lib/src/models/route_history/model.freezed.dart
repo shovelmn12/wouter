@@ -29,8 +29,7 @@ const $RouteHistory = _$RouteHistoryTearOff();
 
 /// @nodoc
 mixin _$RouteHistory<T> {
-  String get path =>
-      throw _privateConstructorUsedError; // required List<String> stack,
+  String get path => throw _privateConstructorUsedError;
   void Function(T)? get onResult => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -121,7 +120,7 @@ class _$_RouteHistory<T>
 
   @override
   final String path;
-  @override // required List<String> stack,
+  @override
   final void Function(T)? onResult;
 
   @override
@@ -167,7 +166,7 @@ abstract class _RouteHistory<T> implements RouteHistory<T> {
 
   @override
   String get path => throw _privateConstructorUsedError;
-  @override // required List<String> stack,
+  @override
   void Function(T)? get onResult => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)

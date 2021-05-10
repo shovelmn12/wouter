@@ -36,11 +36,6 @@ abstract class BaseRouterDelegate<T> extends RouterDelegate<Uri>
   @override
   Future<bool> popRoute() => Future.value(pop());
 
-  /// Calling [setInitialRoutePath]
-  @override
-  Future<void> setInitialRoutePath(Uri configuration) =>
-      super.setInitialRoutePath(configuration);
-
   /// Calling [reset]
   @override
   Future<void> setNewRoutePath(Uri uri) =>

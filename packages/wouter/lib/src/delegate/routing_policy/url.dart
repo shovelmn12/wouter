@@ -15,33 +15,12 @@ class URLRoutingPolicy<T extends WouterDelegateState>
   });
 
   @override
-  T onReset(String base, String path) {
-    if (path == initial) {
-      return onPush(
-        path,
-        WouterDelegateState(
-          base: base,
-        ) as T,
-      );
-    }
-
-    final prevPath = popPath(path);
-    final prevState = onReset(base, prevPath);
-
-    return onPush(path, prevState);
-  }
-
-  @override
   String removeBase(String base, String path) {
     if (base.isEmpty || !path.startsWith(base)) {
       return path;
     }
 
     final newPath = path.substring(base.length);
-
-    if (newPath.isEmpty) {
-      return initial;
-    }
 
     return newPath;
   }
@@ -59,7 +38,7 @@ class URLRoutingPolicy<T extends WouterDelegateState>
   @override
   String pushPath(String base, String current, String path) {
     if (path == initial || path.isEmpty) {
-      return initial;
+      return path;
     }
 
     final nextPath = _normalize(base, current, path);
@@ -86,17 +65,18 @@ class URLRoutingPolicy<T extends WouterDelegateState>
     ) as T;
   }
 
-  @override
   String popPath(String path) {
     final parts = path.split('/');
     final newPath = parts.sublist(0, parts.length - 1).join('/');
 
-    if (newPath.isEmpty) {
-      return initial;
+    if (newPath.isNotEmpty) {
+      return newPath;
     }
 
-    return newPath;
+    return "";
   }
+
+  bool canPop(String path) => path.isNotEmpty && path != initial;
 
   @override
   T onPop(T state, [dynamic? result]) {
@@ -117,11 +97,12 @@ class URLRoutingPolicy<T extends WouterDelegateState>
       state.fullPath == path && state.path.isNotEmpty;
 
   @override
-  ValueSetter<R?> buildSetter<R>(Completer<R?> completer) => (R? value) {
-      if (completer.isCompleted) {
-        return;
-      }
+  ValueSetter<R?> buildOnResultCallback<R>(Completer<R?> completer) =>
+      (R? value) {
+        if (completer.isCompleted) {
+          return;
+        }
 
-      completer.complete(value);
-    };
+        completer.complete(value);
+      };
 }

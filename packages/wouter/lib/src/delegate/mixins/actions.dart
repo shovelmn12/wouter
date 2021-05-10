@@ -6,7 +6,9 @@ import '../../models/models.dart';
 import '../delegate.dart';
 
 mixin RoutingActions<T extends WouterDelegateState> on BaseRouterDelegate<T> {
-  String? get tag;
+  String get tag;
+
+  T get initialState;
 
   RoutingPolicy<T> get policy;
 
@@ -53,10 +55,8 @@ mixin RoutingActions<T extends WouterDelegateState> on BaseRouterDelegate<T> {
     state = policy.onPush(
       policy.removeBase(state.base, path),
       state,
-      policy.buildSetter(completer),
+      policy.buildOnResultCallback(completer),
     );
-
-    print(state);
 
     return completer.future;
   }
@@ -86,9 +86,9 @@ mixin RoutingActions<T extends WouterDelegateState> on BaseRouterDelegate<T> {
       return;
     }
 
-    state = policy.onReset(
-      state.base,
+    state = policy.onPush(
       policy.pushPath(state.base, state.fullPath, path),
+      initialState,
     );
   }
 }

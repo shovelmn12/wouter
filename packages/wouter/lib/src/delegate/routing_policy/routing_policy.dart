@@ -9,17 +9,13 @@ abstract class RoutingPolicy<T> {
 
   bool isCurrentPath(T state, String path);
 
-  T onReset(String base, String path);
-
   String removeBase(String base, String path);
 
   String pushPath(String base, String current, String path);
 
   T onPush<R>(String path, T state, [ValueSetter<R>? onResult]);
 
-  String popPath(String path);
-
   T onPop(T state, [dynamic result]);
 
-  ValueSetter<R?> buildSetter<R>(Completer<R?> completer);
+  ValueSetter<R?> buildOnResultCallback<R>(Completer<R?> completer);
 }

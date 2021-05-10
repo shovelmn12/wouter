@@ -5,21 +5,23 @@ import '../models/models.dart';
 
 extension RoutingActionsExtensions<T extends WouterDelegateState>
     on RoutingActions<T> {
+  T _popUntil(T state, PopPredicate<String> predicate) {
+    if (predicate(state.fullPath)) {
+      return state;
+    }
+
+    return _popUntil(policy.onPop(state), predicate);
+  }
+
   void popUntil(PopPredicate<String> predicate) {
     if (hasParent) {
       return parent!.popUntil(predicate);
     }
 
-    update((state) {
-      var prevState;
-
-      do {
-        prevState = policy.onPop(state);
-      } while (predicate(prevState.fullPath));
-
-      return prevState;
-    });
+    update((state) => _popUntil(policy.onPop(state), predicate));
   }
+
+  void popTo(String path) => popUntil((current) => path == current);
 
   Future<T> replace<T>(String path, [dynamic? result]) {
     if (hasParent) {
@@ -38,7 +40,7 @@ extension RoutingActionsExtensions<T extends WouterDelegateState>
     update((state) => policy.onPush(
           policy.removeBase(state.base, path),
           state.stack.isEmpty ? state : policy.onPop(state, result),
-          policy.buildSetter(completer),
+          policy.buildOnResultCallback(completer),
         ));
 
     return completer.future;

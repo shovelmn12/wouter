@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wouter/wouter.dart';
 
 part 'base.builder.dart';
@@ -46,6 +47,16 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
     }
 
     super.didChangeDependencies();
+  }
+
+  @override
+  void didUpdateWidget(covariant T oldWidget) {
+    if (!const DeepCollectionEquality()
+        .equals(oldWidget.routes, widget.routes)) {
+      setState(() {});
+    }
+
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
