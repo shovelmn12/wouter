@@ -20,9 +20,13 @@ class URLRoutingPolicy<T extends WouterDelegateState>
       return path;
     }
 
-    final newPath = path.substring(base.length);
+    final nextPath = path.substring(base.length);
 
-    return newPath;
+    if (nextPath.isEmpty) {
+      return initial;
+    }
+
+    return nextPath;
   }
 
   String _normalize(String base, String current, String path) {
