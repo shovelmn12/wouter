@@ -42,8 +42,10 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
 
   @override
   void didChangeDependencies() {
-    if (context.wouter != delegate) {
-      update(context.wouter);
+    final delegate = context.wouter;
+
+    if (delegate != this.delegate) {
+      update(delegate);
     }
 
     super.didChangeDependencies();
@@ -111,11 +113,7 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   }
 
   @protected
-  void onDelegateUpdated() {
-    stack = onUpdate(delegate);
-
-    setState(() {});
-  }
+  void onDelegateUpdated() => setState(() => stack = onUpdate(delegate));
 
   @protected
   List<StackItem<W>> onUpdate(WouterBaseRouterDelegate delegate) =>

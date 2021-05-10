@@ -41,13 +41,15 @@ mixin RoutingActions<T extends WouterDelegateState> on BaseRouterDelegate<T> {
   @override
   Future<R?> push<R>(String path) {
     if (hasParent) {
-      return parent!.push<R>(
-        policy.pushPath(
-          state.base,
-          state.fullPath,
-          path,
-        ),
+      final isAbsolut = path.startsWith("/");
+      final prefix = isAbsolut ? "" : "./";
+      final pushPath = policy.pushPath(
+        state.base,
+        state.fullPath,
+        path,
       );
+
+      return parent!.push<R>("$prefix$pushPath");
     }
 
     final completer = Completer<R?>();

@@ -44,7 +44,7 @@ abstract class WouterBaseRouterDelegate<T extends WouterDelegateState>
   })  : parent = parent,
         matcher = matcher(),
         super() {
-    onInitialize(parent.state.fullPath);
+    onInitialize(parent.state.path);
   }
 
   @protected
