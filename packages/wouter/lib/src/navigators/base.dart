@@ -134,8 +134,12 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   Widget builder(BuildContext context, List<W> stack);
 
   @override
-  Widget build(BuildContext context) => builder(
-        context,
-        buildStack(context, stack),
+  Widget build(BuildContext context) => ClipRect(
+        child: RepaintBoundary(
+          child: builder(
+            context,
+            buildStack(context, stack),
+          ),
+        ),
       );
 }

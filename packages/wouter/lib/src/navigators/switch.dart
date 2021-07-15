@@ -6,7 +6,7 @@ import 'base.dart';
 class WouterSwitch<T extends Page> extends StatelessWidget {
   final Map<String, WouterRouteBuilder<T>> routes;
   final List<NavigatorObserver> observers;
-  final TransitionDelegate transition;
+  final TransitionDelegate<T> transition;
 
   const WouterSwitch({
     Key? key,

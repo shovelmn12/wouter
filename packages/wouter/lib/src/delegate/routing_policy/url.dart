@@ -47,7 +47,9 @@ class URLRoutingPolicy<T extends WouterDelegateState>
 
     final nextPath = _normalize(base, current, path);
 
-    if (nextPath.endsWith('/')) {
+    if (nextPath.isEmpty) {
+      return initial;
+    } else if (nextPath.endsWith('/')) {
       return path.substring(0, nextPath.length - 1);
     }
 
@@ -77,7 +79,7 @@ class URLRoutingPolicy<T extends WouterDelegateState>
       return newPath;
     }
 
-    return "";
+    return initial;
   }
 
   bool canPop(String path) => path.isNotEmpty && path != initial;
