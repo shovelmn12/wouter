@@ -138,19 +138,16 @@ class _$_RegexpData with DiagnosticableTreeMixin implements _RegexpData {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _RegexpData &&
-            (identical(other.regexp, regexp) ||
-                const DeepCollectionEquality().equals(other.regexp, regexp)) &&
-            (identical(other.parameters, parameters) ||
-                const DeepCollectionEquality()
-                    .equals(other.parameters, parameters)));
+        (other.runtimeType == runtimeType &&
+            other is _RegexpData &&
+            (identical(other.regexp, regexp) || other.regexp == regexp) &&
+            const DeepCollectionEquality()
+                .equals(other.parameters, parameters));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(regexp) ^
-      const DeepCollectionEquality().hash(parameters);
+  int get hashCode => Object.hash(
+      runtimeType, regexp, const DeepCollectionEquality().hash(parameters));
 
   @JsonKey(ignore: true)
   @override
@@ -163,9 +160,9 @@ abstract class _RegexpData implements RegexpData {
       _$_RegexpData;
 
   @override
-  RegExp get regexp => throw _privateConstructorUsedError;
+  RegExp get regexp;
   @override
-  List<String> get parameters => throw _privateConstructorUsedError;
+  List<String> get parameters;
   @override
   @JsonKey(ignore: true)
   _$RegexpDataCopyWith<_RegexpData> get copyWith =>

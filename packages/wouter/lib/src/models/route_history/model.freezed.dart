@@ -141,19 +141,15 @@ class _$_RouteHistory<T>
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _RouteHistory<T> &&
-            (identical(other.path, path) ||
-                const DeepCollectionEquality().equals(other.path, path)) &&
+        (other.runtimeType == runtimeType &&
+            other is _RouteHistory<T> &&
+            (identical(other.path, path) || other.path == path) &&
             (identical(other.onResult, onResult) ||
-                const DeepCollectionEquality()
-                    .equals(other.onResult, onResult)));
+                other.onResult == onResult));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(path) ^
-      const DeepCollectionEquality().hash(onResult);
+  int get hashCode => Object.hash(runtimeType, path, onResult);
 
   @JsonKey(ignore: true)
   @override
@@ -166,9 +162,9 @@ abstract class _RouteHistory<T> implements RouteHistory<T> {
       {required String path, void Function(T)? onResult}) = _$_RouteHistory<T>;
 
   @override
-  String get path => throw _privateConstructorUsedError;
+  String get path;
   @override
-  void Function(T)? get onResult => throw _privateConstructorUsedError;
+  void Function(T)? get onResult;
   @override
   @JsonKey(ignore: true)
   _$RouteHistoryCopyWith<T, _RouteHistory<T>> get copyWith =>

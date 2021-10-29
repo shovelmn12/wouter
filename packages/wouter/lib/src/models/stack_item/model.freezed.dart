@@ -165,23 +165,16 @@ class _$_StackItem<T> extends _StackItem<T> with DiagnosticableTreeMixin {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _StackItem<T> &&
-            (identical(other.path, path) ||
-                const DeepCollectionEquality().equals(other.path, path)) &&
-            (identical(other.builder, builder) ||
-                const DeepCollectionEquality()
-                    .equals(other.builder, builder)) &&
-            (identical(other.arguments, arguments) ||
-                const DeepCollectionEquality()
-                    .equals(other.arguments, arguments)));
+        (other.runtimeType == runtimeType &&
+            other is _StackItem<T> &&
+            (identical(other.path, path) || other.path == path) &&
+            (identical(other.builder, builder) || other.builder == builder) &&
+            const DeepCollectionEquality().equals(other.arguments, arguments));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(path) ^
-      const DeepCollectionEquality().hash(builder) ^
-      const DeepCollectionEquality().hash(arguments);
+  int get hashCode => Object.hash(runtimeType, path, builder,
+      const DeepCollectionEquality().hash(arguments));
 
   @JsonKey(ignore: true)
   @override
@@ -197,12 +190,11 @@ abstract class _StackItem<T> extends StackItem<T> {
   const _StackItem._() : super._();
 
   @override
-  String get path => throw _privateConstructorUsedError;
+  String get path;
   @override
-  T Function(BuildContext, Map<String, dynamic>) get builder =>
-      throw _privateConstructorUsedError;
+  T Function(BuildContext, Map<String, dynamic>) get builder;
   @override
-  Map<String, dynamic> get arguments => throw _privateConstructorUsedError;
+  Map<String, dynamic> get arguments;
   @override
   @JsonKey(ignore: true)
   _$StackItemCopyWith<T, _StackItem<T>> get copyWith =>

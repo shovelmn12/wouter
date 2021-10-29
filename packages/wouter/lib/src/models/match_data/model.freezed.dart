@@ -135,19 +135,15 @@ class _$_MatchData with DiagnosticableTreeMixin implements _MatchData {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _MatchData &&
-            (identical(other.path, path) ||
-                const DeepCollectionEquality().equals(other.path, path)) &&
-            (identical(other.arguments, arguments) ||
-                const DeepCollectionEquality()
-                    .equals(other.arguments, arguments)));
+        (other.runtimeType == runtimeType &&
+            other is _MatchData &&
+            (identical(other.path, path) || other.path == path) &&
+            const DeepCollectionEquality().equals(other.arguments, arguments));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(path) ^
-      const DeepCollectionEquality().hash(arguments);
+  int get hashCode => Object.hash(
+      runtimeType, path, const DeepCollectionEquality().hash(arguments));
 
   @JsonKey(ignore: true)
   @override
@@ -161,9 +157,9 @@ abstract class _MatchData implements MatchData {
       required Map<String, dynamic> arguments}) = _$_MatchData;
 
   @override
-  String get path => throw _privateConstructorUsedError;
+  String get path;
   @override
-  Map<String, dynamic> get arguments => throw _privateConstructorUsedError;
+  Map<String, dynamic> get arguments;
   @override
   @JsonKey(ignore: true)
   _$MatchDataCopyWith<_MatchData> get copyWith =>

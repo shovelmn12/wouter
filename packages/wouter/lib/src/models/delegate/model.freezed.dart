@@ -163,21 +163,16 @@ class _$_WouterDelegateState
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _WouterDelegateState &&
-            (identical(other.path, path) ||
-                const DeepCollectionEquality().equals(other.path, path)) &&
-            (identical(other.base, base) ||
-                const DeepCollectionEquality().equals(other.base, base)) &&
-            (identical(other.stack, stack) ||
-                const DeepCollectionEquality().equals(other.stack, stack)));
+        (other.runtimeType == runtimeType &&
+            other is _WouterDelegateState &&
+            (identical(other.path, path) || other.path == path) &&
+            (identical(other.base, base) || other.base == base) &&
+            const DeepCollectionEquality().equals(other.stack, stack));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(path) ^
-      const DeepCollectionEquality().hash(base) ^
-      const DeepCollectionEquality().hash(stack);
+  int get hashCode => Object.hash(
+      runtimeType, path, base, const DeepCollectionEquality().hash(stack));
 
   @JsonKey(ignore: true)
   @override
@@ -193,11 +188,11 @@ abstract class _WouterDelegateState implements WouterDelegateState {
       List<RouteHistory> stack}) = _$_WouterDelegateState;
 
   @override
-  String get path => throw _privateConstructorUsedError;
+  String get path;
   @override
-  String get base => throw _privateConstructorUsedError;
+  String get base;
   @override
-  List<RouteHistory> get stack => throw _privateConstructorUsedError;
+  List<RouteHistory> get stack;
   @override
   @JsonKey(ignore: true)
   _$WouterDelegateStateCopyWith<_WouterDelegateState> get copyWith =>
