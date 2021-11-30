@@ -64,7 +64,7 @@ mixin RoutingActions<T extends WouterDelegateState> on BaseRouterDelegate<T> {
   }
 
   @override
-  bool pop([dynamic? result]) {
+  bool pop([dynamic result]) {
     if (hasParent) {
       return parent!.pop(result);
     } else if (state.canPop) {

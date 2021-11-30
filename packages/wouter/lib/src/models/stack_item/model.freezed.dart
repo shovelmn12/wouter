@@ -19,7 +19,7 @@ class _$StackItemTearOff {
 
   _StackItem<T> call<T>(
       {required String path,
-      required T Function(BuildContext, Map<String, dynamic>) builder,
+      required WouterRouteBuilder<T> builder,
       Map<String, dynamic> arguments = const {}}) {
     return _StackItem<T>(
       path: path,
@@ -35,8 +35,7 @@ const $StackItem = _$StackItemTearOff();
 /// @nodoc
 mixin _$StackItem<T> {
   String get path => throw _privateConstructorUsedError;
-  T Function(BuildContext, Map<String, dynamic>) get builder =>
-      throw _privateConstructorUsedError;
+  WouterRouteBuilder<T> get builder => throw _privateConstructorUsedError;
   Map<String, dynamic> get arguments => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -51,7 +50,7 @@ abstract class $StackItemCopyWith<T, $Res> {
       _$StackItemCopyWithImpl<T, $Res>;
   $Res call(
       {String path,
-      T Function(BuildContext, Map<String, dynamic>) builder,
+      WouterRouteBuilder<T> builder,
       Map<String, dynamic> arguments});
 }
 
@@ -77,7 +76,7 @@ class _$StackItemCopyWithImpl<T, $Res> implements $StackItemCopyWith<T, $Res> {
       builder: builder == freezed
           ? _value.builder
           : builder // ignore: cast_nullable_to_non_nullable
-              as T Function(BuildContext, Map<String, dynamic>),
+              as WouterRouteBuilder<T>,
       arguments: arguments == freezed
           ? _value.arguments
           : arguments // ignore: cast_nullable_to_non_nullable
@@ -95,7 +94,7 @@ abstract class _$StackItemCopyWith<T, $Res>
   @override
   $Res call(
       {String path,
-      T Function(BuildContext, Map<String, dynamic>) builder,
+      WouterRouteBuilder<T> builder,
       Map<String, dynamic> arguments});
 }
 
@@ -123,7 +122,7 @@ class __$StackItemCopyWithImpl<T, $Res> extends _$StackItemCopyWithImpl<T, $Res>
       builder: builder == freezed
           ? _value.builder
           : builder // ignore: cast_nullable_to_non_nullable
-              as T Function(BuildContext, Map<String, dynamic>),
+              as WouterRouteBuilder<T>,
       arguments: arguments == freezed
           ? _value.arguments
           : arguments // ignore: cast_nullable_to_non_nullable
@@ -142,7 +141,7 @@ class _$_StackItem<T> extends _StackItem<T> with DiagnosticableTreeMixin {
   @override
   final String path;
   @override
-  final T Function(BuildContext, Map<String, dynamic>) builder;
+  final WouterRouteBuilder<T> builder;
   @JsonKey(defaultValue: const {})
   @override
   final Map<String, dynamic> arguments;
@@ -185,14 +184,14 @@ class _$_StackItem<T> extends _StackItem<T> with DiagnosticableTreeMixin {
 abstract class _StackItem<T> extends StackItem<T> {
   const factory _StackItem(
       {required String path,
-      required T Function(BuildContext, Map<String, dynamic>) builder,
+      required WouterRouteBuilder<T> builder,
       Map<String, dynamic> arguments}) = _$_StackItem<T>;
   const _StackItem._() : super._();
 
   @override
   String get path;
   @override
-  T Function(BuildContext, Map<String, dynamic>) get builder;
+  WouterRouteBuilder<T> get builder;
   @override
   Map<String, dynamic> get arguments;
   @override

@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$RouteHistoryTearOff {
   const _$RouteHistoryTearOff();
 
-  _RouteHistory<T> call<T>({required String path, void Function(T)? onResult}) {
+  _RouteHistory<T> call<T>({required String path, ValueSetter<T>? onResult}) {
     return _RouteHistory<T>(
       path: path,
       onResult: onResult,
@@ -31,7 +31,7 @@ const $RouteHistory = _$RouteHistoryTearOff();
 /// @nodoc
 mixin _$RouteHistory<T> {
   String get path => throw _privateConstructorUsedError;
-  void Function(T)? get onResult => throw _privateConstructorUsedError;
+  ValueSetter<T>? get onResult => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RouteHistoryCopyWith<T, RouteHistory<T>> get copyWith =>
@@ -43,7 +43,7 @@ abstract class $RouteHistoryCopyWith<T, $Res> {
   factory $RouteHistoryCopyWith(
           RouteHistory<T> value, $Res Function(RouteHistory<T>) then) =
       _$RouteHistoryCopyWithImpl<T, $Res>;
-  $Res call({String path, void Function(T)? onResult});
+  $Res call({String path, ValueSetter<T>? onResult});
 }
 
 /// @nodoc
@@ -68,7 +68,7 @@ class _$RouteHistoryCopyWithImpl<T, $Res>
       onResult: onResult == freezed
           ? _value.onResult
           : onResult // ignore: cast_nullable_to_non_nullable
-              as void Function(T)?,
+              as ValueSetter<T>?,
     ));
   }
 }
@@ -80,7 +80,7 @@ abstract class _$RouteHistoryCopyWith<T, $Res>
           _RouteHistory<T> value, $Res Function(_RouteHistory<T>) then) =
       __$RouteHistoryCopyWithImpl<T, $Res>;
   @override
-  $Res call({String path, void Function(T)? onResult});
+  $Res call({String path, ValueSetter<T>? onResult});
 }
 
 /// @nodoc
@@ -107,7 +107,7 @@ class __$RouteHistoryCopyWithImpl<T, $Res>
       onResult: onResult == freezed
           ? _value.onResult
           : onResult // ignore: cast_nullable_to_non_nullable
-              as void Function(T)?,
+              as ValueSetter<T>?,
     ));
   }
 }
@@ -122,7 +122,7 @@ class _$_RouteHistory<T>
   @override
   final String path;
   @override
-  final void Function(T)? onResult;
+  final ValueSetter<T>? onResult;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -159,12 +159,12 @@ class _$_RouteHistory<T>
 
 abstract class _RouteHistory<T> implements RouteHistory<T> {
   const factory _RouteHistory(
-      {required String path, void Function(T)? onResult}) = _$_RouteHistory<T>;
+      {required String path, ValueSetter<T>? onResult}) = _$_RouteHistory<T>;
 
   @override
   String get path;
   @override
-  void Function(T)? get onResult;
+  ValueSetter<T>? get onResult;
   @override
   @JsonKey(ignore: true)
   _$RouteHistoryCopyWith<T, _RouteHistory<T>> get copyWith =>

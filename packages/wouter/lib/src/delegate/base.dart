@@ -27,7 +27,7 @@ abstract class BaseRouterDelegate<T> extends RouterDelegate<Uri>
 
   /// Pop the history stack.
   /// Returns [canPop] before popping.
-  bool pop([dynamic? result]);
+  bool pop([dynamic result]);
 
   /// Resets the state as if only [path] been pushed.
   void reset(String path);
