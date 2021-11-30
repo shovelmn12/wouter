@@ -6,46 +6,46 @@ import 'package:path/path.dart';
 import '../../models/models.dart';
 import 'routing_policy.dart';
 
-class URLRoutingPolicy<T extends WouterDelegateState>
-    implements RoutingPolicy<T> {
+class URLRoutingPolicy<T extends RouteHistory>
+    implements RoutingPolicy<List<T>> {
   final String initial;
 
   const URLRoutingPolicy({
     this.initial = '/',
   });
 
-  @override
-  String removeBase(String base, String path) {
-    if (base.isEmpty || !path.startsWith(base)) {
-      return path;
-    }
+  // @override
+  // String removeBase(String base, String path) {
+  //   if (base.isEmpty || !path.startsWith(base)) {
+  //     return path;
+  //   }
+  //
+  //   final nextPath = path.substring(base.length);
+  //
+  //   if (nextPath.isEmpty) {
+  //     return initial;
+  //   }
+  //
+  //   return nextPath;
+  // }
 
-    final nextPath = path.substring(base.length);
-
-    if (nextPath.isEmpty) {
-      return initial;
-    }
-
-    return nextPath;
-  }
-
-  String _normalize(String base, String current, String path) {
+  String _normalize(String current, String path) {
     if (path.startsWith(".")) {
       return normalize("$current/$path");
     } else if (path.startsWith("/")) {
       return path;
     } else {
-      return "$base/$path";
+      return path;
     }
   }
 
   @override
-  String pushPath(String base, String current, String path) {
+  String pushPath(String current, String path) {
     if (path == initial || path.isEmpty) {
       return path;
     }
 
-    final nextPath = _normalize(base, current, path);
+    final nextPath = _normalize(current, path);
 
     if (nextPath.isEmpty) {
       return initial;
@@ -57,18 +57,15 @@ class URLRoutingPolicy<T extends WouterDelegateState>
   }
 
   @override
-  T onPush<R>(String path, T state, [ValueSetter<R>? onResult]) {
-    final nextStack = List<RouteHistory>.of(state.stack);
+  List<T> onPush<R>(String path, List<T> state, [ValueSetter<R>? onResult]) {
+    final nextStack = List<T>.of(state);
 
     nextStack.add(RouteHistory<R>(
       path: path,
       onResult: onResult,
-    ));
+    ) as T);
 
-    return state.copyWith.call(
-      path: path,
-      stack: List<RouteHistory>.unmodifiable(nextStack),
-    ) as T;
+    return List<T>.unmodifiable(nextStack);
   }
 
   String popPath(String path) {
@@ -85,22 +82,15 @@ class URLRoutingPolicy<T extends WouterDelegateState>
   bool canPop(String path) => path.isNotEmpty && path != initial;
 
   @override
-  T onPop(T state, [dynamic? result]) {
-    final nextStack = List<RouteHistory>.of(state.stack);
+  List<T> onPop(List<T> state, [dynamic result]) {
+    final nextStack = List<T>.of(state);
 
     if (nextStack.isNotEmpty) {
       nextStack.removeLast().onResult?.call(result);
     }
 
-    return state.copyWith.call(
-      path: nextStack.isEmpty ? "" : nextStack.last.path,
-      stack: List<RouteHistory>.unmodifiable(nextStack),
-    ) as T;
+    return List<T>.unmodifiable(nextStack);
   }
-
-  @override
-  bool isCurrentPath(T state, String path) =>
-      state.fullPath == path && state.path.isNotEmpty;
 
   @override
   ValueSetter<R?> buildOnResultCallback<R>(Completer<R?> completer) =>

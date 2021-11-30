@@ -16,6 +16,7 @@ dependencies:
   provider: ^6.0.1
   path: ^1.8.0
   path_to_regexp: ^0.4.0
+  rxdart: ^0.27.3
 
 dev_dependencies:
   flutter_test:

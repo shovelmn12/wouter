@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:rxdart/rxdart.dart';
 
 mixin RouterState<T> on ChangeNotifier {
   T get state;
@@ -17,21 +18,31 @@ mixin RouterState<T> on ChangeNotifier {
   }
 }
 
-mixin ValueRouterState<T> on RouterState<T> {
-  T? _state;
+mixin StreamRouterState<T> on RouterState<T> {
+  final _subject = BehaviorSubject<T>();
 
-  @protected
-  T get initialState;
+  Stream<T> get stream => _subject.stream;
 
   @override
-  T get state => _state ?? initialState;
+  T get state => _subject.value;
 
   @override
   set state(T state) {
-    final prev = this.state;
+    final prev = _subject.valueOrNull;
 
-    _state = state;
+    _subject.add(state);
 
-    onStateChanged(prev, state);
+    if (prev != null) {
+      onStateChanged(prev, state);
+    } else {
+      notifyListeners();
+    }
+  }
+
+  @override
+  void dispose() {
+    _subject.close();
+
+    super.dispose();
   }
 }

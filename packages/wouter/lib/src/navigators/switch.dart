@@ -17,14 +17,14 @@ class WouterSwitch<T extends Page> extends StatelessWidget {
 
   Widget _builder(
     BuildContext context,
-    WouterBaseRouterDelegate delegate,
+    WouterState wouter,
     List<T> stack,
   ) =>
       stack.isEmpty
           ? const SizedBox.shrink()
           : Navigator(
               pages: [
-                if (delegate.canPop)
+                if (wouter.stack.length > 1)
                   const MaterialPage(
                     child: SizedBox.shrink(),
                   ),
@@ -33,7 +33,7 @@ class WouterSwitch<T extends Page> extends StatelessWidget {
               observers: observers,
               transitionDelegate: transition,
               onPopPage: (route, result) {
-                final result = delegate.pop();
+                final result = wouter.pop();
 
                 route.didPop(result);
 

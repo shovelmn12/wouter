@@ -1,4 +1,4 @@
-export 'delegate/model.dart';
+// export 'delegate/model.dart';
 export 'functions.dart';
 export 'match_data/model.dart';
 export 'regexp_data/model.dart';

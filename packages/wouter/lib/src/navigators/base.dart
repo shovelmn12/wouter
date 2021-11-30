@@ -29,23 +29,23 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   List<StackItem<W>> stack = const [];
 
   @protected
-  late WouterBaseRouterDelegate delegate;
+  late WouterState wouter = context.wouter;
 
   Map<String, WouterRouteBuilder<W>> get routes => widget.routes;
 
   @override
   void initState() {
-    init(context.wouter);
+    init(wouter);
 
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
-    final delegate = context.wouter;
+    final wouter = context.wouter;
 
-    if (delegate != this.delegate) {
-      update(delegate);
+    if (wouter != this.wouter) {
+      update(wouter);
     }
 
     super.didChangeDependencies();
@@ -62,7 +62,7 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   }
 
   @override
-  void setState(fn) {
+  void setState(VoidCallback fn) {
     if (isDisposed) {
       return;
     }
@@ -97,35 +97,32 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   }
 
   @protected
-  void init(WouterBaseRouterDelegate delegate) {
-    this.delegate = delegate;
+  void update(WouterState wouter) {
+    this.wouter.removeListener(onDelegateUpdated);
 
-    delegate.addListener(onDelegateUpdated);
-
-    stack = onUpdate(delegate);
+    init(wouter);
   }
 
   @protected
-  void update(WouterBaseRouterDelegate delegate) {
-    this.delegate.removeListener(onDelegateUpdated);
+  void onDelegateUpdated() => setState(() => stack = onUpdate(wouter));
 
-    init(delegate);
+  @protected
+  void init(WouterState wouter) {
+    wouter.addListener(onDelegateUpdated);
+
+    this.wouter = wouter;
   }
 
   @protected
-  void onDelegateUpdated() => setState(() => stack = onUpdate(delegate));
-
-  @protected
-  List<StackItem<W>> onUpdate(WouterBaseRouterDelegate delegate) =>
-      delegate.state.stack
-          .map((route) => matchPathToRoute(
-                route.path,
-                delegate.matcher,
-                routes.entries.toList(),
-              ))
-          .where((item) => item != null)
-          .toList()
-          .cast();
+  List<StackItem<W>> onUpdate(WouterState wouter) => wouter.stack
+      .map((route) => matchPathToRoute(
+            route,
+            wouter.matcher,
+            routes.entries.toList(),
+          ))
+      .where((item) => item != null)
+      .toList()
+      .cast();
 
   @protected
   List<W> buildStack(BuildContext context, List<StackItem<W>> stack) =>

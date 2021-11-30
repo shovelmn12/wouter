@@ -81,27 +81,27 @@ class PeopleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Wouter(
-        delegate: WouterRouterDelegate.withParent(
-          parent: context.wouter,
-          base: "/people",
-          child: WouterSwitch(
-            routes: {
-              r"/:id(\d+)": (context, arguments) => MaterialPage(
-                    child: PersonDetailsScreen(
-                      person: people[arguments["id"]]!,
-                    ),
+        // delegate: WouterRouterDelegate.withParent(
+        //   parent: context.wouter,
+        base: "/people",
+        child: WouterSwitch(
+          routes: {
+            r"/:id(\d+)": (context, arguments) => MaterialPage(
+                  child: PersonDetailsScreen(
+                    person: people[arguments["id"]]!,
                   ),
-              "/": (context, arguments) => const MaterialPage(
-                    child: AllPeopleScreen(),
+                ),
+            "/": (context, arguments) => const MaterialPage(
+                  child: AllPeopleScreen(),
+                ),
+            "/*": (context, arguments) => const MaterialPage(
+                  child: Redirect(
+                    to: "/people",
                   ),
-              "/*": (context, arguments) => const MaterialPage(
-                    child: Redirect(
-                      to: "/people",
-                    ),
-                  ),
-            },
-          ),
+                ),
+          },
         ),
+        // ),
       );
 }
 
