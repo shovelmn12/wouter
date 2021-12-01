@@ -9,14 +9,12 @@ class WouterRouterDelegate extends WouterBaseRouterDelegate<RouteHistory> {
   WouterRouterDelegate({
     required Widget child,
     RoutingPolicy<List<RouteHistory>> policy = const URLRoutingPolicy(),
-    // PathMatcherBuilder matcher = PathMatchers.regexp,
     String tag = '',
     String initial = '/',
     String base = '',
   }) : super(
           child: child,
           policy: policy,
-          // matcher: matcher,
           tag: tag,
           initial: initial,
         );

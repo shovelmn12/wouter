@@ -17,5 +17,7 @@ abstract class RoutingPolicy<T> {
 
   T onPop(T state, [dynamic result]);
 
+  T onReset(String path);
+
   ValueSetter<R?> buildOnResultCallback<R>(Completer<R?> completer);
 }

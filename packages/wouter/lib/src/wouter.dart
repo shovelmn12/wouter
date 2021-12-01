@@ -53,6 +53,8 @@ class WouterState extends State<Wouter>
 
   late PathMatcher matcher = widget.matcher();
 
+  bool get canPop => router.canPop;
+
   @override
   @protected
   String get base => widget.base;
@@ -63,11 +65,18 @@ class WouterState extends State<Wouter>
 
   String get route => stack.last;
 
+  bool _isDisposed = false;
+
   @override
   void initState() {
     router.stream
         .where((stack) => stack.isNotEmpty)
-        .map((stack) => stack.map((entry) => entry.path).toList())
+        .map((stack) => stack.map((entry) => entry.path))
+        .distinct()
+        .map((stack) => stack
+            .where((path) => path.startsWith(widget.base))
+            .map((path) => path.substring(widget.base.length))
+            .map((path) => path.isEmpty ? "/" : path))
         .distinct()
         .listen((stack) {
       _stack = List<String>.unmodifiable(stack);
@@ -80,6 +89,7 @@ class WouterState extends State<Wouter>
 
   @override
   void dispose() {
+    _isDisposed = true;
     _changeNotifier.dispose();
 
     super.dispose();
@@ -99,7 +109,13 @@ class WouterState extends State<Wouter>
   bool get hasListeners => _changeNotifier.hasListeners;
 
   @override
-  void notifyListeners() => _changeNotifier.notifyListeners();
+  void notifyListeners() {
+    if (_isDisposed) {
+      return;
+    }
+
+    _changeNotifier.notifyListeners();
+  }
 
   @override
   void removeListener(VoidCallback listener) =>

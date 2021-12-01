@@ -93,6 +93,27 @@ class URLRoutingPolicy<T extends RouteHistory>
   }
 
   @override
+  List<T> onReset(String path) {
+    if (path.isEmpty) {
+      return <T>[
+        RouteHistory(
+          path: initial,
+        ) as T,
+      ];
+    }
+
+    final parts = path.split("/");
+
+    return [
+      if (path != initial)
+        ...onReset(parts.sublist(0, parts.length - 1).join("/")),
+      RouteHistory(
+        path: path,
+      ) as T,
+    ];
+  }
+
+  @override
   ValueSetter<R?> buildOnResultCallback<R>(Completer<R?> completer) =>
       (R? value) {
         if (completer.isCompleted) {

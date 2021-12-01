@@ -86,15 +86,15 @@ class PeopleScreen extends StatelessWidget {
         base: "/people",
         child: WouterSwitch(
           routes: {
+            "/": (context, arguments) => const MaterialPage(
+                  child: AllPeopleScreen(),
+                ),
             r"/:id(\d+)": (context, arguments) => MaterialPage(
                   child: PersonDetailsScreen(
                     person: people[arguments["id"]]!,
                   ),
                 ),
-            "/": (context, arguments) => const MaterialPage(
-                  child: AllPeopleScreen(),
-                ),
-            "/*": (context, arguments) => const MaterialPage(
+            "/_:(.*)": (context, arguments) => const MaterialPage(
                   child: Redirect(
                     to: "/people",
                   ),
@@ -119,7 +119,7 @@ class AllPeopleScreen extends StatelessWidget {
                 (person) => ListTile(
                   title: Text(
                       "${person["name"]["first"]} ${person["name"]["last"]}"),
-                  onTap: () => context.wouter.push("${person["_id"]}"),
+                  onTap: () => context.wouter.push("/${person["_id"]}"),
                 ),
               )
               .toList(),

@@ -78,22 +78,25 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   }
 
   @protected
-  StackItem<W>? matchPathToRoute(
+  List<StackItem<W>> matchPathToRoutes(
     String path,
     PathMatcher matcher,
     Iterable<MapEntry<String, WouterRouteBuilder<W>>> routes,
   ) {
-    for (final entry in routes) {
-      final match = matcher(path, entry.key);
+    return routes
+        .map((entry) {
+          final match = matcher(path, entry.key);
 
-      if (match != null) {
-        return StackItem<W>(
-          path: match.path,
-          builder: entry.value,
-          arguments: match.arguments,
-        );
-      }
-    }
+          if (match != null) {
+            return StackItem<W>(
+              path: match.path,
+              builder: entry.value,
+              arguments: match.arguments,
+            );
+          }
+        })
+        .whereType<StackItem<W>>()
+        .toList();
   }
 
   @protected
@@ -114,15 +117,11 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   }
 
   @protected
-  List<StackItem<W>> onUpdate(WouterState wouter) => wouter.stack
-      .map((route) => matchPathToRoute(
-            route,
-            wouter.matcher,
-            routes.entries.toList(),
-          ))
-      .where((item) => item != null)
-      .toList()
-      .cast();
+  List<StackItem<W>> onUpdate(WouterState wouter) => matchPathToRoutes(
+        wouter.stack.last,
+        wouter.matcher,
+        routes.entries.toList(),
+      );
 
   @protected
   List<W> buildStack(BuildContext context, List<StackItem<W>> stack) =>

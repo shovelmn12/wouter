@@ -9,8 +9,6 @@ import 'delegate.dart';
 abstract class WouterBaseRouterDelegate<T extends RouteHistory>
     extends BaseRouterDelegate<T>
     with DelegateRoutingActions<T>, StreamRouterState<List<T>> {
-  // final PathMatcher matcher;
-
   final String tag;
   @override
   @protected
@@ -21,12 +19,9 @@ abstract class WouterBaseRouterDelegate<T extends RouteHistory>
   WouterBaseRouterDelegate({
     required this.child,
     this.policy = const URLRoutingPolicy(),
-    // PathMatcherBuilder matcher = PathMatchers.regexp,
     this.tag = '',
     String initial = '/',
-  }) :
-        // matcher = matcher(),
-        super() {
+  }) : super() {
     state = [
       RouteHistory(
         path: initial,
@@ -39,7 +34,7 @@ abstract class WouterBaseRouterDelegate<T extends RouteHistory>
   Uri? get currentConfiguration => Uri.parse(state.last.path);
 
   @override
-  bool get canPop => state.isNotEmpty;
+  bool get canPop => state.length > 1;
 
   @override
   bool shouldNotify(List<T> prev, List<T> next) =>

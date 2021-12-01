@@ -41,15 +41,14 @@ MatchData? regexpPathMatcher(
   String pattern, {
   RegexpBuilder regexpBuilder = pathToRegexp,
 }) {
-  final prefix = pattern.endsWith("*");
   final data = regexpBuilder(
-    prefix ? pattern.substring(0, pattern.length - 1) : pattern,
+    pattern,
     caseSensitive: false,
-    prefix: prefix,
+    prefix: true,
   );
   final regexp = data.regexp;
   final parameters = data.parameters;
-  final match = regexp.matchAsPrefix(path);
+  final match = regexp.matchAsPrefix(path.endsWith("/") ? path : "$path/");
 
   if (match != null) {
     final arguments = extract(parameters, match);

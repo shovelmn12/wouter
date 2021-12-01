@@ -24,7 +24,7 @@ class WouterSwitch<T extends Page> extends StatelessWidget {
           ? const SizedBox.shrink()
           : Navigator(
               pages: [
-                if (wouter.stack.length > 1)
+                if (wouter.canPop)
                   const MaterialPage(
                     child: SizedBox.shrink(),
                   ),
