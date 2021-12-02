@@ -1,7 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
+import 'base.dart';
 import 'delegate/delegate.dart';
+import 'extensions/extensions.dart';
 import 'models/models.dart';
 
 /// A [Widget] to use when using nested routing with base path
@@ -20,10 +22,10 @@ class Wouter extends StatefulWidget {
     this.base = "",
   }) : super(key: key);
 
-  /// Retrieves the immediate [WouterBaseRouterDelegate] ancestor from the given context.
+  /// Retrieves the immediate [WouterState] ancestor from the given context.
   ///
-  /// If no Router ancestor exists for the given context, this will assert in debug mode, and throw an exception in release mode.
-  static WouterState of(BuildContext context) {
+  /// If no Wouter ancestor exists for the given context, this will assert in debug mode, and throw an exception in release mode.
+  static BaseWouter of(BuildContext context) {
     final wouter = maybeOf(context);
 
     assert(wouter != null, 'There was no Wouter in current context.');
@@ -31,29 +33,29 @@ class Wouter extends StatefulWidget {
     return wouter!;
   }
 
-  /// Retrieves the immediate [WouterBaseRouterDelegate] ancestor from the given context.
+  /// Retrieves the immediate [WouterState] ancestor from the given context.
   ///
-  /// If no Router ancestor exists for the given context, this will return null.
-  static WouterState? maybeOf(BuildContext context) =>
-      context.findAncestorStateOfType<WouterState>();
+  /// If no Wouter ancestor exists for the given context, this will return null.
+  static BaseWouter? maybeOf(BuildContext context) {
+    try {
+      return context.read<BaseWouter>();
+    } catch (_) {
+      return null;
+    }
+  }
 
   @override
   State<Wouter> createState() => WouterState();
 }
 
-class WouterState extends State<Wouter>
-    with RoutingActions
-    implements ChangeNotifier {
-  @override
+class WouterState extends State<Wouter> with ChildWouter {
+  // @override
   @protected
-  late final WouterBaseRouterDelegate router =
-      context.read<WouterBaseRouterDelegate>();
-
-  final ChangeNotifier _changeNotifier = ChangeNotifier();
+  late final BaseWouter parent = context.wouter;
 
   late PathMatcher matcher = widget.matcher();
 
-  bool get canPop => router.canPop;
+  bool get canPop => parent.canPop;
 
   @override
   @protected
@@ -65,71 +67,18 @@ class WouterState extends State<Wouter>
 
   String get route => stack.last;
 
-  bool _isDisposed = false;
-
   @override
   void initState() {
-    router.stream
-        .where((stack) => stack.isNotEmpty)
-        .map((stack) => stack.map((entry) => entry.path))
-        .distinct()
-        .map((stack) => stack
-            .where((path) => path.startsWith(widget.base))
-            .map((path) => path.substring(widget.base.length))
-            .map((path) => path.isEmpty ? "/" : path))
-        .distinct()
-        .listen((stack) {
+    stream.listen((stack) {
       _stack = List<String>.unmodifiable(stack);
-
-      notifyListeners();
     });
 
     super.initState();
   }
 
   @override
-  void dispose() {
-    _isDisposed = true;
-    _changeNotifier.dispose();
-
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) => ChangeNotifierProvider.value(
+  Widget build(BuildContext context) => Provider<BaseWouter>.value(
         value: this,
         child: widget.child,
       );
-
-  @override
-  void addListener(VoidCallback listener) =>
-      _changeNotifier.addListener(listener);
-
-  @override
-  bool get hasListeners => _changeNotifier.hasListeners;
-
-  @override
-  void notifyListeners() {
-    if (_isDisposed) {
-      return;
-    }
-
-    _changeNotifier.notifyListeners();
-  }
-
-  @override
-  void removeListener(VoidCallback listener) =>
-      _changeNotifier.removeListener(listener);
-}
-
-mixin RoutingActions {
-  WouterBaseRouterDelegate get router;
-
-  String get base;
-
-  Future<R?> push<R>(String path) => router.push("$base$path");
-
-  bool pop([dynamic result]) => router.pop(result);
-
-  void reset([String path = "/"]) => router.reset("$base$path");
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wouter/wouter.dart';
 
+import '../base.dart';
 import 'base.dart';
 
 class WouterSwitch<T extends Page> extends StatelessWidget {
@@ -17,7 +18,7 @@ class WouterSwitch<T extends Page> extends StatelessWidget {
 
   Widget _builder(
     BuildContext context,
-    WouterState wouter,
+    BaseWouter wouter,
     List<T> stack,
   ) =>
       stack.isEmpty

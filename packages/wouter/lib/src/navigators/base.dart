@@ -1,6 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:provider/provider.dart';
 import 'package:wouter/wouter.dart';
+
+import '../base.dart';
 
 part 'base.builder.dart';
 
@@ -26,11 +31,15 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   bool get isDisposed => _isDisposed;
 
   @protected
-  List<StackItem<W>> stack = const [];
+  List<StackEntry<W>> stack = const [];
 
   @protected
-  late WouterState wouter = context.wouter;
+  late BaseWouter wouter = context.wouter;
 
+  @protected
+  late StreamSubscription<List<StackEntry<W>>> subscription;
+
+  @protected
   Map<String, WouterRouteBuilder<W>> get routes => widget.routes;
 
   @override
@@ -73,12 +82,13 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   @override
   void dispose() {
     _isDisposed = true;
+    subscription.cancel();
 
     super.dispose();
   }
 
   @protected
-  List<StackItem<W>> matchPathToRoutes(
+  List<StackEntry<W>> matchPathToRoutes(
     String path,
     PathMatcher matcher,
     Iterable<MapEntry<String, WouterRouteBuilder<W>>> routes,
@@ -88,43 +98,46 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
           final match = matcher(path, entry.key);
 
           if (match != null) {
-            return StackItem<W>(
+            return StackEntry<W>(
               path: match.path,
               builder: entry.value,
               arguments: match.arguments,
             );
           }
         })
-        .whereType<StackItem<W>>()
+        .whereType<StackEntry<W>>()
         .toList();
   }
 
   @protected
-  void update(WouterState wouter) {
-    this.wouter.removeListener(onDelegateUpdated);
+  void update(BaseWouter wouter) {
+    subscription.cancel();
 
     init(wouter);
   }
 
   @protected
-  void onDelegateUpdated() => setState(() => stack = onUpdate(wouter));
-
-  @protected
-  void init(WouterState wouter) {
-    wouter.addListener(onDelegateUpdated);
+  void init(BaseWouter wouter) {
+    subscription = wouter.stream
+        .map((stack) => stack.last)
+        .distinct()
+        .map((route) => onUpdate(wouter.matcher, route))
+        .distinct()
+        .listen((stack) => setState(() => this.stack = stack));
 
     this.wouter = wouter;
   }
 
   @protected
-  List<StackItem<W>> onUpdate(WouterState wouter) => matchPathToRoutes(
-        wouter.stack.last,
-        wouter.matcher,
+  List<StackEntry<W>> onUpdate(PathMatcher matcher, String route) =>
+      matchPathToRoutes(
+        route,
+        matcher,
         routes.entries.toList(),
       );
 
   @protected
-  List<W> buildStack(BuildContext context, List<StackItem<W>> stack) =>
+  List<W> buildStack(BuildContext context, List<StackEntry<W>> stack) =>
       stack.map((builder) => builder(context)).toList();
 
   Widget builder(BuildContext context, List<W> stack);

@@ -2,7 +2,7 @@ part of 'base.dart';
 
 typedef WouterStackBuilder<T> = Widget Function(
   BuildContext context,
-  WouterState wouter,
+  BaseWouter wouter,
   List<T> stack,
 );
 

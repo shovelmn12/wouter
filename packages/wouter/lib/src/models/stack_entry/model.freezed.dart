@@ -14,14 +14,14 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-class _$StackItemTearOff {
-  const _$StackItemTearOff();
+class _$StackEntryTearOff {
+  const _$StackEntryTearOff();
 
-  _StackItem<T> call<T>(
+  _StackEntry<T> call<T>(
       {required String path,
       required WouterRouteBuilder<T> builder,
       Map<String, dynamic> arguments = const {}}) {
-    return _StackItem<T>(
+    return _StackEntry<T>(
       path: path,
       builder: builder,
       arguments: arguments,
@@ -30,24 +30,24 @@ class _$StackItemTearOff {
 }
 
 /// @nodoc
-const $StackItem = _$StackItemTearOff();
+const $StackEntry = _$StackEntryTearOff();
 
 /// @nodoc
-mixin _$StackItem<T> {
+mixin _$StackEntry<T> {
   String get path => throw _privateConstructorUsedError;
   WouterRouteBuilder<T> get builder => throw _privateConstructorUsedError;
   Map<String, dynamic> get arguments => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $StackItemCopyWith<T, StackItem<T>> get copyWith =>
+  $StackEntryCopyWith<T, StackEntry<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $StackItemCopyWith<T, $Res> {
-  factory $StackItemCopyWith(
-          StackItem<T> value, $Res Function(StackItem<T>) then) =
-      _$StackItemCopyWithImpl<T, $Res>;
+abstract class $StackEntryCopyWith<T, $Res> {
+  factory $StackEntryCopyWith(
+          StackEntry<T> value, $Res Function(StackEntry<T>) then) =
+      _$StackEntryCopyWithImpl<T, $Res>;
   $Res call(
       {String path,
       WouterRouteBuilder<T> builder,
@@ -55,12 +55,12 @@ abstract class $StackItemCopyWith<T, $Res> {
 }
 
 /// @nodoc
-class _$StackItemCopyWithImpl<T, $Res> implements $StackItemCopyWith<T, $Res> {
-  _$StackItemCopyWithImpl(this._value, this._then);
+class _$StackEntryCopyWithImpl<T, $Res> implements $StackEntryCopyWith<T, $Res> {
+  _$StackEntryCopyWithImpl(this._value, this._then);
 
-  final StackItem<T> _value;
+  final StackEntry<T> _value;
   // ignore: unused_field
-  final $Res Function(StackItem<T>) _then;
+  final $Res Function(StackEntry<T>) _then;
 
   @override
   $Res call({
@@ -86,11 +86,11 @@ class _$StackItemCopyWithImpl<T, $Res> implements $StackItemCopyWith<T, $Res> {
 }
 
 /// @nodoc
-abstract class _$StackItemCopyWith<T, $Res>
-    implements $StackItemCopyWith<T, $Res> {
-  factory _$StackItemCopyWith(
-          _StackItem<T> value, $Res Function(_StackItem<T>) then) =
-      __$StackItemCopyWithImpl<T, $Res>;
+abstract class _$StackEntryCopyWith<T, $Res>
+    implements $StackEntryCopyWith<T, $Res> {
+  factory _$StackEntryCopyWith(
+          _StackEntry<T> value, $Res Function(_StackEntry<T>) then) =
+      __$StackEntryCopyWithImpl<T, $Res>;
   @override
   $Res call(
       {String path,
@@ -99,14 +99,14 @@ abstract class _$StackItemCopyWith<T, $Res>
 }
 
 /// @nodoc
-class __$StackItemCopyWithImpl<T, $Res> extends _$StackItemCopyWithImpl<T, $Res>
-    implements _$StackItemCopyWith<T, $Res> {
-  __$StackItemCopyWithImpl(
-      _StackItem<T> _value, $Res Function(_StackItem<T>) _then)
-      : super(_value, (v) => _then(v as _StackItem<T>));
+class __$StackEntryCopyWithImpl<T, $Res> extends _$StackEntryCopyWithImpl<T, $Res>
+    implements _$StackEntryCopyWith<T, $Res> {
+  __$StackEntryCopyWithImpl(
+      _StackEntry<T> _value, $Res Function(_StackEntry<T>) _then)
+      : super(_value, (v) => _then(v as _StackEntry<T>));
 
   @override
-  _StackItem<T> get _value => super._value as _StackItem<T>;
+  _StackEntry<T> get _value => super._value as _StackEntry<T>;
 
   @override
   $Res call({
@@ -114,7 +114,7 @@ class __$StackItemCopyWithImpl<T, $Res> extends _$StackItemCopyWithImpl<T, $Res>
     Object? builder = freezed,
     Object? arguments = freezed,
   }) {
-    return _then(_StackItem<T>(
+    return _then(_StackEntry<T>(
       path: path == freezed
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
@@ -133,8 +133,8 @@ class __$StackItemCopyWithImpl<T, $Res> extends _$StackItemCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$_StackItem<T> extends _StackItem<T> with DiagnosticableTreeMixin {
-  const _$_StackItem(
+class _$_StackEntry<T> extends _StackEntry<T> with DiagnosticableTreeMixin {
+  const _$_StackEntry(
       {required this.path, required this.builder, this.arguments = const {}})
       : super._();
 
@@ -148,14 +148,14 @@ class _$_StackItem<T> extends _StackItem<T> with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'StackItem<$T>(path: $path, builder: $builder, arguments: $arguments)';
+    return 'StackEntry<$T>(path: $path, builder: $builder, arguments: $arguments)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'StackItem<$T>'))
+      ..add(DiagnosticsProperty('type', 'StackEntry<$T>'))
       ..add(DiagnosticsProperty('path', path))
       ..add(DiagnosticsProperty('builder', builder))
       ..add(DiagnosticsProperty('arguments', arguments));
@@ -165,7 +165,7 @@ class _$_StackItem<T> extends _StackItem<T> with DiagnosticableTreeMixin {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _StackItem<T> &&
+            other is _StackEntry<T> &&
             (identical(other.path, path) || other.path == path) &&
             (identical(other.builder, builder) || other.builder == builder) &&
             const DeepCollectionEquality().equals(other.arguments, arguments));
@@ -177,16 +177,16 @@ class _$_StackItem<T> extends _StackItem<T> with DiagnosticableTreeMixin {
 
   @JsonKey(ignore: true)
   @override
-  _$StackItemCopyWith<T, _StackItem<T>> get copyWith =>
-      __$StackItemCopyWithImpl<T, _StackItem<T>>(this, _$identity);
+  _$StackEntryCopyWith<T, _StackEntry<T>> get copyWith =>
+      __$StackEntryCopyWithImpl<T, _StackEntry<T>>(this, _$identity);
 }
 
-abstract class _StackItem<T> extends StackItem<T> {
-  const factory _StackItem(
+abstract class _StackEntry<T> extends StackEntry<T> {
+  const factory _StackEntry(
       {required String path,
       required WouterRouteBuilder<T> builder,
-      Map<String, dynamic> arguments}) = _$_StackItem<T>;
-  const _StackItem._() : super._();
+      Map<String, dynamic> arguments}) = _$_StackEntry<T>;
+  const _StackEntry._() : super._();
 
   @override
   String get path;
@@ -196,6 +196,6 @@ abstract class _StackItem<T> extends StackItem<T> {
   Map<String, dynamic> get arguments;
   @override
   @JsonKey(ignore: true)
-  _$StackItemCopyWith<T, _StackItem<T>> get copyWith =>
+  _$StackEntryCopyWith<T, _StackEntry<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }

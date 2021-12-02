@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wouter/src/base.dart';
 
 import '../models/models.dart';
-import '../wouter.dart';
 import 'delegate.dart';
 
 /// A delegate that is used by the [Router] widget to build and configure a navigating widget.
@@ -16,12 +16,21 @@ abstract class WouterBaseRouterDelegate<T extends RouteHistory>
   @override
   final Widget child;
 
+  final PathMatcher matcher;
+
+  @protected
+  late final BaseWouter wouter = BaseWouter.root(
+    delegate: this,
+  );
+
   WouterBaseRouterDelegate({
     required this.child,
     this.policy = const URLRoutingPolicy(),
     this.tag = '',
+    PathMatcherBuilder matcher = PathMatchers.regexp,
     String initial = '/',
-  }) : super() {
+  })  : matcher = matcher(),
+        super() {
     state = [
       RouteHistory(
         path: initial,
@@ -41,11 +50,8 @@ abstract class WouterBaseRouterDelegate<T extends RouteHistory>
       prev.last.path != next.last.path;
 
   @override
-  Widget build(BuildContext context) =>
-      ChangeNotifierProvider<WouterBaseRouterDelegate>.value(
-        value: this,
-        child: Wouter(
-          child: super.build(context),
-        ),
+  Widget build(BuildContext context) => Provider<BaseWouter>.value(
+        value: wouter,
+        child: super.build(context),
       );
 }
