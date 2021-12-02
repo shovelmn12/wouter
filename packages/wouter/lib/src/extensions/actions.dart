@@ -12,7 +12,9 @@ extension BaseWouterExtensions on BaseWouter {
         return (this as RootWouter).delegate.popUntil(predicate);
 
       default:
-        throw UnsupportedError("Wouter can be only ChildWouter or RootWouter");
+        throw UnsupportedError(
+          "Wouter $runtimeType can be only ChildWouter or RootWouter",
+        );
     }
   }
 
@@ -26,7 +28,9 @@ extension BaseWouterExtensions on BaseWouter {
         return (this as RootWouter).delegate.popTo(path);
 
       default:
-        throw UnsupportedError("Wouter can be only ChildWouter or RootWouter");
+        throw UnsupportedError(
+          "Wouter $runtimeType can be only ChildWouter or RootWouter",
+        );
     }
   }
 
