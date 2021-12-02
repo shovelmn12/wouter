@@ -118,6 +118,7 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   @protected
   void init(BaseWouter wouter) {
     subscription = wouter.stream
+        .where((stack) => stack.isNotEmpty)
         .map((stack) => stack.last)
         .distinct()
         .map((route) => onUpdate(wouter.matcher, route))

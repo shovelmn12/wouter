@@ -55,7 +55,8 @@ abstract class $StackEntryCopyWith<T, $Res> {
 }
 
 /// @nodoc
-class _$StackEntryCopyWithImpl<T, $Res> implements $StackEntryCopyWith<T, $Res> {
+class _$StackEntryCopyWithImpl<T, $Res>
+    implements $StackEntryCopyWith<T, $Res> {
   _$StackEntryCopyWithImpl(this._value, this._then);
 
   final StackEntry<T> _value;
@@ -99,7 +100,8 @@ abstract class _$StackEntryCopyWith<T, $Res>
 }
 
 /// @nodoc
-class __$StackEntryCopyWithImpl<T, $Res> extends _$StackEntryCopyWithImpl<T, $Res>
+class __$StackEntryCopyWithImpl<T, $Res>
+    extends _$StackEntryCopyWithImpl<T, $Res>
     implements _$StackEntryCopyWith<T, $Res> {
   __$StackEntryCopyWithImpl(
       _StackEntry<T> _value, $Res Function(_StackEntry<T>) _then)
