@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:provider/provider.dart';
 import 'package:wouter/wouter.dart';
 
 import '../base.dart';
