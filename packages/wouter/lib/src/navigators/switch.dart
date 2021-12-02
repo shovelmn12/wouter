@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wouter/wouter.dart';
 
@@ -26,18 +27,14 @@ class WouterSwitch<T extends Page> extends StatelessWidget {
   Widget _builder(
     BuildContext context,
     BaseWouter wouter,
+    bool notFound,
     List<T> stack,
   ) =>
       stack.isEmpty
-          ? onNotFound?.call(context, wouter) ?? const SizedBox.shrink()
+          ? ((notFound ? onNotFound?.call(context, wouter) : null) ??
+              const SizedBox.shrink())
           : Navigator(
-              pages: [
-                if (wouter.canPop)
-                  const MaterialPage(
-                    child: SizedBox.shrink(),
-                  ),
-                ...stack,
-              ],
+              pages: stack,
               observers: observers,
               transitionDelegate: transition,
               onPopPage: (route, result) {

@@ -81,10 +81,11 @@ class PeopleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Wouter(
-        // delegate: WouterRouterDelegate.withParent(
-        //   parent: context.wouter,
         base: "/people",
         child: WouterSwitch(
+          onNotFound: (context, wouter) => const Redirect(
+            to: "/",
+          ),
           routes: {
             "/": (context, arguments) => const MaterialPage(
                   child: AllPeopleScreen(),
@@ -94,14 +95,13 @@ class PeopleScreen extends StatelessWidget {
                     person: people[arguments["id"]]!,
                   ),
                 ),
-            "/_:(.*)": (context, arguments) => const MaterialPage(
+            r"/:id(\d+)/:_(.*)": (context, arguments) => MaterialPage(
                   child: Redirect(
-                    to: "/people",
+                    to: "/${arguments["id"]}",
                   ),
                 ),
           },
         ),
-        // ),
       );
 }
 
@@ -111,7 +111,10 @@ class AllPeopleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text("People"),
+          leading: BackButton(
+            onPressed: () => Navigator.pop(context),
+          ),
+          title: const Text("People"),
         ),
         body: ListView(
           children: people.values

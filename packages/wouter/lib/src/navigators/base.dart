@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:wouter/wouter.dart';
 
 import '../base.dart';
@@ -25,28 +26,14 @@ abstract class BaseWouterNavigator<T> extends StatefulWidget {
 
 abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
     extends State<T> {
-  bool _isDisposed = false;
-
-  bool get isDisposed => _isDisposed;
-
-  @protected
-  List<StackEntry<W>> stack = const [];
-
   @protected
   late BaseWouter wouter = context.wouter;
 
   @protected
-  late StreamSubscription<List<StackEntry<W>>> subscription;
+  late Stream<List<StackEntry<W>>> stream = createStream(wouter);
 
   @protected
   Map<String, WouterRouteBuilder<W>> get routes => widget.routes;
-
-  @override
-  void initState() {
-    init(wouter);
-
-    super.initState();
-  }
 
   @override
   void didChangeDependencies() {
@@ -69,64 +56,44 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
     super.didUpdateWidget(oldWidget);
   }
 
-  @override
-  void setState(VoidCallback fn) {
-    if (isDisposed) {
-      return;
-    }
-
-    super.setState(fn);
-  }
-
-  @override
-  void dispose() {
-    _isDisposed = true;
-    subscription.cancel();
-
-    super.dispose();
-  }
-
   @protected
   List<StackEntry<W>> matchPathToRoutes(
     String path,
     PathMatcher matcher,
     Iterable<MapEntry<String, WouterRouteBuilder<W>>> routes,
-  ) {
-    return routes
-        .map((entry) {
-          final match = matcher(path, entry.key);
+  ) =>
+      routes
+          .map((entry) {
+            final match = matcher(path, entry.key);
 
-          if (match != null) {
-            return StackEntry<W>(
-              path: match.path,
-              builder: entry.value,
-              arguments: match.arguments,
-            );
-          }
-        })
-        .whereType<StackEntry<W>>()
-        .toList();
-  }
+            if (match != null) {
+              return StackEntry<W>(
+                path: match.path,
+                builder: entry.value,
+                arguments: match.arguments,
+              );
+            }
+          })
+          .whereType<StackEntry<W>>()
+          .toList();
 
   @protected
   void update(BaseWouter wouter) {
-    subscription.cancel();
+    stream = createStream(wouter);
 
-    init(wouter);
+    this.wouter = wouter;
+
+    setState(() {});
   }
 
   @protected
-  void init(BaseWouter wouter) {
-    subscription = wouter.stream
-        .where((stack) => stack.isNotEmpty)
-        .map((stack) => stack.last)
-        .distinct()
-        .map((route) => onUpdate(wouter.matcher, route))
-        .distinct()
-        .listen((stack) => setState(() => this.stack = stack));
-
-    this.wouter = wouter;
-  }
+  Stream<List<StackEntry<W>>> createStream(BaseWouter wouter) => wouter.stream
+      .where((stack) => stack.isNotEmpty)
+      .map((stack) => stack.last)
+      .distinct()
+      .doOnData(print)
+      .map((route) => onUpdate(wouter.matcher, route))
+      .distinct();
 
   @protected
   List<StackEntry<W>> onUpdate(PathMatcher matcher, String route) =>
@@ -140,14 +107,18 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   List<W> buildStack(BuildContext context, List<StackEntry<W>> stack) =>
       stack.map((builder) => builder(context)).toList();
 
-  Widget builder(BuildContext context, List<W> stack);
+  Widget builder(BuildContext context, bool notFound, List<W> stack);
 
   @override
   Widget build(BuildContext context) => ClipRect(
         child: RepaintBoundary(
-          child: builder(
-            context,
-            buildStack(context, stack),
+          child: StreamBuilder<List<StackEntry<W>>>(
+            stream: stream,
+            builder: (context, snapshot) => builder(
+              context,
+              snapshot.data?.isEmpty ?? false,
+              buildStack(context, snapshot.data ?? const []),
+            ),
           ),
         ),
       );

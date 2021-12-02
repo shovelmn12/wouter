@@ -14,7 +14,7 @@ class WouterRow<T extends Widget> extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BaseWouterNavigator<T>.builder(
         routes: routes,
-        builder: (context, delegate, stack) => Row(
+        builder: (context, delegate, notFound, stack) => Row(
           children: stack,
         ),
       );

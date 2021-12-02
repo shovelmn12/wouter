@@ -9,10 +9,16 @@ abstract class PathMatchers {
   static PathMatcher regexp() {
     final regexpBuilder = pathToRegexpCache(pathToRegexp);
 
-    return (String path, String pattern) => regexpPathMatcher(
+    return (
+      String path,
+      String pattern, {
+      bool prefix = true,
+    }) =>
+        regexpPathMatcher(
           path,
           pattern,
           regexpBuilder: regexpBuilder,
+          prefix: prefix,
         );
   }
 }

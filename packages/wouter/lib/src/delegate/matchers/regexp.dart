@@ -40,11 +40,12 @@ MatchData? regexpPathMatcher(
   String path,
   String pattern, {
   RegexpBuilder regexpBuilder = pathToRegexp,
+  bool prefix = true,
 }) {
   final data = regexpBuilder(
     pattern,
     caseSensitive: false,
-    prefix: true,
+    prefix: prefix,
   );
   final regexp = data.regexp;
   final parameters = data.parameters;

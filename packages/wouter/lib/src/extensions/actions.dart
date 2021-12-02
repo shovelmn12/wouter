@@ -38,7 +38,9 @@ extension BaseWouterExtensions on BaseWouter {
     switch (runtimeType) {
       case ChildWouter:
       case WouterState:
-        return (this as ChildWouter).parent.replace(path, result);
+        return (this as ChildWouter)
+            .parent
+            .replace("${(this as ChildWouter).base}$path", result);
 
       case RootWouter:
         return (this as RootWouter).delegate.replace(path, result);
