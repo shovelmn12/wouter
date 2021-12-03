@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:wouter/wouter.dart';
 
 import '../base.dart';
@@ -91,7 +90,6 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
       .where((stack) => stack.isNotEmpty)
       .map((stack) => stack.last)
       .distinct()
-      .doOnData(print)
       .map((route) => onUpdate(wouter.matcher, route))
       .distinct();
 

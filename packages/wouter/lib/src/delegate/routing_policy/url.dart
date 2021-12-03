@@ -79,7 +79,9 @@ class URLRoutingPolicy<T extends RouteHistory>
 
   @override
   List<T> onReset(String path) {
-    if (path.isEmpty) {
+    final normalized = _normalize("", path);
+
+    if (normalized.isEmpty) {
       return <T>[
         RouteHistory(
           path: initial,
@@ -87,11 +89,8 @@ class URLRoutingPolicy<T extends RouteHistory>
       ];
     }
 
-    final parts = path.split("/");
-
     return [
-      if (path != initial)
-        ...onReset(parts.sublist(0, parts.length - 1).join("/")),
+      if (normalized != initial) ...onReset(popPath(normalized)),
       RouteHistory(
         path: path,
       ) as T,
