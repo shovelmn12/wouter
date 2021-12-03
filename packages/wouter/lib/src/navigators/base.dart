@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wouter/wouter.dart';
@@ -55,26 +56,69 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
     super.didUpdateWidget(oldWidget);
   }
 
+  String popPath(String path) {
+    final parts = path.split('/');
+    final newPath = parts.sublist(0, parts.length - 1).join('/');
+
+    if (newPath.isNotEmpty) {
+      return newPath;
+    }
+
+    return "/";
+  }
+
+  List<String> breakPath(String path) {
+    if (path.isEmpty || path == "/") {
+      return [
+        "/",
+      ];
+    }
+
+    return [
+      ...breakPath(popPath(path)),
+      path,
+    ];
+  }
+
   @protected
   List<StackEntry<W>> matchPathToRoutes(
     String path,
     PathMatcher matcher,
     Iterable<MapEntry<String, WouterRouteBuilder<W>>> routes,
-  ) =>
-      routes
-          .map((entry) {
-            final match = matcher(path, entry.key);
+  ) {
+    final result = breakPath(path).map((path) {
+      for (final entry in routes) {
+        final match = matcher(
+          path,
+          entry.key,
+          prefix: false,
+        );
 
-            if (match != null) {
-              return StackEntry<W>(
-                path: match.path,
-                builder: entry.value,
-                arguments: match.arguments,
-              );
-            }
-          })
-          .whereType<StackEntry<W>>()
-          .toList();
+        if (match != null) {
+          // print("$path -> ${entry.key}");
+          return StackEntry<W>(
+            path: match.path,
+            builder: entry.value,
+            arguments: match.arguments,
+          );
+        }
+      }
+    }).whereType<StackEntry<W>>();
+
+    return result.fold(
+      <StackEntry<W>>[],
+      (List<StackEntry<W>> acc, StackEntry<W> element) {
+        if (acc.map((entry) => entry.path).contains(element.path)) {
+          return acc;
+        }
+
+        return [
+          ...acc,
+          element,
+        ];
+      },
+    );
+  }
 
   @protected
   void update(BaseWouter wouter) {

@@ -83,9 +83,6 @@ class PeopleScreen extends StatelessWidget {
   Widget build(BuildContext context) => Wouter(
         base: "/people",
         child: WouterSwitch(
-          onNotFound: (context, wouter) => const Redirect(
-            to: "/",
-          ),
           routes: {
             "/": (context, arguments) => const MaterialPage(
                   child: AllPeopleScreen(),
@@ -95,14 +92,9 @@ class PeopleScreen extends StatelessWidget {
                     person: people[arguments["id"]]!,
                   ),
                 ),
-            r"/:id(.*[a-z]+.*)": (context, arguments) => const MaterialPage(
-                  child: Redirect(
+            "/:_(.*)": (context, arguments) => MaterialPage(
+                  child: const Redirect(
                     to: "",
-                  ),
-                ),
-            r"/:id/:_(.*)": (context, arguments) => MaterialPage(
-                  child: Redirect(
-                    to: "/${arguments["id"]}",
                   ),
                 ),
           },

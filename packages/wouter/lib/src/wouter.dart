@@ -65,12 +65,15 @@ class WouterState extends State<Wouter> with ChildWouter {
 
   List<String> get stack => _stack;
 
+  @override
   String get route => stack.last;
 
   @override
   void initState() {
     stream.listen((stack) {
       _stack = List<String>.unmodifiable(stack);
+
+      setState(() {});
     });
 
     super.initState();

@@ -10,6 +10,8 @@ abstract class BaseWouter {
 
   String get base;
 
+  String get route;
+
   const factory BaseWouter.root({
     required WouterBaseRouterDelegate delegate,
   }) = RootWouter;
@@ -37,6 +39,9 @@ class RootWouter implements BaseWouter {
 
   @override
   String get base => "";
+
+  @override
+  String get route => "${delegate.currentConfiguration ?? ""}";
 
   const RootWouter({
     required this.delegate,
@@ -71,5 +76,5 @@ mixin ChildWouter implements BaseWouter {
 
   bool pop([dynamic result]) => parent.pop(result);
 
-  void reset([String path = "/"]) => parent.reset("$base$path");
+  void reset([String path = "/"]) => parent.reset(path);
 }
