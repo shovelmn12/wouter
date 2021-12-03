@@ -14,21 +14,6 @@ class URLRoutingPolicy<T extends RouteHistory>
     this.initial = '/',
   });
 
-  // @override
-  // String removeBase(String base, String path) {
-  //   if (base.isEmpty || !path.startsWith(base)) {
-  //     return path;
-  //   }
-  //
-  //   final nextPath = path.substring(base.length);
-  //
-  //   if (nextPath.isEmpty) {
-  //     return initial;
-  //   }
-  //
-  //   return nextPath;
-  // }
-
   String _normalize(String current, String path) {
     if (path.startsWith(".")) {
       return normalize("$current/$path");

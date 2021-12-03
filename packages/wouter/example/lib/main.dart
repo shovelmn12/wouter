@@ -95,7 +95,12 @@ class PeopleScreen extends StatelessWidget {
                     person: people[arguments["id"]]!,
                   ),
                 ),
-            r"/:id(\d+)/:_(.*)": (context, arguments) => MaterialPage(
+            r"/:id(.*[a-z]+.*)": (context, arguments) => const MaterialPage(
+                  child: Redirect(
+                    to: "",
+                  ),
+                ),
+            r"/:id/:_(.*)": (context, arguments) => MaterialPage(
                   child: Redirect(
                     to: "/${arguments["id"]}",
                   ),
