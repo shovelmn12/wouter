@@ -31,6 +31,17 @@ class URLRoutingPolicy<T extends RouteHistory>
   }
 
   @override
+  String buildPath(String base, String path) {
+    if (path.startsWith(".") || path.startsWith("/")) {
+      return path;
+    } else if (path.isEmpty) {
+      return base;
+    } else {
+      return "$base/$path";
+    }
+  }
+
+  @override
   String pushPath(String current, String path) {
     if (path.startsWith(".")) {
       return normalize("$current/$path");

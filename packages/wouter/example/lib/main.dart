@@ -182,9 +182,7 @@ class MyApp extends StatelessWidget {
             ),
         "/:_(.*)": (context, arguments) => const MaterialPage(
               key: ValueKey("redirect-screen"),
-              child: Redirect(
-                to: "/",
-              ),
+              child: Redirect(),
             ),
       },
     ),

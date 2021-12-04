@@ -8,7 +8,7 @@ class Redirect extends StatefulWidget {
 
   const Redirect({
     Key? key,
-    this.to = "./",
+    this.to = "",
     this.child = const SizedBox.shrink(),
   }) : super(key: key);
 

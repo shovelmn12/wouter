@@ -11,6 +11,8 @@ abstract class RoutingPolicy<T> {
 
   String removeBase(String base, String path);
 
+  String buildPath(String base, String path);
+
   String pushPath(String current, String path);
 
   String popPath(String path);

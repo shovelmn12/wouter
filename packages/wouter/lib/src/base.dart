@@ -2,6 +2,8 @@ import '../wouter.dart';
 import 'delegate/delegate.dart';
 
 abstract class BaseWouter {
+  WouterType get type;
+
   bool get canPop;
 
   Stream<List<String>> get stream;
@@ -29,6 +31,16 @@ class RootWouter implements BaseWouter {
   final WouterBaseRouterDelegate delegate;
 
   @override
+  WouterType get type => WouterType.root(
+        delegate: delegate,
+        policy: policy,
+        matcher: matcher,
+        canPop: canPop,
+        base: base,
+        route: route,
+      );
+
+  @override
   bool get canPop => delegate.canPop;
 
   @override
@@ -52,15 +64,26 @@ class RootWouter implements BaseWouter {
     required this.delegate,
   });
 
-  Future<R?> push<R>(String path) => delegate.push(path);
+  Future<R?> push<R>(String path) => delegate.push(policy.pushPath(base, path));
 
   bool pop([dynamic result]) => delegate.pop(result);
 
-  void reset([String path = "/"]) => delegate.reset(path);
+  void reset([String path = "/"]) =>
+      delegate.reset(policy.pushPath(base, path));
 }
 
 mixin ChildWouter implements BaseWouter {
   BaseWouter get parent;
+
+  @override
+  WouterType get type => WouterType.child(
+        parent: parent,
+        policy: policy,
+        matcher: matcher,
+        canPop: canPop,
+        base: base,
+        route: route,
+      );
 
   @override
   bool get canPop => parent.canPop;
@@ -76,21 +99,9 @@ mixin ChildWouter implements BaseWouter {
           .toList())
       .distinct();
 
-  Future<R?> push<R>(String path) {
-    if (path.startsWith(".") || path.startsWith("/")) {
-      return parent.push(path);
-    }
-
-    return parent.push("$base/$path");
-  }
+  Future<R?> push<R>(String path) => parent.push(policy.buildPath(base, path));
 
   bool pop([dynamic result]) => parent.pop(result);
 
-  void reset([String path = "/"]) {
-    if (path.startsWith(".") || path.startsWith("/")) {
-      parent.reset(path);
-    }
-
-    parent.reset("$base/$path");
-  }
+  void reset([String path = "/"]) => parent.reset(policy.buildPath(base, path));
 }
