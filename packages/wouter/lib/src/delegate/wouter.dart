@@ -11,7 +11,6 @@ abstract class WouterBaseRouterDelegate<T extends RouteHistory>
     with DelegateRoutingActions<T>, StreamRouterState<List<T>> {
   final String tag;
   @override
-  @protected
   final RoutingPolicy<List<T>> policy;
   @override
   final Widget child;

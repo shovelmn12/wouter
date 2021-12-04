@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:rxdart/rxdart.dart';
 
 import 'base.dart';
 import 'delegate/delegate.dart';
@@ -49,7 +50,7 @@ class Wouter extends StatefulWidget {
 }
 
 class WouterState extends State<Wouter> with ChildWouter {
-  // @override
+  @override
   @protected
   late final BaseWouter parent = context.wouter;
 
@@ -69,19 +70,22 @@ class WouterState extends State<Wouter> with ChildWouter {
   String get route => stack.last;
 
   @override
-  void initState() {
-    stream.listen((stack) {
-      _stack = List<String>.unmodifiable(stack);
+  void didUpdateWidget(covariant Wouter oldWidget) {
+    if (oldWidget.matcher != widget.matcher) {
+      matcher = widget.matcher();
 
       setState(() {});
-    });
+    }
 
-    super.initState();
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
-  Widget build(BuildContext context) => Provider<BaseWouter>.value(
-        value: this,
-        child: widget.child,
+  Widget build(BuildContext context) => StreamBuilder(
+        stream: stream.doOnData((stack) => _stack = stack),
+        builder: (context, snapshot) => Provider<BaseWouter>.value(
+          value: this,
+          child: widget.child,
+        ),
       );
 }

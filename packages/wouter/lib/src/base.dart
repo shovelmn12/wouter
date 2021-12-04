@@ -6,6 +6,8 @@ abstract class BaseWouter {
 
   Stream<List<String>> get stream;
 
+  RoutingPolicy get policy;
+
   PathMatcher get matcher;
 
   String get base;
@@ -35,6 +37,9 @@ class RootWouter implements BaseWouter {
       .distinct();
 
   @override
+  RoutingPolicy get policy => delegate.policy;
+
+  @override
   PathMatcher get matcher => delegate.matcher;
 
   @override
@@ -61,20 +66,31 @@ mixin ChildWouter implements BaseWouter {
   bool get canPop => parent.canPop;
 
   @override
-  PathMatcher get matcher;
+  RoutingPolicy get policy => parent.policy;
 
   @override
   Stream<List<String>> get stream => parent.stream
       .map((stack) => stack
           .where((path) => path.startsWith(base))
-          .map((path) => path.substring(base.length))
-          .map((path) => path.isEmpty ? "/" : path)
+          .map((path) => policy.removeBase(base, path))
           .toList())
       .distinct();
 
-  Future<R?> push<R>(String path) => parent.push("$base$path");
+  Future<R?> push<R>(String path) {
+    if (path.startsWith(".") || path.startsWith("/")) {
+      return parent.push(path);
+    }
+
+    return parent.push("$base/$path");
+  }
 
   bool pop([dynamic result]) => parent.pop(result);
 
-  void reset([String path = "/"]) => parent.reset(path);
+  void reset([String path = "/"]) {
+    if (path.startsWith(".") || path.startsWith("/")) {
+      parent.reset(path);
+    }
+
+    parent.reset("$base/$path");
+  }
 }

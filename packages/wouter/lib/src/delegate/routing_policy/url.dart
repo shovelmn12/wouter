@@ -8,37 +8,67 @@ import 'routing_policy.dart';
 
 class URLRoutingPolicy<T extends RouteHistory>
     implements RoutingPolicy<List<T>> {
+  @override
   final String initial;
 
   const URLRoutingPolicy({
     this.initial = '/',
   });
 
-  String _normalize(String current, String path) {
-    if (path.startsWith(".")) {
-      return normalize("$current/$path");
-    } else if (path.startsWith("/")) {
-      return path;
-    } else {
-      return path;
+  @override
+  String removeBase(String base, String path) {
+    if (path.startsWith(base)) {
+      final next = path.substring(base.length);
+
+      if (next.isEmpty) {
+        return initial;
+      }
+
+      return next;
     }
+
+    return path;
   }
 
   @override
   String pushPath(String current, String path) {
-    if (path == initial || path.isEmpty) {
+    if (path.startsWith(".")) {
+      return normalize("$current/$path");
+    } else if (path.startsWith("/")) {
       return path;
-    }
-
-    final nextPath = _normalize(current, path);
-
-    if (nextPath.isEmpty) {
+    } else if (path.isEmpty) {
       return initial;
-    } else if (nextPath.endsWith('/')) {
-      return path.substring(0, nextPath.length - 1);
+    } else {
+      return "$current/$path";
+    }
+  }
+
+  @override
+  String popPath(String path) {
+    final parts = path.split('/');
+    final newPath = parts.sublist(0, parts.length - 1).join('/');
+
+    if (newPath.isNotEmpty) {
+      return newPath;
     }
 
-    return nextPath;
+    return initial;
+  }
+
+  @override
+  List<String> createStack(String path) {
+    final next = pushPath("", path);
+
+    if (next.isEmpty || next == initial) {
+      return [
+        initial,
+      ];
+    }
+
+    return [
+      ...createStack(popPath(next)),
+      next,
+    ];
   }
 
   @override
@@ -53,19 +83,6 @@ class URLRoutingPolicy<T extends RouteHistory>
     return List<T>.unmodifiable(nextStack);
   }
 
-  String popPath(String path) {
-    final parts = path.split('/');
-    final newPath = parts.sublist(0, parts.length - 1).join('/');
-
-    if (newPath.isNotEmpty) {
-      return newPath;
-    }
-
-    return initial;
-  }
-
-  bool canPop(String path) => path.isNotEmpty && path != initial;
-
   @override
   List<T> onPop(List<T> state, [dynamic result]) {
     final nextStack = List<T>.of(state);
@@ -78,10 +95,10 @@ class URLRoutingPolicy<T extends RouteHistory>
   }
 
   @override
-  List<T> onReset(String path) {
-    final normalized = _normalize("", path);
+  List<T> onReset(String current, String path) {
+    final next = pushPath(current, path);
 
-    if (normalized.isEmpty) {
+    if (next.isEmpty || next == initial) {
       return <T>[
         RouteHistory(
           path: initial,
@@ -90,7 +107,7 @@ class URLRoutingPolicy<T extends RouteHistory>
     }
 
     return [
-      if (normalized != initial) ...onReset(popPath(normalized)),
+      ...onReset("", popPath(next)),
       RouteHistory(
         path: path,
       ) as T,

@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:wouter/wouter.dart';
 
 import '../base.dart';
+import '../extensions/extensions.dart';
+import '../models/models.dart';
 
 part 'base.builder.dart';
 
@@ -56,68 +57,41 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
     super.didUpdateWidget(oldWidget);
   }
 
-  String popPath(String path) {
-    final parts = path.split('/');
-    final newPath = parts.sublist(0, parts.length - 1).join('/');
+  @override
+  void dispose() {
+    stream = Stream.empty();
 
-    if (newPath.isNotEmpty) {
-      return newPath;
-    }
-
-    return "/";
-  }
-
-  List<String> breakPath(String path) {
-    if (path.isEmpty || path == "/") {
-      return [
-        "/",
-      ];
-    }
-
-    return [
-      ...breakPath(popPath(path)),
-      path,
-    ];
+    super.dispose();
   }
 
   @protected
-  List<StackEntry<W>> matchPathToRoutes(
+  StackEntry<W>? matchPathToRoute(
     String path,
     PathMatcher matcher,
-    Iterable<MapEntry<String, WouterRouteBuilder<W>>> routes,
+    List<MapEntry<String, WouterRouteBuilder<W>?>> routes,
   ) {
-    final result = breakPath(path).map((path) {
-      for (final entry in routes) {
-        final match = matcher(
-          path,
-          entry.key,
-          prefix: false,
+    for (final entry in routes) {
+      final match = matcher(
+        path,
+        entry.key,
+        prefix: false,
+      );
+
+      if (match != null) {
+        final value = entry.value;
+
+        if (value == null) {
+          return null;
+        }
+
+        return StackEntry<W>(
+          key: entry.key,
+          path: match.path,
+          builder: value,
+          arguments: match.arguments,
         );
-
-        if (match != null) {
-          // print("$path -> ${entry.key}");
-          return StackEntry<W>(
-            path: match.path,
-            builder: entry.value,
-            arguments: match.arguments,
-          );
-        }
       }
-    }).whereType<StackEntry<W>>();
-
-    return result.fold(
-      <StackEntry<W>>[],
-      (List<StackEntry<W>> acc, StackEntry<W> element) {
-        if (acc.map((entry) => entry.path).contains(element.path)) {
-          return acc;
-        }
-
-        return [
-          ...acc,
-          element,
-        ];
-      },
-    );
+    }
   }
 
   @protected
@@ -134,22 +108,51 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
       .where((stack) => stack.isNotEmpty)
       .map((stack) => stack.last)
       .distinct()
-      .map((route) => onUpdate(wouter.matcher, route))
+      .map(wouter.policy.createStack)
+      .distinct()
+      .map((stack) => onUpdate(wouter.matcher, stack))
       .distinct();
 
   @protected
-  List<StackEntry<W>> onUpdate(PathMatcher matcher, String route) =>
-      matchPathToRoutes(
-        route,
-        matcher,
-        routes.entries.toList(),
-      );
+  List<StackEntry<W>> onUpdate(PathMatcher matcher, List<String> stack) {
+    final result = stack
+        .fold<Pair<List<StackEntry<W>>, Map<String, WouterRouteBuilder<W>?>>>(
+      Pair(
+        item1: <StackEntry<W>>[],
+        item2: Map.of(routes),
+      ),
+      (state, path) {
+        final entry = matchPathToRoute(
+          path,
+          matcher,
+          state.item2.entries.toList(),
+        );
+
+        if (entry == null) {
+          return state;
+        }
+
+        return state.copyWith.call(
+          item1: List.unmodifiable([
+            ...state.item1,
+            entry,
+          ]),
+          item2: Map.unmodifiable({
+            ...state.item2,
+            entry.key: null,
+          }),
+        );
+      },
+    );
+
+    return result.item1;
+  }
 
   @protected
   List<W> buildStack(BuildContext context, List<StackEntry<W>> stack) =>
       stack.map((builder) => builder(context)).toList();
 
-  Widget builder(BuildContext context, bool notFound, List<W> stack);
+  Widget builder(BuildContext context, List<W> stack);
 
   @override
   Widget build(BuildContext context) => ClipRect(
@@ -158,7 +161,6 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
             stream: stream,
             builder: (context, snapshot) => builder(
               context,
-              snapshot.data?.isEmpty ?? false,
               buildStack(context, snapshot.data ?? const []),
             ),
           ),

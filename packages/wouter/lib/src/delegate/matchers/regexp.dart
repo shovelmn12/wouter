@@ -42,6 +42,7 @@ MatchData? regexpPathMatcher(
   RegexpBuilder regexpBuilder = pathToRegexp,
   bool prefix = true,
 }) {
+  final endsWithSlash = pattern.endsWith("/") || pattern.endsWith("/:_(.*)");
   final data = regexpBuilder(
     pattern,
     caseSensitive: false,
@@ -49,7 +50,9 @@ MatchData? regexpPathMatcher(
   );
   final regexp = data.regexp;
   final parameters = data.parameters;
-  final match = regexp.matchAsPrefix(path);
+  final match = regexp.matchAsPrefix(
+    endsWithSlash ? (path.endsWith("/") ? path : "$path/") : path,
+  );
 
   if (match != null) {
     final arguments = extract(parameters, match);

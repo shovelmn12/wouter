@@ -37,6 +37,6 @@ mixin DelegateRoutingActions<T extends RouteHistory> on BaseRouterDelegate<T> {
   void reset(String path) {
     state.forEach((route) => route.onResult?.call(null));
 
-    state = policy.onReset(path);
+    state = policy.onReset(policy.initial, path);
   }
 }

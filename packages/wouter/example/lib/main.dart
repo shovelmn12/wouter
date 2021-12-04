@@ -85,17 +85,18 @@ class PeopleScreen extends StatelessWidget {
         child: WouterSwitch(
           routes: {
             "/": (context, arguments) => const MaterialPage(
+                  key: ValueKey("all-people-screen"),
                   child: AllPeopleScreen(),
                 ),
             r"/:id(\d+)": (context, arguments) => MaterialPage(
+                  key: ValueKey("people-${arguments["id"]}-screen"),
                   child: PersonDetailsScreen(
                     person: people[arguments["id"]]!,
                   ),
                 ),
-            "/:_(.*)": (context, arguments) => MaterialPage(
-                  child: const Redirect(
-                    to: "",
-                  ),
+            "/:_(.*)": (context, arguments) => const MaterialPage(
+                  key: ValueKey("people-redirect-screen"),
+                  child: Redirect(),
                 ),
           },
         ),
@@ -119,7 +120,7 @@ class AllPeopleScreen extends StatelessWidget {
                 (person) => ListTile(
                   title: Text(
                       "${person["name"]["first"]} ${person["name"]["last"]}"),
-                  onTap: () => context.wouter.push("/${person["_id"]}"),
+                  onTap: () => context.wouter.push("${person["_id"]}"),
                 ),
               )
               .toList(),
@@ -171,11 +172,19 @@ class MyApp extends StatelessWidget {
   final delegate = WouterRouterDelegate(
     child: WouterSwitch(
       routes: {
-        "/": (context, arguments) => MaterialPage(
+        "/": (context, arguments) => const MaterialPage(
+              key: ValueKey("home-screen"),
               child: HomeScreen(),
             ),
-        "/people": (context, arguments) => MaterialPage(
+        "/people/:_(.*)": (context, arguments) => const MaterialPage(
+              key: ValueKey("people-screen"),
               child: PeopleScreen(),
+            ),
+        "/:_(.*)": (context, arguments) => const MaterialPage(
+              key: ValueKey("redirect-screen"),
+              child: Redirect(
+                to: "/",
+              ),
             ),
       },
     ),

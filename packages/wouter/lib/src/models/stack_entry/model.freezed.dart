@@ -18,10 +18,12 @@ class _$StackEntryTearOff {
   const _$StackEntryTearOff();
 
   _StackEntry<T> call<T>(
-      {required String path,
+      {required String key,
+      required String path,
       required WouterRouteBuilder<T> builder,
       Map<String, dynamic> arguments = const {}}) {
     return _StackEntry<T>(
+      key: key,
       path: path,
       builder: builder,
       arguments: arguments,
@@ -34,6 +36,7 @@ const $StackEntry = _$StackEntryTearOff();
 
 /// @nodoc
 mixin _$StackEntry<T> {
+  String get key => throw _privateConstructorUsedError;
   String get path => throw _privateConstructorUsedError;
   WouterRouteBuilder<T> get builder => throw _privateConstructorUsedError;
   Map<String, dynamic> get arguments => throw _privateConstructorUsedError;
@@ -49,7 +52,8 @@ abstract class $StackEntryCopyWith<T, $Res> {
           StackEntry<T> value, $Res Function(StackEntry<T>) then) =
       _$StackEntryCopyWithImpl<T, $Res>;
   $Res call(
-      {String path,
+      {String key,
+      String path,
       WouterRouteBuilder<T> builder,
       Map<String, dynamic> arguments});
 }
@@ -65,11 +69,16 @@ class _$StackEntryCopyWithImpl<T, $Res>
 
   @override
   $Res call({
+    Object? key = freezed,
     Object? path = freezed,
     Object? builder = freezed,
     Object? arguments = freezed,
   }) {
     return _then(_value.copyWith(
+      key: key == freezed
+          ? _value.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as String,
       path: path == freezed
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
@@ -94,7 +103,8 @@ abstract class _$StackEntryCopyWith<T, $Res>
       __$StackEntryCopyWithImpl<T, $Res>;
   @override
   $Res call(
-      {String path,
+      {String key,
+      String path,
       WouterRouteBuilder<T> builder,
       Map<String, dynamic> arguments});
 }
@@ -112,11 +122,16 @@ class __$StackEntryCopyWithImpl<T, $Res>
 
   @override
   $Res call({
+    Object? key = freezed,
     Object? path = freezed,
     Object? builder = freezed,
     Object? arguments = freezed,
   }) {
     return _then(_StackEntry<T>(
+      key: key == freezed
+          ? _value.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as String,
       path: path == freezed
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
@@ -137,9 +152,14 @@ class __$StackEntryCopyWithImpl<T, $Res>
 
 class _$_StackEntry<T> extends _StackEntry<T> with DiagnosticableTreeMixin {
   const _$_StackEntry(
-      {required this.path, required this.builder, this.arguments = const {}})
+      {required this.key,
+      required this.path,
+      required this.builder,
+      this.arguments = const {}})
       : super._();
 
+  @override
+  final String key;
   @override
   final String path;
   @override
@@ -150,7 +170,7 @@ class _$_StackEntry<T> extends _StackEntry<T> with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'StackEntry<$T>(path: $path, builder: $builder, arguments: $arguments)';
+    return 'StackEntry<$T>(key: $key, path: $path, builder: $builder, arguments: $arguments)';
   }
 
   @override
@@ -158,6 +178,7 @@ class _$_StackEntry<T> extends _StackEntry<T> with DiagnosticableTreeMixin {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'StackEntry<$T>'))
+      ..add(DiagnosticsProperty('key', key))
       ..add(DiagnosticsProperty('path', path))
       ..add(DiagnosticsProperty('builder', builder))
       ..add(DiagnosticsProperty('arguments', arguments));
@@ -168,13 +189,14 @@ class _$_StackEntry<T> extends _StackEntry<T> with DiagnosticableTreeMixin {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _StackEntry<T> &&
+            (identical(other.key, key) || other.key == key) &&
             (identical(other.path, path) || other.path == path) &&
             (identical(other.builder, builder) || other.builder == builder) &&
             const DeepCollectionEquality().equals(other.arguments, arguments));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, path, builder,
+  int get hashCode => Object.hash(runtimeType, key, path, builder,
       const DeepCollectionEquality().hash(arguments));
 
   @JsonKey(ignore: true)
@@ -185,11 +207,14 @@ class _$_StackEntry<T> extends _StackEntry<T> with DiagnosticableTreeMixin {
 
 abstract class _StackEntry<T> extends StackEntry<T> {
   const factory _StackEntry(
-      {required String path,
+      {required String key,
+      required String path,
       required WouterRouteBuilder<T> builder,
       Map<String, dynamic> arguments}) = _$_StackEntry<T>;
   const _StackEntry._() : super._();
 
+  @override
+  String get key;
   @override
   String get path;
   @override
