@@ -46,11 +46,11 @@ You are probably asking yourself why? why to write another routing package, ther
   ```dart
   MyWidget(
     child: SomeProvider(
-      child: Navigator(
-      routes: {
-        "": (context) => MyChildWidget()
-      }
-    )
+        child: Navigator(
+        routes: {
+          "": (context) => MyChildWidget()
+        }
+      )
     )
   )
   ```
