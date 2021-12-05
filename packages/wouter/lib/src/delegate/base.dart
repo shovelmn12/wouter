@@ -12,11 +12,13 @@ abstract class BaseRouterDelegate
   /// The widget below this widget in the tree.
   Widget get child;
 
+  /// Routing policy for the delegate
   RoutingPolicy<List<RouteEntry>> get policy;
 
   @override
   Uri? get currentConfiguration;
 
+  /// Returns [currentConfiguration] as String, when null returns "" (empty String)
   String get route => "${currentConfiguration ?? ""}";
 
   String get base => "";

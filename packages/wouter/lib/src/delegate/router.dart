@@ -9,16 +9,14 @@ class WouterRouterDelegate extends WouterBaseRouterDelegate {
   WouterRouterDelegate({
     required Widget child,
     RoutingPolicy<List<RouteEntry>> policy = const URLRoutingPolicy(),
-    String tag = '',
-    String initial = '/',
-    String base = '',
+    String tag = "",
+    String initial = "/",
+    String base = "",
   }) : super(
           child: child,
           policy: policy,
           tag: tag,
+          base: base,
           initial: initial,
         );
-
-
-
 }

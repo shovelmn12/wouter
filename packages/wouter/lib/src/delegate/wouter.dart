@@ -23,6 +23,8 @@ abstract class WouterBaseRouterDelegate extends BaseRouterDelegate
   @protected
   final List<RouteEntry> initialState = const [];
 
+  final String base;
+
   @override
   List<String> get stack => state.map((entry) => entry.path).toList();
 
@@ -36,9 +38,10 @@ abstract class WouterBaseRouterDelegate extends BaseRouterDelegate
   WouterBaseRouterDelegate({
     required this.child,
     this.policy = const URLRoutingPolicy(),
-    this.tag = '',
+    this.tag = "",
+    this.base = "",
     PathMatcherBuilder matcher = PathMatchers.regexp,
-    String initial = '/',
+    String initial = "/",
   })  : matcher = matcher(),
         super() {
     state = [

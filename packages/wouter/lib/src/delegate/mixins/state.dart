@@ -17,35 +17,6 @@ mixin RouterState<T> on ChangeNotifier {
   }
 }
 
-// mixin StreamRouterState<T> on RouterState<T> {
-//   final _subject = BehaviorSubject<T>();
-//
-//   Stream<T> get stack => _subject.stream;
-//
-//   @override
-//   T get state => _subject.value;
-//
-//   @override
-//   set state(T state) {
-//     final prev = _subject.valueOrNull;
-//
-//     _subject.add(state);
-//
-//     if (prev != null) {
-//       onStateChanged(prev, state);
-//     } else {
-//       notifyListeners();
-//     }
-//   }
-//
-//   @override
-//   void dispose() {
-//     _subject.close();
-//
-//     super.dispose();
-//   }
-// }
-
 mixin ValueRouterState<T> on RouterState<T> {
   T? _state;
 
