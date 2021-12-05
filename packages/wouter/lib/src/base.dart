@@ -8,8 +8,6 @@ abstract class BaseWouter implements ChangeNotifier {
 
   bool get canPop;
 
-  // Stream<List<String>> get stream;
-
   RoutingPolicy get policy;
 
   PathMatcher get matcher;
@@ -28,8 +26,6 @@ abstract class BaseWouter implements ChangeNotifier {
 }
 
 mixin RootWouter on BaseRouterDelegate implements BaseWouter {
-  // WouterBaseRouterDelegate get delegate;
-
   @override
   WouterType get type => WouterType.root(
         delegate: this,
@@ -39,35 +35,6 @@ mixin RootWouter on BaseRouterDelegate implements BaseWouter {
         base: base,
         route: route,
       );
-
-// @override
-// bool get canPop => canPop;
-
-// @override
-// Stream<List<String>> get stream => stream
-//     .map((stack) => stack.map((entry) => entry.path).toList())
-//     .distinct();
-
-// @override
-// RoutingPolicy get policy => policy;
-
-// @override
-// PathMatcher get matcher => delegate.matcher;
-
-// @override
-// String get route => "${delegate.currentConfiguration ?? ""}";
-
-// Future<R?> push<R>(String path) => super.push(policy.pushPath(
-//       route,
-//       policy.buildPath(base, path),
-//     ));
-//
-// bool pop([dynamic result]) => super.pop(result);
-//
-// void reset([String path = "/"]) => super.reset(policy.pushPath(
-//       route,
-//       policy.buildPath(base, path),
-//     ));
 }
 
 mixin ChildWouter implements BaseWouter {
@@ -85,14 +52,6 @@ mixin ChildWouter implements BaseWouter {
 
   @override
   RoutingPolicy get policy => parent.policy;
-
-  // @override
-  // Stream<List<String>> get stream => parent.stream
-  //     .map((stack) => stack
-  //         .where((path) => path.startsWith(base))
-  //         .map((path) => policy.removeBase(base, path))
-  //         .toList())
-  //     .distinct();
 
   Future<R?> push<R>(String path) => parent.push(
         policy.buildPath(

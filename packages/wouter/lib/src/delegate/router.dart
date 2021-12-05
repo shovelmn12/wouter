@@ -8,7 +8,7 @@ import 'delegate.dart';
 class WouterRouterDelegate extends WouterBaseRouterDelegate {
   WouterRouterDelegate({
     required Widget child,
-    RoutingPolicy<List<RouteHistory>> policy = const URLRoutingPolicy(),
+    RoutingPolicy<List<RouteEntry>> policy = const URLRoutingPolicy(),
     String tag = '',
     String initial = '/',
     String base = '',

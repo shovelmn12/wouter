@@ -8,11 +8,11 @@ import 'delegate.dart';
 
 /// A base delegate that is used by the [Router] widget to build and configure a navigating widget.
 abstract class BaseRouterDelegate
-    extends RouterDelegate<Uri> with ChangeNotifier, RouterState<List<RouteHistory>> {
+    extends RouterDelegate<Uri> with ChangeNotifier, RouterState<List<RouteEntry>> {
   /// The widget below this widget in the tree.
   Widget get child;
 
-  RoutingPolicy<List<RouteHistory>> get policy;
+  RoutingPolicy<List<RouteEntry>> get policy;
 
   @override
   Uri? get currentConfiguration;
@@ -70,7 +70,7 @@ abstract class BaseRouterDelegate
     );
   }
 
-  void update(List<RouteHistory> Function(List<RouteHistory> state) callback) =>
+  void update(List<RouteEntry> Function(List<RouteEntry> state) callback) =>
       state = callback(state);
 
   /// Calling [pop]

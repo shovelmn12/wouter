@@ -7,11 +7,11 @@ import 'delegate.dart';
 
 /// A delegate that is used by the [Router] widget to build and configure a navigating widget.
 abstract class WouterBaseRouterDelegate extends BaseRouterDelegate
-    with ValueRouterState<List<RouteHistory>>, RootWouter {
+    with ValueRouterState<List<RouteEntry>>, RootWouter {
   final String tag;
 
   @override
-  final RoutingPolicy<List<RouteHistory>> policy;
+  final RoutingPolicy<List<RouteEntry>> policy;
 
   @override
   final Widget child;
@@ -21,7 +21,7 @@ abstract class WouterBaseRouterDelegate extends BaseRouterDelegate
 
   @override
   @protected
-  final List<RouteHistory> initialState = const [];
+  final List<RouteEntry> initialState = const [];
 
   @override
   List<String> get stack => state.map((entry) => entry.path).toList();
@@ -42,14 +42,14 @@ abstract class WouterBaseRouterDelegate extends BaseRouterDelegate
   })  : matcher = matcher(),
         super() {
     state = [
-      RouteHistory(
+      RouteEntry(
         path: initial,
       ),
     ];
   }
 
   @override
-  bool shouldNotify(List<RouteHistory> prev, List<RouteHistory> next) {
+  bool shouldNotify(List<RouteEntry> prev, List<RouteEntry> next) {
     if (prev.isNotEmpty && next.isNotEmpty) {
       return prev.last.path != next.last.path;
     }

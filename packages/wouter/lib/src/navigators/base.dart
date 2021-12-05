@@ -112,7 +112,7 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
 
   @protected
   bool shouldNotify(List<StackEntry<W>> prev, List<StackEntry<W>> next) =>
-      const DeepCollectionEquality().equals(
+      !const DeepCollectionEquality().equals(
         prev.map((entry) => entry.path),
         next.map((entry) => entry.path),
       );
@@ -153,16 +153,6 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
       }
     }
   }
-
-  // @protected
-  // Stream<List<StackEntry<W>>> createStream(BaseWouter wouter) => wouter.stream
-  //     .where((stack) => stack.isNotEmpty)
-  //     .map((stack) => stack.last)
-  //     .distinct()
-  //     .map(wouter.policy.createStack)
-  //     .distinct()
-  //     .map((stack) => onUpdate(wouter.matcher, stack))
-  //     .distinct();
 
   @protected
   List<StackEntry<W>> createStack(PathMatcher matcher, List<String> stack) {

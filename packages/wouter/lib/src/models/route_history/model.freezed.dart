@@ -14,11 +14,11 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-class _$RouteHistoryTearOff {
-  const _$RouteHistoryTearOff();
+class _$RouteEntryTearOff {
+  const _$RouteEntryTearOff();
 
-  _RouteHistory<T> call<T>({required String path, ValueSetter<T>? onResult}) {
-    return _RouteHistory<T>(
+  _RouteEntry<T> call<T>({required String path, ValueSetter<T>? onResult}) {
+    return _RouteEntry<T>(
       path: path,
       onResult: onResult,
     );
@@ -26,34 +26,34 @@ class _$RouteHistoryTearOff {
 }
 
 /// @nodoc
-const $RouteHistory = _$RouteHistoryTearOff();
+const $RouteEntry = _$RouteEntryTearOff();
 
 /// @nodoc
-mixin _$RouteHistory<T> {
+mixin _$RouteEntry<T> {
   String get path => throw _privateConstructorUsedError;
   ValueSetter<T>? get onResult => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $RouteHistoryCopyWith<T, RouteHistory<T>> get copyWith =>
+  $RouteEntryCopyWith<T, RouteEntry<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $RouteHistoryCopyWith<T, $Res> {
-  factory $RouteHistoryCopyWith(
-          RouteHistory<T> value, $Res Function(RouteHistory<T>) then) =
-      _$RouteHistoryCopyWithImpl<T, $Res>;
+abstract class $RouteEntryCopyWith<T, $Res> {
+  factory $RouteEntryCopyWith(
+          RouteEntry<T> value, $Res Function(RouteEntry<T>) then) =
+      _$RouteEntryCopyWithImpl<T, $Res>;
   $Res call({String path, ValueSetter<T>? onResult});
 }
 
 /// @nodoc
-class _$RouteHistoryCopyWithImpl<T, $Res>
-    implements $RouteHistoryCopyWith<T, $Res> {
-  _$RouteHistoryCopyWithImpl(this._value, this._then);
+class _$RouteEntryCopyWithImpl<T, $Res>
+    implements $RouteEntryCopyWith<T, $Res> {
+  _$RouteEntryCopyWithImpl(this._value, this._then);
 
-  final RouteHistory<T> _value;
+  final RouteEntry<T> _value;
   // ignore: unused_field
-  final $Res Function(RouteHistory<T>) _then;
+  final $Res Function(RouteEntry<T>) _then;
 
   @override
   $Res call({
@@ -74,32 +74,32 @@ class _$RouteHistoryCopyWithImpl<T, $Res>
 }
 
 /// @nodoc
-abstract class _$RouteHistoryCopyWith<T, $Res>
-    implements $RouteHistoryCopyWith<T, $Res> {
-  factory _$RouteHistoryCopyWith(
-          _RouteHistory<T> value, $Res Function(_RouteHistory<T>) then) =
-      __$RouteHistoryCopyWithImpl<T, $Res>;
+abstract class _$RouteEntryCopyWith<T, $Res>
+    implements $RouteEntryCopyWith<T, $Res> {
+  factory _$RouteEntryCopyWith(
+          _RouteEntry<T> value, $Res Function(_RouteEntry<T>) then) =
+      __$RouteEntryCopyWithImpl<T, $Res>;
   @override
   $Res call({String path, ValueSetter<T>? onResult});
 }
 
 /// @nodoc
-class __$RouteHistoryCopyWithImpl<T, $Res>
-    extends _$RouteHistoryCopyWithImpl<T, $Res>
-    implements _$RouteHistoryCopyWith<T, $Res> {
-  __$RouteHistoryCopyWithImpl(
-      _RouteHistory<T> _value, $Res Function(_RouteHistory<T>) _then)
-      : super(_value, (v) => _then(v as _RouteHistory<T>));
+class __$RouteEntryCopyWithImpl<T, $Res>
+    extends _$RouteEntryCopyWithImpl<T, $Res>
+    implements _$RouteEntryCopyWith<T, $Res> {
+  __$RouteEntryCopyWithImpl(
+      _RouteEntry<T> _value, $Res Function(_RouteEntry<T>) _then)
+      : super(_value, (v) => _then(v as _RouteEntry<T>));
 
   @override
-  _RouteHistory<T> get _value => super._value as _RouteHistory<T>;
+  _RouteEntry<T> get _value => super._value as _RouteEntry<T>;
 
   @override
   $Res call({
     Object? path = freezed,
     Object? onResult = freezed,
   }) {
-    return _then(_RouteHistory<T>(
+    return _then(_RouteEntry<T>(
       path: path == freezed
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
@@ -114,10 +114,10 @@ class __$RouteHistoryCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$_RouteHistory<T>
+class _$_RouteEntry<T>
     with DiagnosticableTreeMixin
-    implements _RouteHistory<T> {
-  const _$_RouteHistory({required this.path, this.onResult});
+    implements _RouteEntry<T> {
+  const _$_RouteEntry({required this.path, this.onResult});
 
   @override
   final String path;
@@ -126,14 +126,14 @@ class _$_RouteHistory<T>
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RouteHistory<$T>(path: $path, onResult: $onResult)';
+    return 'RouteEntry<$T>(path: $path, onResult: $onResult)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'RouteHistory<$T>'))
+      ..add(DiagnosticsProperty('type', 'RouteEntry<$T>'))
       ..add(DiagnosticsProperty('path', path))
       ..add(DiagnosticsProperty('onResult', onResult));
   }
@@ -142,7 +142,7 @@ class _$_RouteHistory<T>
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _RouteHistory<T> &&
+            other is _RouteEntry<T> &&
             (identical(other.path, path) || other.path == path) &&
             (identical(other.onResult, onResult) ||
                 other.onResult == onResult));
@@ -153,13 +153,13 @@ class _$_RouteHistory<T>
 
   @JsonKey(ignore: true)
   @override
-  _$RouteHistoryCopyWith<T, _RouteHistory<T>> get copyWith =>
-      __$RouteHistoryCopyWithImpl<T, _RouteHistory<T>>(this, _$identity);
+  _$RouteEntryCopyWith<T, _RouteEntry<T>> get copyWith =>
+      __$RouteEntryCopyWithImpl<T, _RouteEntry<T>>(this, _$identity);
 }
 
-abstract class _RouteHistory<T> implements RouteHistory<T> {
-  const factory _RouteHistory(
-      {required String path, ValueSetter<T>? onResult}) = _$_RouteHistory<T>;
+abstract class _RouteEntry<T> implements RouteEntry<T> {
+  const factory _RouteEntry(
+      {required String path, ValueSetter<T>? onResult}) = _$_RouteEntry<T>;
 
   @override
   String get path;
@@ -167,6 +167,6 @@ abstract class _RouteHistory<T> implements RouteHistory<T> {
   ValueSetter<T>? get onResult;
   @override
   @JsonKey(ignore: true)
-  _$RouteHistoryCopyWith<T, _RouteHistory<T>> get copyWith =>
+  _$RouteEntryCopyWith<T, _RouteEntry<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }

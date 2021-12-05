@@ -6,7 +6,7 @@ import 'package:path/path.dart';
 import '../../models/models.dart';
 import 'routing_policy.dart';
 
-class URLRoutingPolicy<T extends RouteHistory>
+class URLRoutingPolicy<T extends RouteEntry>
     implements RoutingPolicy<List<T>> {
   @override
   final String initial;
@@ -86,7 +86,7 @@ class URLRoutingPolicy<T extends RouteHistory>
   List<T> onPush<R>(String path, List<T> state, [ValueSetter<R>? onResult]) {
     final nextStack = List<T>.of(state);
 
-    nextStack.add(RouteHistory<R>(
+    nextStack.add(RouteEntry<R>(
       path: path,
       onResult: onResult,
     ) as T);
@@ -111,7 +111,7 @@ class URLRoutingPolicy<T extends RouteHistory>
 
     if (next.isEmpty || next == initial) {
       return <T>[
-        RouteHistory(
+        RouteEntry(
           path: initial,
         ) as T,
       ];
@@ -119,7 +119,7 @@ class URLRoutingPolicy<T extends RouteHistory>
 
     return [
       ...onReset("", popPath(next)),
-      RouteHistory(
+      RouteEntry(
         path: path,
       ) as T,
     ];

@@ -4,7 +4,7 @@ import '../../wouter.dart';
 import '../base.dart';
 
 extension BaseWouterExtensions on BaseWouter {
-  List<T> _popUntil<T extends RouteHistory>(
+  List<T> _popUntil<T extends RouteEntry>(
     List<T> state,
     PopPredicate<String> predicate,
   ) {
