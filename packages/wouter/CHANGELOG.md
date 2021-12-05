@@ -1,3 +1,6 @@
+## [0.1.1]
+- Docs update
+
 ## [0.1.0] - Beta
 - initial beta release
 
