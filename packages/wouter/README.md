@@ -109,7 +109,7 @@ You are probably asking yourself why? why to write another routing package, ther
     )
   )
   ```
-  All the magic happens when you use reactive getter (Stream, Provider, BLoC, Hooks etc..) for ```isUserAuth```, because each update will trigger a rebuild, so our routes will be rebuilt as well and will change depending on ```isUserAuth```. Without the need for more boilerplate, guards etc... again adding code with needs to be maintained and the logic to work.
+  All the magic happens when you use reactive getter (Stream, Provider, BLoC, Hooks etc..) for ```isUserAuth```, because each update will trigger a rebuild, so our routes will be rebuilt as well and will change depending on ```isUserAuth```. Without the need for more boilerplate, guards etc... again adding code which needs to be maintained for the user and the package maintainer.
 
 ## Features
 - Navigator 1.0 like API
