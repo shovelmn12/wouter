@@ -40,8 +40,9 @@ You are probably asking yourself why? why to write another routing package, ther
     ],
   )
   ```
-  so if, for example, I would like to expose a Provider at certain node of my widgets tree i'll need to write even more code to try and structor my paths depending on the package. sometimes adding a lot more complexity than needed (we do want to hit that 60 FPS).
-  Using Naigator 1.0 its fine and easy to use and do such a thing, because Navigator 1.0 was a widget, just like any other widget, I could just put another Navigator where ever I wanted and just inject data in a specific node in my widgets tree it without writing boilerplate or change all my structor.
+  so if, for example, I would like to expose a Provider at certain node of my widgets tree i'll need to write even more code to try and structure my paths depending on the package. sometimes adding a lot more complexity than needed (we do want to hit that 60 FPS).
+
+  Using Naigator 1.0 its fine and easy to use and do such a thing, because Navigator 1.0 was a widget, just like any other widget, I could just put another Navigator where ever I wanted and just inject data in a specific node in my widgets tree, without writing boilerplate or change all my structure.
   ```dart
   MyWidget(
     child: SomeProvider(
