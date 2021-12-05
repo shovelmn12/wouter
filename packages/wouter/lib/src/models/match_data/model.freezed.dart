@@ -137,13 +137,15 @@ class _$_MatchData with DiagnosticableTreeMixin implements _MatchData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _MatchData &&
-            (identical(other.path, path) || other.path == path) &&
+            const DeepCollectionEquality().equals(other.path, path) &&
             const DeepCollectionEquality().equals(other.arguments, arguments));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, path, const DeepCollectionEquality().hash(arguments));
+      runtimeType,
+      const DeepCollectionEquality().hash(path),
+      const DeepCollectionEquality().hash(arguments));
 
   @JsonKey(ignore: true)
   @override

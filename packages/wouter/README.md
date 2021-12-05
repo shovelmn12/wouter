@@ -29,6 +29,7 @@ Wouter is an implementation of the npm package: [wouter](https://www.npmjs.com/p
 - Base paths
 - Flexible navigators (Switch, Row, Column etc...) and easily build your own navigator
 - Using ```const``` everywhere
+- Uses [freezed](https://pub.dev/packages/freezed) to generate classes
 
 ## Widgets
 

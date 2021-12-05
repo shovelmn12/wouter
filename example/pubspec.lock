@@ -180,7 +180,7 @@ packages:
   wouter:
     dependency: "direct main"
     description:
-      path: ".."
+      path: "../packages/wouter"
       relative: true
     source: path
     version: "0.1.0"

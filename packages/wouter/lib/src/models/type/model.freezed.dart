@@ -289,18 +289,23 @@ class _$RootWouterType with DiagnosticableTreeMixin implements RootWouterType {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is RootWouterType &&
-            (identical(other.delegate, delegate) ||
-                other.delegate == delegate) &&
-            (identical(other.policy, policy) || other.policy == policy) &&
+            const DeepCollectionEquality().equals(other.delegate, delegate) &&
+            const DeepCollectionEquality().equals(other.policy, policy) &&
             (identical(other.matcher, matcher) || other.matcher == matcher) &&
-            (identical(other.canPop, canPop) || other.canPop == canPop) &&
-            (identical(other.base, base) || other.base == base) &&
-            (identical(other.route, route) || other.route == route));
+            const DeepCollectionEquality().equals(other.canPop, canPop) &&
+            const DeepCollectionEquality().equals(other.base, base) &&
+            const DeepCollectionEquality().equals(other.route, route));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, delegate, policy, matcher, canPop, base, route);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(delegate),
+      const DeepCollectionEquality().hash(policy),
+      matcher,
+      const DeepCollectionEquality().hash(canPop),
+      const DeepCollectionEquality().hash(base),
+      const DeepCollectionEquality().hash(route));
 
   @JsonKey(ignore: true)
   @override
@@ -526,17 +531,23 @@ class _$ChildWouterType
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ChildWouterType &&
-            (identical(other.parent, parent) || other.parent == parent) &&
-            (identical(other.policy, policy) || other.policy == policy) &&
+            const DeepCollectionEquality().equals(other.parent, parent) &&
+            const DeepCollectionEquality().equals(other.policy, policy) &&
             (identical(other.matcher, matcher) || other.matcher == matcher) &&
-            (identical(other.canPop, canPop) || other.canPop == canPop) &&
-            (identical(other.base, base) || other.base == base) &&
-            (identical(other.route, route) || other.route == route));
+            const DeepCollectionEquality().equals(other.canPop, canPop) &&
+            const DeepCollectionEquality().equals(other.base, base) &&
+            const DeepCollectionEquality().equals(other.route, route));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, parent, policy, matcher, canPop, base, route);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(parent),
+      const DeepCollectionEquality().hash(policy),
+      matcher,
+      const DeepCollectionEquality().hash(canPop),
+      const DeepCollectionEquality().hash(base),
+      const DeepCollectionEquality().hash(route));
 
   @JsonKey(ignore: true)
   @override

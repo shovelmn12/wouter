@@ -114,9 +114,7 @@ class __$RouteEntryCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$_RouteEntry<T>
-    with DiagnosticableTreeMixin
-    implements _RouteEntry<T> {
+class _$_RouteEntry<T> with DiagnosticableTreeMixin implements _RouteEntry<T> {
   const _$_RouteEntry({required this.path, this.onResult});
 
   @override
@@ -143,13 +141,14 @@ class _$_RouteEntry<T>
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _RouteEntry<T> &&
-            (identical(other.path, path) || other.path == path) &&
+            const DeepCollectionEquality().equals(other.path, path) &&
             (identical(other.onResult, onResult) ||
                 other.onResult == onResult));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, path, onResult);
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(path), onResult);
 
   @JsonKey(ignore: true)
   @override
@@ -158,8 +157,8 @@ class _$_RouteEntry<T>
 }
 
 abstract class _RouteEntry<T> implements RouteEntry<T> {
-  const factory _RouteEntry(
-      {required String path, ValueSetter<T>? onResult}) = _$_RouteEntry<T>;
+  const factory _RouteEntry({required String path, ValueSetter<T>? onResult}) =
+      _$_RouteEntry<T>;
 
   @override
   String get path;

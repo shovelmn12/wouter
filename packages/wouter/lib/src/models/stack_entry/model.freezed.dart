@@ -189,14 +189,18 @@ class _$_StackEntry<T> extends _StackEntry<T> with DiagnosticableTreeMixin {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _StackEntry<T> &&
-            (identical(other.key, key) || other.key == key) &&
-            (identical(other.path, path) || other.path == path) &&
+            const DeepCollectionEquality().equals(other.key, key) &&
+            const DeepCollectionEquality().equals(other.path, path) &&
             (identical(other.builder, builder) || other.builder == builder) &&
             const DeepCollectionEquality().equals(other.arguments, arguments));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, key, path, builder,
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(key),
+      const DeepCollectionEquality().hash(path),
+      builder,
       const DeepCollectionEquality().hash(arguments));
 
   @JsonKey(ignore: true)

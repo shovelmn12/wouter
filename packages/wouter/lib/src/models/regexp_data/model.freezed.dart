@@ -140,14 +140,16 @@ class _$_RegexpData with DiagnosticableTreeMixin implements _RegexpData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _RegexpData &&
-            (identical(other.regexp, regexp) || other.regexp == regexp) &&
+            const DeepCollectionEquality().equals(other.regexp, regexp) &&
             const DeepCollectionEquality()
                 .equals(other.parameters, parameters));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, regexp, const DeepCollectionEquality().hash(parameters));
+      runtimeType,
+      const DeepCollectionEquality().hash(regexp),
+      const DeepCollectionEquality().hash(parameters));
 
   @JsonKey(ignore: true)
   @override
