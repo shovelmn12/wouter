@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         "/:_(.*)": (context, arguments) => const MaterialPage(
               key: ValueKey("redirect")
               child: Redirect(
-                to: "/"
+                to: "/",
               ),
             ),
       },
