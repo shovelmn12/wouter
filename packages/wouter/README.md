@@ -23,7 +23,7 @@ Wouter is an implementation of the npm package: [wouter](https://www.npmjs.com/p
 - Easy migration from Navigator 1.0
 - No boilerplate, no need to build special classes for locations/routes etc...
 - Regexp support using [path_to_regexp](https://pub.dev/packages/path_to_regexp)
-- Relative paths (```push(../../here)```, ```replace(../there)```) using [```normalize()```](https://pub.dev/documentation/path/latest/path/normalize.html) from [path](https://pub.dev/packages/path)
+- Relative paths (```push("../../here")```, ```replace("../there")```) using [```normalize()```](https://pub.dev/documentation/path/latest/path/normalize.html) from [path](https://pub.dev/packages/path)
 - Following everything is a widget, Wouter is a widget and its child is a Widget
 - Nested and Parallel (multiple Wouters in a Column or a Row) Wouters
 - Base paths
