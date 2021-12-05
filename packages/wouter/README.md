@@ -52,28 +52,30 @@ const Wouter({
 MyWidget(
   child: Wouter(
     base: "/items",
-    child: WouterSwitch(
-      routes: {
-        "/": (context, arguments) => const MaterialPage(
-              key: ValueKey("items")
-              child: ItemsScreen(),
-            ),
-      // matching and parsing id as int, no need to parse id from string to int later
-      r"/:id(\d+)": (context, arguments) => MaterialPage(
-              key: ValueKey("items-${arguments["id"]}")
-              child: ItemProvider(
-                id: arguments["id"],
-                child: const ItemScreen(),
-              )
-            ),
-      // match anything else to redirect back to items screen
-      "/:_(.*)": (context, arguments) => const MaterialPage(
-              key: ValueKey("redirect")
-              child: Redirect(
-                to: "/",
+    child: MyOtherWidget(
+      child: WouterSwitch(
+        routes: {
+          "/": (context, arguments) => const MaterialPage(
+                key: ValueKey("items")
+                child: ItemsScreen(),
               ),
-            ),  
-      }
+        // matching and parsing id as int, no need to parse id from string to int later
+        r"/:id(\d+)": (context, arguments) => MaterialPage(
+                key: ValueKey("items-${arguments["id"]}")
+                child: ItemProvider(
+                  id: arguments["id"],
+                  child: const ItemScreen(),
+                )
+              ),
+        // match anything else to redirect back to items screen
+        "/:_(.*)": (context, arguments) => const MaterialPage(
+                key: ValueKey("redirect")
+                child: Redirect(
+                  to: "/",
+                ),
+              ),  
+        }
+      )
     )
   )
 )
