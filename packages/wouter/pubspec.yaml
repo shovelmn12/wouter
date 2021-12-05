@@ -1,6 +1,6 @@
 name: wouter
 description: Supercharge your routering with wouter, simple yet advanced and fully customizable routing package.
-version: 0.0.6
+version: 0.1.0
 homepage: https://github.com/shovelmn12/wouter
 repository: https://github.com/shovelmn12/wouter/tree/main/packages/wouter
 
