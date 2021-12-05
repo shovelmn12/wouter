@@ -6,8 +6,7 @@ import 'package:path/path.dart';
 import '../../models/models.dart';
 import 'routing_policy.dart';
 
-class URLRoutingPolicy<T extends RouteEntry>
-    implements RoutingPolicy<List<T>> {
+class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
   @override
   final String initial;
 
