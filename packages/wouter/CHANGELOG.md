@@ -1,3 +1,6 @@
+## [0.1.0] - Beta
+- initial beta release
+
 ## [0.0.6] - Updated Example.
 
 ## [0.0.5] - Docs WIP.
