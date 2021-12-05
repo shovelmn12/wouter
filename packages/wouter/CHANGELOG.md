@@ -1,3 +1,6 @@
+## [0.1.2]
+- Docs motivation added
+
 ## [0.1.1]
 - Docs update
 
