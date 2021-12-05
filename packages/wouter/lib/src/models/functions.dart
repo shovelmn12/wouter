@@ -17,7 +17,8 @@ typedef PathMatcherBuilder = PathMatcher Function();
 
 typedef PathMatcher = MatchData? Function(
   String path,
-  String pattern,
-);
+  String pattern, {
+  bool prefix,
+});
 
 typedef PopPredicate<T> = bool Function(T value);

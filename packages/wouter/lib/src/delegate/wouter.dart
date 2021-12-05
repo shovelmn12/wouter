@@ -1,90 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../base.dart';
 import '../models/models.dart';
 import 'delegate.dart';
 
 /// A delegate that is used by the [Router] widget to build and configure a navigating widget.
-abstract class WouterBaseRouterDelegate<T extends WouterDelegateState>
-    extends BaseRouterDelegate<T> with ValueRouterState<T>, RoutingActions<T> {
-  final PathMatcher matcher;
+abstract class WouterBaseRouterDelegate extends BaseRouterDelegate
+    with ValueStateChangeNotifier<List<RouteEntry>>, RootWouter {
+  final String tag;
 
   @override
-  final String tag;
-  @override
-  @protected
-  final RoutingPolicy<T> policy;
-  @override
-  @protected
-  final WouterBaseRouterDelegate? parent;
+  final RoutingPolicy<List<RouteEntry>> policy;
+
   @override
   final Widget child;
 
   @override
-  bool get hasParent => parent != null;
+  final PathMatcher matcher;
+
+  @override
+  @protected
+  final List<RouteEntry> initialState;
+
+  final String base;
+
+  @override
+  List<String> get stack => state.map((entry) => entry.path).toList();
+
+  //only parent update uri
+  @override
+  Uri? get currentConfiguration => Uri.parse(state.last.path);
+
+  @override
+  bool get canPop => state.length > 1;
 
   WouterBaseRouterDelegate({
     required this.child,
     this.policy = const URLRoutingPolicy(),
+    this.tag = "",
+    this.base = "",
+    this.initialState = const [],
     PathMatcherBuilder matcher = PathMatchers.regexp,
-    this.tag = '',
-    String initial = '/',
-  })  : parent = null,
-        matcher = matcher(),
+    String initial = "/",
+  })  : matcher = matcher(),
         super() {
-    onInitialize(initial);
+    state = [
+      RouteEntry(
+        path: initial,
+      ),
+    ];
   }
-
-  WouterBaseRouterDelegate.withParent({
-    required this.child,
-    required WouterBaseRouterDelegate parent,
-    this.policy = const URLRoutingPolicy(),
-    PathMatcherBuilder matcher = PathMatchers.regexp,
-    this.tag = '',
-  })  : parent = parent,
-        matcher = matcher(),
-        super() {
-    onInitialize(parent.state.path);
-  }
-
-  @protected
-  void onInitialize(String path) {
-    onParentPathUpdated(path);
-
-    parent?.addListener(_onParentUpdated);
-  }
-
-  //only parent update uri
-  @override
-  Uri? get currentConfiguration => parent == null ? state.uri : null;
 
   @override
-  bool get canPop => state.canPop || (parent?.canPop ?? false);
-
-  @override
-  @mustCallSuper
-  void dispose() {
-    parent?.removeListener(_onParentUpdated);
-
-    super.dispose();
-  }
-
-  void _onParentUpdated() {
-    final path = parent!.state.path;
-
-    if (path.isEmpty) {
-      return;
+  bool shouldNotify(List<RouteEntry> prev, List<RouteEntry> next) {
+    if (prev.isNotEmpty && next.isNotEmpty) {
+      return prev.last.path != next.last.path;
     }
 
-    onParentPathUpdated(path);
+    return true;
   }
-
-  @override
-  bool shouldNotify(T prev, T next) => prev.path != next.path;
 
   @override
   Widget build(BuildContext context) =>
-      ChangeNotifierProvider<WouterBaseRouterDelegate<T>>.value(
+      ChangeNotifierProvider<BaseWouter>.value(
         value: this,
         child: super.build(context),
       );

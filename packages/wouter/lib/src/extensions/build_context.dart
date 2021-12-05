@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
+import 'package:wouter/src/base.dart';
 
-import '../delegate/wouter.dart';
 import '../wouter.dart';
 
 extension WouterBuildContextExtensions on BuildContext {
-  WouterBaseRouterDelegate get wouter => Wouter.of(this);
+  BaseWouter get wouter => Wouter.of(this);
 
-  WouterBaseRouterDelegate? get maybeWouter => Wouter.maybeOf(this);
+  BaseWouter? get maybeWouter => Wouter.maybeOf(this);
 }

@@ -1,48 +1,59 @@
 import 'dart:async';
 
-import '../delegate/delegate.dart';
-import '../models/models.dart';
+import '../../wouter.dart';
+import '../base.dart';
 
-extension RoutingActionsExtensions<T extends WouterDelegateState>
-    on RoutingActions<T> {
-  T _popUntil(T state, PopPredicate<String> predicate) {
-    if (predicate(state.fullPath)) {
+extension BaseWouterExtensions on BaseWouter {
+  List<T> _popUntil<T extends RouteEntry>(
+    List<T> state,
+    PopPredicate<String> predicate,
+  ) {
+    if (predicate(state.last.path)) {
       return state;
     }
 
     return _popUntil(policy.onPop(state), predicate);
   }
 
-  void popUntil(PopPredicate<String> predicate) {
-    if (hasParent) {
-      return parent!.popUntil(predicate);
-    }
-
-    update((state) => _popUntil(policy.onPop(state), predicate));
-  }
-
-  void popTo(String path) => popUntil((current) => path == current);
-
-  Future<T> replace<T>(String path, [dynamic? result]) {
-    if (hasParent) {
-      return parent!.replace(
-        policy.pushPath(
-          state.base,
-          state.fullPath,
-          path,
+  void popUntil(PopPredicate<String> predicate) => type.map(
+        root: (wouter) => wouter.delegate.update(
+          (state) => _popUntil(policy.onPop(state), predicate),
         ),
-        result,
+        child: (wouter) => wouter.parent.popUntil(predicate),
       );
-    }
 
-    final completer = Completer<T>();
+  void popTo(String path) => type.map(
+        root: (wouter) {
+          final next = wouter.policy.pushPath(
+            wouter.route,
+            wouter.policy.buildPath(base, path),
+          );
 
-    update((state) => policy.onPush(
-          policy.removeBase(state.base, path),
-          state.stack.isEmpty ? state : policy.onPop(state, result),
-          policy.buildOnResultCallback(completer),
-        ));
+          return popUntil((current) => next == current);
+        },
+        child: (wouter) => wouter.parent.popTo(
+          wouter.policy.buildPath(base, path),
+        ),
+      );
 
-    return completer.future;
-  }
+  Future<T> replace<T>(String path, [dynamic result]) => type.map(
+        root: (wouter) {
+          final completer = Completer<T>();
+
+          wouter.delegate.update((state) => policy.onPush(
+                wouter.policy.pushPath(
+                  wouter.route,
+                  wouter.policy.buildPath(base, path),
+                ),
+                policy.onPop(state, result),
+                policy.buildOnResultCallback(completer),
+              ));
+
+          return completer.future;
+        },
+        child: (wouter) => wouter.parent.replace(
+          wouter.policy.buildPath(base, path),
+          result,
+        ),
+      );
 }

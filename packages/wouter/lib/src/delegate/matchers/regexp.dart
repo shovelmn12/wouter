@@ -40,16 +40,19 @@ MatchData? regexpPathMatcher(
   String path,
   String pattern, {
   RegexpBuilder regexpBuilder = pathToRegexp,
+  bool prefix = true,
 }) {
-  final prefix = pattern.endsWith("*");
+  final endsWithSlash = pattern.endsWith("/") || pattern.endsWith("/:_(.*)");
   final data = regexpBuilder(
-    prefix ? pattern.substring(0, pattern.length - 1) : pattern,
+    pattern,
     caseSensitive: false,
     prefix: prefix,
   );
   final regexp = data.regexp;
   final parameters = data.parameters;
-  final match = regexp.matchAsPrefix(path);
+  final match = regexp.matchAsPrefix(
+    endsWithSlash ? (path.endsWith("/") ? path : "$path/") : path,
+  );
 
   if (match != null) {
     final arguments = extract(parameters, match);

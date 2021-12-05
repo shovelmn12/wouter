@@ -9,12 +9,13 @@ part 'model.freezed.dart';
 part 'model.mixin.dart';
 
 @freezed
-class StackItem<T> with _$StackItem<T>, StackItemBuilder<T> {
-  const StackItem._();
+class StackEntry<T> with _$StackEntry<T>, StackEntryBuilder<T> {
+  const StackEntry._();
 
-  const factory StackItem({
+  const factory StackEntry({
+    required String key,
     required String path,
     required WouterRouteBuilder<T> builder,
     @Default({}) Map<String, dynamic> arguments,
-  }) = _StackItem;
+  }) = _StackEntry;
 }

@@ -5,17 +5,25 @@ import 'package:flutter/foundation.dart';
 export 'url.dart';
 
 abstract class RoutingPolicy<T> {
-  const RoutingPolicy();
+  String get initial;
 
-  bool isCurrentPath(T state, String path);
+  const RoutingPolicy();
 
   String removeBase(String base, String path);
 
-  String pushPath(String base, String current, String path);
+  String buildPath(String base, String path);
 
-  T onPush<R>(String path, T state, [ValueSetter<R>? onResult]);
+  String pushPath(String current, String path);
+
+  String popPath(String path);
+
+  List<String> createStack(String path);
+
+  T onPush<R>(String path, covariant T state, [ValueSetter<R>? onResult]);
 
   T onPop(T state, [dynamic result]);
+
+  T onReset(String current, String path);
 
   ValueSetter<R?> buildOnResultCallback<R>(Completer<R?> completer);
 }

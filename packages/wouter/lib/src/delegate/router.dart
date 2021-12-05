@@ -5,44 +5,18 @@ import 'delegate.dart';
 
 /// A delegate that is used by the [Router] widget
 /// to build and configure a navigating widget.
-class WouterRouterDelegate
-    extends WouterBaseRouterDelegate<WouterDelegateState> {
-  @override
-  final WouterDelegateState initialState;
-
+class WouterRouterDelegate extends WouterBaseRouterDelegate {
   WouterRouterDelegate({
     required Widget child,
-    RoutingPolicy<WouterDelegateState> policy = const URLRoutingPolicy(),
-    PathMatcherBuilder matcher = PathMatchers.regexp,
-    String tag = '',
-    String initial = '/',
-    String base = '',
-  })  : initialState = WouterDelegateState(
-          base: base,
-        ),
-        super(
+    RoutingPolicy<List<RouteEntry>> policy = const URLRoutingPolicy(),
+    String tag = "",
+    String initial = "/",
+    String base = "",
+  }) : super(
           child: child,
           policy: policy,
-          matcher: matcher,
           tag: tag,
+          base: base,
           initial: initial,
-        );
-
-  WouterRouterDelegate.withParent({
-    required WouterBaseRouterDelegate parent,
-    required Widget child,
-    RoutingPolicy<WouterDelegateState> policy = const URLRoutingPolicy(),
-    PathMatcherBuilder matcher = PathMatchers.regexp,
-    String tag = '',
-    String base = '',
-  })  : initialState = WouterDelegateState(
-          base: base,
-        ),
-        super.withParent(
-          child: child,
-          parent: parent,
-          policy: policy,
-          matcher: matcher,
-          tag: tag,
         );
 }

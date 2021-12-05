@@ -81,26 +81,24 @@ class PeopleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Wouter(
-        delegate: WouterRouterDelegate.withParent(
-          parent: context.wouter,
-          base: "/people",
-          child: WouterSwitch(
-            routes: {
-              r"/:id(\d+)": (context, arguments) => MaterialPage(
-                    child: PersonDetailsScreen(
-                      person: people[arguments["id"]]!,
-                    ),
+        base: "/people",
+        child: WouterSwitch(
+          routes: {
+            "/": (context, arguments) => const MaterialPage(
+                  key: ValueKey("all-people-screen"),
+                  child: AllPeopleScreen(),
+                ),
+            r"/:id(\d+)": (context, arguments) => MaterialPage(
+                  key: ValueKey("people-${arguments["id"]}-screen"),
+                  child: PersonDetailsScreen(
+                    person: people[arguments["id"]]!,
                   ),
-              "/": (context, arguments) => const MaterialPage(
-                    child: AllPeopleScreen(),
-                  ),
-              "/*": (context, arguments) => const MaterialPage(
-                    child: Redirect(
-                      to: "/people",
-                    ),
-                  ),
-            },
-          ),
+                ),
+            "/:_(.*)": (context, arguments) => const MaterialPage(
+                  key: ValueKey("people-redirect-screen"),
+                  child: Redirect(),
+                ),
+          },
         ),
       );
 }
@@ -111,7 +109,10 @@ class AllPeopleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text("People"),
+          leading: BackButton(
+            onPressed: () => Navigator.pop(context),
+          ),
+          title: const Text("People"),
         ),
         body: ListView(
           children: people.values
@@ -171,11 +172,17 @@ class MyApp extends StatelessWidget {
   final delegate = WouterRouterDelegate(
     child: WouterSwitch(
       routes: {
-        "/": (context, arguments) => MaterialPage(
+        "/": (context, arguments) => const MaterialPage(
+              key: ValueKey("home-screen"),
               child: HomeScreen(),
             ),
-        "/people": (context, arguments) => MaterialPage(
+        "/people/:_(.*)": (context, arguments) => const MaterialPage(
+              key: ValueKey("people-screen"),
               child: PeopleScreen(),
+            ),
+        "/:_(.*)": (context, arguments) => const MaterialPage(
+              key: ValueKey("redirect-screen"),
+              child: Redirect(),
             ),
       },
     ),
@@ -184,7 +191,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp.router(
         routerDelegate: delegate,
-        routeInformationParser: WouterRouteInformationParser(),
+        routeInformationParser: const WouterRouteInformationParser(),
         backButtonDispatcher: WouterBackButtonDispatcher(
           delegate: delegate,
         ),

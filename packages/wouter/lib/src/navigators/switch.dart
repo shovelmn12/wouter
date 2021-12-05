@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wouter/wouter.dart';
 
+import '../base.dart';
 import 'base.dart';
 
 class WouterSwitch<T extends Page> extends StatelessWidget {
@@ -17,23 +19,17 @@ class WouterSwitch<T extends Page> extends StatelessWidget {
 
   Widget _builder(
     BuildContext context,
-    WouterBaseRouterDelegate delegate,
+    BaseWouter wouter,
     List<T> stack,
   ) =>
       stack.isEmpty
           ? const SizedBox.shrink()
           : Navigator(
-              pages: [
-                if (delegate.canPop)
-                  const MaterialPage(
-                    child: SizedBox.shrink(),
-                  ),
-                ...stack,
-              ],
+              pages: stack,
               observers: observers,
               transitionDelegate: transition,
               onPopPage: (route, result) {
-                final result = delegate.pop();
+                final result = wouter.pop();
 
                 route.didPop(result);
 
