@@ -124,7 +124,10 @@ MyWidget(
 
 ## Concepts
 
-Wouter is base on single source of truth. There is only one [```Router```](https://api.flutter.dev/flutter/widgets/Router-class.html) at the base of the app (using [```WidgetsApp.router```](https://api.flutter.dev/flutter/widgets/WidgetsApp/WidgetsApp.router.html) and [```RouterDelegate```](https://api.flutter.dev/flutter/widgets/RouterDelegate-class.html)). All children Wouters listen to changes on their parent and reacting to changes of the current route, when there is not change not work is being done.
+Wouter is base on single source of truth. There is only one [```Router```](https://api.flutter.dev/flutter/widgets/Router-class.html) at the base of the app (using [```WidgetsApp.router```](https://api.flutter.dev/flutter/widgets/WidgetsApp/WidgetsApp.router.html) and [```RouterDelegate```](https://api.flutter.dev/flutter/widgets/RouterDelegate-class.html)).
+
+All children Wouters listen to changes on their parent and reacting to changes of the current route, when there is no change no work is being done.
+
 Wouter is using [```ChangeNotifier```](https://api.flutter.dev/flutter/foundation/ChangeNotifier-class.html) to listen and react to changes.
 
 ## Example
