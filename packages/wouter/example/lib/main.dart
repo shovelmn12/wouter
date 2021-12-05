@@ -191,7 +191,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp.router(
         routerDelegate: delegate,
-        routeInformationParser: WouterRouteInformationParser(),
+        routeInformationParser: const WouterRouteInformationParser(),
         backButtonDispatcher: WouterBackButtonDispatcher(
           delegate: delegate,
         ),
