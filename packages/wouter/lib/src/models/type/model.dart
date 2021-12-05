@@ -11,7 +11,7 @@ part 'model.freezed.dart';
 @freezed
 class WouterType with _$WouterType {
   const factory WouterType.root({
-    required WouterBaseRouterDelegate delegate,
+    required BaseRouterDelegate delegate,
     required RoutingPolicy policy,
     required PathMatcher matcher,
     required bool canPop,

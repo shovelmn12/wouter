@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:rxdart/rxdart.dart';
 
 import 'base.dart';
 import 'delegate/delegate.dart';
@@ -49,14 +48,27 @@ class Wouter extends StatefulWidget {
   State<Wouter> createState() => WouterState();
 }
 
-class WouterState extends State<Wouter> with ChildWouter {
+class WouterState extends State<Wouter> with ChildWouter, _ChangeNotifierState {
+  @protected
+  late BaseWouter _parent = context.wouter;
+
   @override
   @protected
-  late final BaseWouter parent = context.wouter;
+  BaseWouter get parent => _parent;
+
+  @protected
+  set parent(BaseWouter wouter) {
+    unsubscribe(parent);
+
+    _parent = wouter;
+
+    subscribe(wouter);
+  }
 
   late PathMatcher matcher = widget.matcher();
 
-  bool get canPop => parent.canPop;
+  @override
+  bool get canPop => stack.isNotEmpty || parent.canPop;
 
   @override
   @protected
@@ -64,28 +76,122 @@ class WouterState extends State<Wouter> with ChildWouter {
 
   List<String> _stack = const [];
 
+  @override
+  @protected
   List<String> get stack => _stack;
 
+  @protected
+  set stack(List<String> stack) {
+    final prev = route;
+
+    _stack = stack;
+
+    onRouteChanged(prev, route);
+  }
+
   @override
-  String get route => stack.last;
+  String get route {
+    try {
+      return stack.last;
+    } catch (e) {
+      return "";
+    }
+  }
+
+  @override
+  void initState() {
+    subscribe(parent);
+
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    final wouter = context.wouter;
+
+    if (parent != wouter) {
+      parent = wouter;
+    }
+
+    super.didChangeDependencies();
+  }
 
   @override
   void didUpdateWidget(covariant Wouter oldWidget) {
     if (oldWidget.matcher != widget.matcher) {
       matcher = widget.matcher();
 
-      setState(() {});
+      notifyListeners();
     }
 
     super.didUpdateWidget(oldWidget);
   }
 
   @override
-  Widget build(BuildContext context) => StreamBuilder(
-        stream: stream.doOnData((stack) => _stack = stack),
-        builder: (context, snapshot) => Provider<BaseWouter>.value(
-          value: this,
-          child: widget.child,
-        ),
+  void dispose() {
+    unsubscribe(parent);
+
+    super.dispose();
+  }
+
+  @protected
+  void subscribe(BaseWouter wouter) {
+    wouter.addListener(_onChange);
+
+    _onChange();
+  }
+
+  void _onChange() => onChange(parent);
+
+  @protected
+  void onChange(BaseWouter wouter) => stack = wouter.stack
+      .where((path) => path.startsWith(base))
+      .map((path) => policy.removeBase(base, path))
+      .toList();
+
+  @protected
+  void unsubscribe(BaseWouter wouter) => wouter.removeListener(_onChange);
+
+  @protected
+  bool shouldNotify(String prev, String next) => prev != next;
+
+  @protected
+  void onRouteChanged(String prev, String next) {
+    if (shouldNotify(prev, next)) {
+      notifyListeners();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) =>
+      ChangeNotifierProvider<BaseWouter>.value(
+        value: this,
+        child: widget.child,
       );
+}
+
+mixin _ChangeNotifierState<T extends StatefulWidget> on State<T>
+    implements ChangeNotifier {
+  @protected
+  final ChangeNotifier notifier = ChangeNotifier();
+
+  @override
+  bool get hasListeners => notifier.hasListeners;
+
+  @override
+  void dispose() {
+    notifier.dispose();
+
+    super.dispose();
+  }
+
+  @protected
+  void notifyListeners() => notifier.notifyListeners();
+
+  @override
+  void addListener(VoidCallback listener) => notifier.addListener(listener);
+
+  @override
+  void removeListener(VoidCallback listener) =>
+      notifier.removeListener(listener);
 }

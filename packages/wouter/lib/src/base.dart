@@ -1,12 +1,14 @@
+import 'package:flutter/foundation.dart';
+
 import '../wouter.dart';
 import 'delegate/delegate.dart';
 
-abstract class BaseWouter {
+abstract class BaseWouter implements ChangeNotifier {
   WouterType get type;
 
   bool get canPop;
 
-  Stream<List<String>> get stream;
+  // Stream<List<String>> get stream;
 
   RoutingPolicy get policy;
 
@@ -14,25 +16,23 @@ abstract class BaseWouter {
 
   String get base;
 
-  String get route;
+  List<String> get stack;
 
-  const factory BaseWouter.root({
-    required WouterBaseRouterDelegate delegate,
-  }) = RootWouter;
+  String get route;
 
   Future<R?> push<R>(String path);
 
   bool pop([dynamic result]);
 
-  void reset([String path = "/"]);
+  void reset([String? path]);
 }
 
-class RootWouter implements BaseWouter {
-  final WouterBaseRouterDelegate delegate;
+mixin RootWouter on BaseRouterDelegate implements BaseWouter {
+  // WouterBaseRouterDelegate get delegate;
 
   @override
   WouterType get type => WouterType.root(
-        delegate: delegate,
+        delegate: this,
         policy: policy,
         matcher: matcher,
         canPop: canPop,
@@ -40,41 +40,34 @@ class RootWouter implements BaseWouter {
         route: route,
       );
 
-  @override
-  bool get canPop => delegate.canPop;
+// @override
+// bool get canPop => canPop;
 
-  @override
-  Stream<List<String>> get stream => delegate.stream
-      .map((stack) => stack.map((entry) => entry.path).toList())
-      .distinct();
+// @override
+// Stream<List<String>> get stream => stream
+//     .map((stack) => stack.map((entry) => entry.path).toList())
+//     .distinct();
 
-  @override
-  RoutingPolicy get policy => delegate.policy;
+// @override
+// RoutingPolicy get policy => policy;
 
-  @override
-  PathMatcher get matcher => delegate.matcher;
+// @override
+// PathMatcher get matcher => delegate.matcher;
 
-  @override
-  String get base => "";
+// @override
+// String get route => "${delegate.currentConfiguration ?? ""}";
 
-  @override
-  String get route => "${delegate.currentConfiguration ?? ""}";
-
-  const RootWouter({
-    required this.delegate,
-  });
-
-  Future<R?> push<R>(String path) => delegate.push(policy.pushPath(
-        route,
-        policy.buildPath(base, path),
-      ));
-
-  bool pop([dynamic result]) => delegate.pop(result);
-
-  void reset([String path = "/"]) => delegate.reset(policy.pushPath(
-        route,
-        policy.buildPath(base, path),
-      ));
+// Future<R?> push<R>(String path) => super.push(policy.pushPath(
+//       route,
+//       policy.buildPath(base, path),
+//     ));
+//
+// bool pop([dynamic result]) => super.pop(result);
+//
+// void reset([String path = "/"]) => super.reset(policy.pushPath(
+//       route,
+//       policy.buildPath(base, path),
+//     ));
 }
 
 mixin ChildWouter implements BaseWouter {
@@ -91,22 +84,29 @@ mixin ChildWouter implements BaseWouter {
       );
 
   @override
-  bool get canPop => parent.canPop;
-
-  @override
   RoutingPolicy get policy => parent.policy;
 
-  @override
-  Stream<List<String>> get stream => parent.stream
-      .map((stack) => stack
-          .where((path) => path.startsWith(base))
-          .map((path) => policy.removeBase(base, path))
-          .toList())
-      .distinct();
+  // @override
+  // Stream<List<String>> get stream => parent.stream
+  //     .map((stack) => stack
+  //         .where((path) => path.startsWith(base))
+  //         .map((path) => policy.removeBase(base, path))
+  //         .toList())
+  //     .distinct();
 
-  Future<R?> push<R>(String path) => parent.push(policy.buildPath(base, path));
+  Future<R?> push<R>(String path) => parent.push(
+        policy.buildPath(
+          base,
+          path,
+        ),
+      );
 
   bool pop([dynamic result]) => parent.pop(result);
 
-  void reset([String path = "/"]) => parent.reset(policy.buildPath(base, path));
+  void reset([String? path]) => parent.reset(
+        policy.buildPath(
+          base,
+          path ?? policy.initial,
+        ),
+      );
 }

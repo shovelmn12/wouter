@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -28,20 +26,50 @@ abstract class BaseWouterNavigator<T> extends StatefulWidget {
 abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
     extends State<T> {
   @protected
-  late BaseWouter wouter = context.wouter;
+  late BaseWouter _parent = context.wouter;
 
   @protected
-  late Stream<List<StackEntry<W>>> stream = createStream(wouter);
+  BaseWouter get parent => _parent;
+
+  @protected
+  set parent(BaseWouter parent) {
+    unsubscribe(parent);
+
+    _parent = parent;
+
+    subscribe(parent);
+  }
+
+  List<StackEntry<W>> _stack = const [];
+
+  @protected
+  List<StackEntry<W>> get stack => _stack;
+
+  @protected
+  set stack(List<StackEntry<W>> stack) {
+    final prev = _stack;
+
+    _stack = stack;
+
+    onStackChanged(prev, stack);
+  }
 
   @protected
   Map<String, WouterRouteBuilder<W>> get routes => widget.routes;
 
   @override
+  void initState() {
+    subscribe(parent);
+
+    super.initState();
+  }
+
+  @override
   void didChangeDependencies() {
     final wouter = context.wouter;
 
-    if (wouter != this.wouter) {
-      update(wouter);
+    if (parent != wouter) {
+      parent = wouter;
     }
 
     super.didChangeDependencies();
@@ -59,9 +87,41 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
 
   @override
   void dispose() {
-    stream = Stream.empty();
+    unsubscribe(parent);
 
     super.dispose();
+  }
+
+  @protected
+  void subscribe(BaseWouter wouter) {
+    wouter.addListener(_onChange);
+
+    _onChange();
+  }
+
+  void _onChange() => onChange(parent);
+
+  @protected
+  void onChange(BaseWouter wouter) => stack = createStack(
+        wouter.matcher,
+        wouter.policy.createStack(wouter.route),
+      );
+
+  @protected
+  void unsubscribe(BaseWouter wouter) => wouter.removeListener(_onChange);
+
+  @protected
+  bool shouldNotify(List<StackEntry<W>> prev, List<StackEntry<W>> next) =>
+      const DeepCollectionEquality().equals(
+        prev.map((entry) => entry.path),
+        next.map((entry) => entry.path),
+      );
+
+  @protected
+  void onStackChanged(List<StackEntry<W>> prev, List<StackEntry<W>> next) {
+    if (shouldNotify(prev, next)) {
+      setState(() {});
+    }
   }
 
   @protected
@@ -94,27 +154,18 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
     }
   }
 
-  @protected
-  void update(BaseWouter wouter) {
-    stream = createStream(wouter);
-
-    this.wouter = wouter;
-
-    setState(() {});
-  }
-
-  @protected
-  Stream<List<StackEntry<W>>> createStream(BaseWouter wouter) => wouter.stream
-      .where((stack) => stack.isNotEmpty)
-      .map((stack) => stack.last)
-      .distinct()
-      .map(wouter.policy.createStack)
-      .distinct()
-      .map((stack) => onUpdate(wouter.matcher, stack))
-      .distinct();
+  // @protected
+  // Stream<List<StackEntry<W>>> createStream(BaseWouter wouter) => wouter.stream
+  //     .where((stack) => stack.isNotEmpty)
+  //     .map((stack) => stack.last)
+  //     .distinct()
+  //     .map(wouter.policy.createStack)
+  //     .distinct()
+  //     .map((stack) => onUpdate(wouter.matcher, stack))
+  //     .distinct();
 
   @protected
-  List<StackEntry<W>> onUpdate(PathMatcher matcher, List<String> stack) {
+  List<StackEntry<W>> createStack(PathMatcher matcher, List<String> stack) {
     final result = stack
         .fold<Pair<List<StackEntry<W>>, Map<String, WouterRouteBuilder<W>?>>>(
       Pair(
@@ -155,15 +206,10 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   Widget builder(BuildContext context, List<W> stack);
 
   @override
-  Widget build(BuildContext context) => ClipRect(
-        child: RepaintBoundary(
-          child: StreamBuilder<List<StackEntry<W>>>(
-            stream: stream,
-            builder: (context, snapshot) => builder(
-              context,
-              buildStack(context, snapshot.data ?? const []),
-            ),
-          ),
+  Widget build(BuildContext context) => RepaintBoundary(
+        child: builder(
+          context,
+          buildStack(context, stack),
         ),
       );
 }

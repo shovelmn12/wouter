@@ -18,7 +18,7 @@ class _$WouterTypeTearOff {
   const _$WouterTypeTearOff();
 
   RootWouterType root(
-      {required WouterBaseRouterDelegate<RouteHistory<dynamic>> delegate,
+      {required BaseRouterDelegate delegate,
       required RoutingPolicy<dynamic> policy,
       required PathMatcher matcher,
       required bool canPop,
@@ -66,7 +66,7 @@ mixin _$WouterType {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            WouterBaseRouterDelegate<RouteHistory<dynamic>> delegate,
+            BaseRouterDelegate delegate,
             RoutingPolicy<dynamic> policy,
             PathMatcher matcher,
             bool canPop,
@@ -80,13 +80,8 @@ mixin _$WouterType {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(
-            WouterBaseRouterDelegate<RouteHistory<dynamic>> delegate,
-            RoutingPolicy<dynamic> policy,
-            PathMatcher matcher,
-            bool canPop,
-            String base,
-            String route)?
+    TResult Function(BaseRouterDelegate delegate, RoutingPolicy<dynamic> policy,
+            PathMatcher matcher, bool canPop, String base, String route)?
         root,
     TResult Function(BaseWouter parent, RoutingPolicy<dynamic> policy,
             PathMatcher matcher, bool canPop, String base, String route)?
@@ -95,13 +90,8 @@ mixin _$WouterType {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            WouterBaseRouterDelegate<RouteHistory<dynamic>> delegate,
-            RoutingPolicy<dynamic> policy,
-            PathMatcher matcher,
-            bool canPop,
-            String base,
-            String route)?
+    TResult Function(BaseRouterDelegate delegate, RoutingPolicy<dynamic> policy,
+            PathMatcher matcher, bool canPop, String base, String route)?
         root,
     TResult Function(BaseWouter parent, RoutingPolicy<dynamic> policy,
             PathMatcher matcher, bool canPop, String base, String route)?
@@ -196,7 +186,7 @@ abstract class $RootWouterTypeCopyWith<$Res>
       _$RootWouterTypeCopyWithImpl<$Res>;
   @override
   $Res call(
-      {WouterBaseRouterDelegate<RouteHistory<dynamic>> delegate,
+      {BaseRouterDelegate delegate,
       RoutingPolicy<dynamic> policy,
       PathMatcher matcher,
       bool canPop,
@@ -227,7 +217,7 @@ class _$RootWouterTypeCopyWithImpl<$Res> extends _$WouterTypeCopyWithImpl<$Res>
       delegate: delegate == freezed
           ? _value.delegate
           : delegate // ignore: cast_nullable_to_non_nullable
-              as WouterBaseRouterDelegate<RouteHistory<dynamic>>,
+              as BaseRouterDelegate,
       policy: policy == freezed
           ? _value.policy
           : policy // ignore: cast_nullable_to_non_nullable
@@ -264,7 +254,7 @@ class _$RootWouterType with DiagnosticableTreeMixin implements RootWouterType {
       required this.route});
 
   @override
-  final WouterBaseRouterDelegate<RouteHistory<dynamic>> delegate;
+  final BaseRouterDelegate delegate;
   @override
   final RoutingPolicy<dynamic> policy;
   @override
@@ -321,7 +311,7 @@ class _$RootWouterType with DiagnosticableTreeMixin implements RootWouterType {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            WouterBaseRouterDelegate<RouteHistory<dynamic>> delegate,
+            BaseRouterDelegate delegate,
             RoutingPolicy<dynamic> policy,
             PathMatcher matcher,
             bool canPop,
@@ -338,13 +328,8 @@ class _$RootWouterType with DiagnosticableTreeMixin implements RootWouterType {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(
-            WouterBaseRouterDelegate<RouteHistory<dynamic>> delegate,
-            RoutingPolicy<dynamic> policy,
-            PathMatcher matcher,
-            bool canPop,
-            String base,
-            String route)?
+    TResult Function(BaseRouterDelegate delegate, RoutingPolicy<dynamic> policy,
+            PathMatcher matcher, bool canPop, String base, String route)?
         root,
     TResult Function(BaseWouter parent, RoutingPolicy<dynamic> policy,
             PathMatcher matcher, bool canPop, String base, String route)?
@@ -356,13 +341,8 @@ class _$RootWouterType with DiagnosticableTreeMixin implements RootWouterType {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            WouterBaseRouterDelegate<RouteHistory<dynamic>> delegate,
-            RoutingPolicy<dynamic> policy,
-            PathMatcher matcher,
-            bool canPop,
-            String base,
-            String route)?
+    TResult Function(BaseRouterDelegate delegate, RoutingPolicy<dynamic> policy,
+            PathMatcher matcher, bool canPop, String base, String route)?
         root,
     TResult Function(BaseWouter parent, RoutingPolicy<dynamic> policy,
             PathMatcher matcher, bool canPop, String base, String route)?
@@ -409,14 +389,14 @@ class _$RootWouterType with DiagnosticableTreeMixin implements RootWouterType {
 
 abstract class RootWouterType implements WouterType {
   const factory RootWouterType(
-      {required WouterBaseRouterDelegate<RouteHistory<dynamic>> delegate,
+      {required BaseRouterDelegate delegate,
       required RoutingPolicy<dynamic> policy,
       required PathMatcher matcher,
       required bool canPop,
       required String base,
       required String route}) = _$RootWouterType;
 
-  WouterBaseRouterDelegate<RouteHistory<dynamic>> get delegate;
+  BaseRouterDelegate get delegate;
   @override
   RoutingPolicy<dynamic> get policy;
   @override
@@ -567,7 +547,7 @@ class _$ChildWouterType
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            WouterBaseRouterDelegate<RouteHistory<dynamic>> delegate,
+            BaseRouterDelegate delegate,
             RoutingPolicy<dynamic> policy,
             PathMatcher matcher,
             bool canPop,
@@ -584,13 +564,8 @@ class _$ChildWouterType
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(
-            WouterBaseRouterDelegate<RouteHistory<dynamic>> delegate,
-            RoutingPolicy<dynamic> policy,
-            PathMatcher matcher,
-            bool canPop,
-            String base,
-            String route)?
+    TResult Function(BaseRouterDelegate delegate, RoutingPolicy<dynamic> policy,
+            PathMatcher matcher, bool canPop, String base, String route)?
         root,
     TResult Function(BaseWouter parent, RoutingPolicy<dynamic> policy,
             PathMatcher matcher, bool canPop, String base, String route)?
@@ -602,13 +577,8 @@ class _$ChildWouterType
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            WouterBaseRouterDelegate<RouteHistory<dynamic>> delegate,
-            RoutingPolicy<dynamic> policy,
-            PathMatcher matcher,
-            bool canPop,
-            String base,
-            String route)?
+    TResult Function(BaseRouterDelegate delegate, RoutingPolicy<dynamic> policy,
+            PathMatcher matcher, bool canPop, String base, String route)?
         root,
     TResult Function(BaseWouter parent, RoutingPolicy<dynamic> policy,
             PathMatcher matcher, bool canPop, String base, String route)?

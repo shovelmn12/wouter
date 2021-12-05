@@ -28,5 +28,5 @@ class BaseWouterNavigatorBuilderState<T extends BaseWouterNavigatorBuilder<W>,
     W> extends BaseWouterNavigatorState<T, W> {
   @override
   Widget builder(BuildContext context, List<W> stack) =>
-      widget.builder(context, wouter, stack);
+      widget.builder(context, parent, stack);
 }

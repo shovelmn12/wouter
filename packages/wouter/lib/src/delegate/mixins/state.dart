@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:rxdart/rxdart.dart';
 
 mixin RouterState<T> on ChangeNotifier {
   T get state;
@@ -18,31 +17,49 @@ mixin RouterState<T> on ChangeNotifier {
   }
 }
 
-mixin StreamRouterState<T> on RouterState<T> {
-  final _subject = BehaviorSubject<T>();
+// mixin StreamRouterState<T> on RouterState<T> {
+//   final _subject = BehaviorSubject<T>();
+//
+//   Stream<T> get stack => _subject.stream;
+//
+//   @override
+//   T get state => _subject.value;
+//
+//   @override
+//   set state(T state) {
+//     final prev = _subject.valueOrNull;
+//
+//     _subject.add(state);
+//
+//     if (prev != null) {
+//       onStateChanged(prev, state);
+//     } else {
+//       notifyListeners();
+//     }
+//   }
+//
+//   @override
+//   void dispose() {
+//     _subject.close();
+//
+//     super.dispose();
+//   }
+// }
 
-  Stream<T> get stream => _subject.stream;
+mixin ValueRouterState<T> on RouterState<T> {
+  T? _state;
+
+  T get initialState;
 
   @override
-  T get state => _subject.value;
+  T get state => _state ?? initialState;
 
   @override
   set state(T state) {
-    final prev = _subject.valueOrNull;
+    final prev = this.state;
 
-    _subject.add(state);
+    _state = state;
 
-    if (prev != null) {
-      onStateChanged(prev, state);
-    } else {
-      notifyListeners();
-    }
-  }
-
-  @override
-  void dispose() {
-    _subject.close();
-
-    super.dispose();
+    onStateChanged(prev, state);
   }
 }

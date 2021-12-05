@@ -3,16 +3,23 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
+import '../models/models.dart';
 import 'delegate.dart';
 
 /// A base delegate that is used by the [Router] widget to build and configure a navigating widget.
-abstract class BaseRouterDelegate<T> extends RouterDelegate<Uri>
-    with ChangeNotifier, RouterState<List<T>> {
+abstract class BaseRouterDelegate
+    extends RouterDelegate<Uri> with ChangeNotifier, RouterState<List<RouteHistory>> {
   /// The widget below this widget in the tree.
   Widget get child;
 
+  RoutingPolicy<List<RouteHistory>> get policy;
+
   @override
   Uri? get currentConfiguration;
+
+  String get route => "${currentConfiguration ?? ""}";
+
+  String get base => "";
 
   /// Whether it is possible to [pop].
   bool get canPop;
@@ -23,14 +30,48 @@ abstract class BaseRouterDelegate<T> extends RouterDelegate<Uri>
   ///
   ///The T type argument is the type of the return value of the route.
   ///
-  Future<R?> push<R extends Object?>(String path);
+  Future<R?> push<R>(String path) {
+    final completer = Completer<R?>();
+
+    state = policy.onPush(
+      policy.pushPath(
+        route,
+        policy.buildPath(base, path),
+      ),
+      state,
+      policy.buildOnResultCallback(completer),
+    );
+
+    return completer.future;
+  }
 
   /// Pop the history stack.
   /// Returns [canPop] before popping.
-  bool pop([dynamic result]);
+  bool pop([dynamic result]) {
+    if (state.isNotEmpty) {
+      state = policy.onPop(state, result);
+
+      return true;
+    }
+
+    return false;
+  }
 
   /// Resets the state as if only [path] been pushed.
-  void reset(String path);
+  void reset([String? path]) {
+    state.forEach((route) => route.onResult?.call(null));
+
+    state = policy.onReset(
+      policy.initial,
+      policy.pushPath(
+        route,
+        policy.buildPath(base, path ?? policy.initial),
+      ),
+    );
+  }
+
+  void update(List<RouteHistory> Function(List<RouteHistory> state) callback) =>
+      state = callback(state);
 
   /// Calling [pop]
   @override
