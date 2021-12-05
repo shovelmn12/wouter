@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-mixin RouterState<T> on ChangeNotifier {
+mixin StateChangeNotifier<T> on ChangeNotifier {
   T get state;
 
   @protected
@@ -17,7 +17,7 @@ mixin RouterState<T> on ChangeNotifier {
   }
 }
 
-mixin ValueRouterState<T> on RouterState<T> {
+mixin ValueStateChangeNotifier<T> on StateChangeNotifier<T> {
   T? _state;
 
   T get initialState;

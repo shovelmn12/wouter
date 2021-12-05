@@ -7,7 +7,7 @@ import 'delegate.dart';
 
 /// A delegate that is used by the [Router] widget to build and configure a navigating widget.
 abstract class WouterBaseRouterDelegate extends BaseRouterDelegate
-    with ValueRouterState<List<RouteEntry>>, RootWouter {
+    with ValueStateChangeNotifier<List<RouteEntry>>, RootWouter {
   final String tag;
 
   @override
@@ -21,7 +21,7 @@ abstract class WouterBaseRouterDelegate extends BaseRouterDelegate
 
   @override
   @protected
-  final List<RouteEntry> initialState = const [];
+  final List<RouteEntry> initialState;
 
   final String base;
 
@@ -40,6 +40,7 @@ abstract class WouterBaseRouterDelegate extends BaseRouterDelegate
     this.policy = const URLRoutingPolicy(),
     this.tag = "",
     this.base = "",
+    this.initialState = const [],
     PathMatcherBuilder matcher = PathMatchers.regexp,
     String initial = "/",
   })  : matcher = matcher(),

@@ -7,8 +7,8 @@ import '../models/models.dart';
 import 'delegate.dart';
 
 /// A base delegate that is used by the [Router] widget to build and configure a navigating widget.
-abstract class BaseRouterDelegate
-    extends RouterDelegate<Uri> with ChangeNotifier, RouterState<List<RouteEntry>> {
+abstract class BaseRouterDelegate extends RouterDelegate<Uri>
+    with ChangeNotifier, StateChangeNotifier<List<RouteEntry>> {
   /// The widget below this widget in the tree.
   Widget get child;
 
