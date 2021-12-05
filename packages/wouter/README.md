@@ -4,6 +4,7 @@
 
 #### Docs WIP
 
+- [Motivation](#motivation)
 - [Features](#features)
 - [Widgets](#widgets)
   - [Wouter](#wouter)
@@ -18,7 +19,99 @@ Wouter is trying to bring back the easy of use of Navigator 1.0 to Navigator 2.0
 
 Wouter is an implementation of the npm package: [wouter](https://www.npmjs.com/package/wouter)
 
-## Features:
+## Motivation
+
+You are probably asking yourself why? why to write another routing package, there are tons of libraries out there and they are working fine. Well I tried some of them and their are all lacking in few things:
+- Boilerplate
+
+  to use any of the other packages I always had to write extra code:
+  ```dart
+  ARouter(
+    routes: [
+      ARoute(
+        path: "/here",
+        // or
+        paths: ["/here", "/and/there"],
+        // or
+        path: "/there",
+        subpaths: ["/there/hello"]
+        // some widget or widget builder
+      )
+    ],
+  )
+  ```
+  so if, for example, I would like to expose a Provider at certain node of my widgets tree i'll need to write even more code to try and structor my paths depending on the package. sometimes adding a lot more complexity than needed (we do want to hit that 60 FPS).
+  Using Naigator 1.0 its fine and easy to use and do such a thing, because Navigator 1.0 was a widget, just like any other widget, I could just put another Navigator where ever I wanted and just inject data in a specific node in my widgets tree it without writing boilerplate or change all my structor.
+  ```dart
+  MyWidget(
+    child: SomeProvider(
+      child: Navigator(
+      routes: {
+        "": (context) => MyChildWidget()
+      }
+    )
+    )
+  )
+  ```
+  Thse single thing that Navigator 1.0 was missing in my eyes is that I couldn't (I could but it was very complex) controll 2 differnt navigators together to create a more reactive UI for the user.
+  Like mounting widgets depending on the current route, doing such a thing with more than 1 navigator is complex.
+  Well Wouter can do that
+  ```dart
+  MyWidget1(
+    child: SomeProvider1(
+        child: WouterSwitch(
+        routes: {
+          "/a": (context, arguments) => ...,
+          "/b": (context, arguments) => ...,
+        }
+      )
+    )
+  )
+  ```
+  ```dart
+  MyWidget2(
+    child: SomeProvider2(
+        child: WouterSwitch(
+        routes: {
+          "/a": (context, arguments) => ...,
+          "/b": (context, arguments) => ...,
+        }
+      )
+    )
+  )
+  ```
+  If the path is ```/a``` both ```WouterSwitch``` under ```MyWidget1``` and ```MyWidget2``` will match for ```/a```. ```MyWidget1``` and ```MyWidget2``` can be placed in a column, row etc..
+
+- They are too much
+
+  Almost all other packages are trying to be more than just a routing package. ```TabRouterController```, ```BottomRouteCntroller```, guards, etc... Wouter is not trying to be anything else then Routing package, keep it simple. No guards no controllers only one simple thing: path. The current path controlls all what other widgets display or do.
+  Using ```Redirect``` widget you can easily redirect unknown paths, Using the regex ```"/:_(.*)"```, and you can mount/unmount each route depending on if the user allowed there or not.
+  ```dart
+  MyWidget(
+    child: SomeProvider(
+        child: WouterSwitch(
+        routes: {
+          if (!isUserAuth)
+            "/auth": (context, arguments) => const MaterialPage(
+              child: MyAuthWidget(),
+            ),
+          if (isUserAuth)
+            "/home": (context, arguments) => const MaterialPage(
+              child: MyHomeWidget(),
+            ),
+          "/:_(.*)": (context, arguments) => MaterialPage(
+            child: Redirect(
+              to: isUserAuth ? "/home" : "/auth",
+            ),
+          ),
+        }
+      )
+    )
+  )
+  ```
+  All the magic happens when you use reactive getter (Stream, Provider, BLoC, Hooks etc..) for ```isUserAuth```, because each update will trigger a rebuild, so our routes will be rebuilt as well and will change depending on ```isUserAuth```. Without the need for more boilerplate, guards etc... again adding code with needs to be maintained and the logic to work.
+
+## Features
 - Navigator 1.0 like API
 - Easy migration from Navigator 1.0
 - No boilerplate, no need to build special classes for locations/routes etc...
@@ -30,6 +123,7 @@ Wouter is an implementation of the npm package: [wouter](https://www.npmjs.com/p
 - Flexible navigators (Switch, Row, Column etc...) and easily build your own navigator
 - Using ```const``` everywhere
 - Uses [freezed](https://pub.dev/packages/freezed) to generate classes
+- Matching routes out of build time (before running ```Widget build(BuildContext context)```)
 
 ## Widgets
 
