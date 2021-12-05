@@ -64,12 +64,17 @@ class RootWouter implements BaseWouter {
     required this.delegate,
   });
 
-  Future<R?> push<R>(String path) => delegate.push(policy.pushPath(base, path));
+  Future<R?> push<R>(String path) => delegate.push(policy.pushPath(
+        route,
+        policy.buildPath(base, path),
+      ));
 
   bool pop([dynamic result]) => delegate.pop(result);
 
-  void reset([String path = "/"]) =>
-      delegate.reset(policy.pushPath(base, path));
+  void reset([String path = "/"]) => delegate.reset(policy.pushPath(
+        route,
+        policy.buildPath(base, path),
+      ));
 }
 
 mixin ChildWouter implements BaseWouter {
