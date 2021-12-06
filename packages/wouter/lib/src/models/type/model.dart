@@ -16,7 +16,7 @@ class WouterType with _$WouterType {
     required PathMatcher matcher,
     required bool canPop,
     required String base,
-    required String route,
+    required String path,
   }) = RootWouterType;
 
   const factory WouterType.child({
@@ -25,6 +25,6 @@ class WouterType with _$WouterType {
     required PathMatcher matcher,
     required bool canPop,
     required String base,
-    required String route,
+    required String path,
   }) = ChildWouterType;
 }

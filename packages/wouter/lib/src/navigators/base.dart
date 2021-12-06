@@ -79,7 +79,7 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   void didUpdateWidget(covariant T oldWidget) {
     if (!const DeepCollectionEquality()
         .equals(oldWidget.routes, widget.routes)) {
-      setState(() {});
+      _onChange();
     }
 
     super.didUpdateWidget(oldWidget);
@@ -104,7 +104,7 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   @protected
   void onChange(BaseWouter wouter) => stack = createStack(
         wouter.matcher,
-        wouter.policy.createStack(wouter.route),
+        wouter.policy.createStack(wouter.path),
       );
 
   @protected

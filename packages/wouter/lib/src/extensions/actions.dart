@@ -25,7 +25,7 @@ extension BaseWouterExtensions on BaseWouter {
   void popTo(String path) => type.map(
         root: (wouter) {
           final next = wouter.policy.pushPath(
-            wouter.route,
+            wouter.path,
             wouter.policy.buildPath(base, path),
           );
 
@@ -42,7 +42,7 @@ extension BaseWouterExtensions on BaseWouter {
 
           wouter.delegate.update((state) => policy.onPush(
                 wouter.policy.pushPath(
-                  wouter.route,
+                  wouter.path,
                   wouter.policy.buildPath(base, path),
                 ),
                 policy.onPop(state, result),

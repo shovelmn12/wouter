@@ -16,7 +16,7 @@ abstract class BaseWouter implements ChangeNotifier {
 
   List<String> get stack;
 
-  String get route;
+  String get path;
 
   Future<R?> push<R>(String path);
 
@@ -33,7 +33,7 @@ mixin RootWouter on BaseRouterDelegate implements BaseWouter {
         matcher: matcher,
         canPop: canPop,
         base: base,
-        route: route,
+        path: path,
       );
 }
 
@@ -47,7 +47,7 @@ mixin ChildWouter implements BaseWouter {
         matcher: matcher,
         canPop: canPop,
         base: base,
-        route: route,
+        path: path,
       );
 
   @override

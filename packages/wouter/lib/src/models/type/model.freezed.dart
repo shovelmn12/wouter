@@ -23,14 +23,14 @@ class _$WouterTypeTearOff {
       required PathMatcher matcher,
       required bool canPop,
       required String base,
-      required String route}) {
+      required String path}) {
     return RootWouterType(
       delegate: delegate,
       policy: policy,
       matcher: matcher,
       canPop: canPop,
       base: base,
-      route: route,
+      path: path,
     );
   }
 
@@ -40,14 +40,14 @@ class _$WouterTypeTearOff {
       required PathMatcher matcher,
       required bool canPop,
       required String base,
-      required String route}) {
+      required String path}) {
     return ChildWouterType(
       parent: parent,
       policy: policy,
       matcher: matcher,
       canPop: canPop,
       base: base,
-      route: route,
+      path: path,
     );
   }
 }
@@ -61,7 +61,7 @@ mixin _$WouterType {
   PathMatcher get matcher => throw _privateConstructorUsedError;
   bool get canPop => throw _privateConstructorUsedError;
   String get base => throw _privateConstructorUsedError;
-  String get route => throw _privateConstructorUsedError;
+  String get path => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
@@ -71,30 +71,30 @@ mixin _$WouterType {
             PathMatcher matcher,
             bool canPop,
             String base,
-            String route)
+            String path)
         root,
     required TResult Function(BaseWouter parent, RoutingPolicy<dynamic> policy,
-            PathMatcher matcher, bool canPop, String base, String route)
+            PathMatcher matcher, bool canPop, String base, String path)
         child,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(BaseRouterDelegate delegate, RoutingPolicy<dynamic> policy,
-            PathMatcher matcher, bool canPop, String base, String route)?
+            PathMatcher matcher, bool canPop, String base, String path)?
         root,
     TResult Function(BaseWouter parent, RoutingPolicy<dynamic> policy,
-            PathMatcher matcher, bool canPop, String base, String route)?
+            PathMatcher matcher, bool canPop, String base, String path)?
         child,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(BaseRouterDelegate delegate, RoutingPolicy<dynamic> policy,
-            PathMatcher matcher, bool canPop, String base, String route)?
+            PathMatcher matcher, bool canPop, String base, String path)?
         root,
     TResult Function(BaseWouter parent, RoutingPolicy<dynamic> policy,
-            PathMatcher matcher, bool canPop, String base, String route)?
+            PathMatcher matcher, bool canPop, String base, String path)?
         child,
     required TResult orElse(),
   }) =>
@@ -134,7 +134,7 @@ abstract class $WouterTypeCopyWith<$Res> {
       PathMatcher matcher,
       bool canPop,
       String base,
-      String route});
+      String path});
 }
 
 /// @nodoc
@@ -151,7 +151,7 @@ class _$WouterTypeCopyWithImpl<$Res> implements $WouterTypeCopyWith<$Res> {
     Object? matcher = freezed,
     Object? canPop = freezed,
     Object? base = freezed,
-    Object? route = freezed,
+    Object? path = freezed,
   }) {
     return _then(_value.copyWith(
       policy: policy == freezed
@@ -170,9 +170,9 @@ class _$WouterTypeCopyWithImpl<$Res> implements $WouterTypeCopyWith<$Res> {
           ? _value.base
           : base // ignore: cast_nullable_to_non_nullable
               as String,
-      route: route == freezed
-          ? _value.route
-          : route // ignore: cast_nullable_to_non_nullable
+      path: path == freezed
+          ? _value.path
+          : path // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -191,7 +191,7 @@ abstract class $RootWouterTypeCopyWith<$Res>
       PathMatcher matcher,
       bool canPop,
       String base,
-      String route});
+      String path});
 }
 
 /// @nodoc
@@ -211,7 +211,7 @@ class _$RootWouterTypeCopyWithImpl<$Res> extends _$WouterTypeCopyWithImpl<$Res>
     Object? matcher = freezed,
     Object? canPop = freezed,
     Object? base = freezed,
-    Object? route = freezed,
+    Object? path = freezed,
   }) {
     return _then(RootWouterType(
       delegate: delegate == freezed
@@ -234,9 +234,9 @@ class _$RootWouterTypeCopyWithImpl<$Res> extends _$WouterTypeCopyWithImpl<$Res>
           ? _value.base
           : base // ignore: cast_nullable_to_non_nullable
               as String,
-      route: route == freezed
-          ? _value.route
-          : route // ignore: cast_nullable_to_non_nullable
+      path: path == freezed
+          ? _value.path
+          : path // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -251,7 +251,7 @@ class _$RootWouterType with DiagnosticableTreeMixin implements RootWouterType {
       required this.matcher,
       required this.canPop,
       required this.base,
-      required this.route});
+      required this.path});
 
   @override
   final BaseRouterDelegate delegate;
@@ -264,11 +264,11 @@ class _$RootWouterType with DiagnosticableTreeMixin implements RootWouterType {
   @override
   final String base;
   @override
-  final String route;
+  final String path;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'WouterType.root(delegate: $delegate, policy: $policy, matcher: $matcher, canPop: $canPop, base: $base, route: $route)';
+    return 'WouterType.root(delegate: $delegate, policy: $policy, matcher: $matcher, canPop: $canPop, base: $base, path: $path)';
   }
 
   @override
@@ -281,7 +281,7 @@ class _$RootWouterType with DiagnosticableTreeMixin implements RootWouterType {
       ..add(DiagnosticsProperty('matcher', matcher))
       ..add(DiagnosticsProperty('canPop', canPop))
       ..add(DiagnosticsProperty('base', base))
-      ..add(DiagnosticsProperty('route', route));
+      ..add(DiagnosticsProperty('path', path));
   }
 
   @override
@@ -294,7 +294,7 @@ class _$RootWouterType with DiagnosticableTreeMixin implements RootWouterType {
             (identical(other.matcher, matcher) || other.matcher == matcher) &&
             const DeepCollectionEquality().equals(other.canPop, canPop) &&
             const DeepCollectionEquality().equals(other.base, base) &&
-            const DeepCollectionEquality().equals(other.route, route));
+            const DeepCollectionEquality().equals(other.path, path));
   }
 
   @override
@@ -305,7 +305,7 @@ class _$RootWouterType with DiagnosticableTreeMixin implements RootWouterType {
       matcher,
       const DeepCollectionEquality().hash(canPop),
       const DeepCollectionEquality().hash(base),
-      const DeepCollectionEquality().hash(route));
+      const DeepCollectionEquality().hash(path));
 
   @JsonKey(ignore: true)
   @override
@@ -321,41 +321,41 @@ class _$RootWouterType with DiagnosticableTreeMixin implements RootWouterType {
             PathMatcher matcher,
             bool canPop,
             String base,
-            String route)
+            String path)
         root,
     required TResult Function(BaseWouter parent, RoutingPolicy<dynamic> policy,
-            PathMatcher matcher, bool canPop, String base, String route)
+            PathMatcher matcher, bool canPop, String base, String path)
         child,
   }) {
-    return root(delegate, policy, matcher, canPop, base, route);
+    return root(delegate, policy, matcher, canPop, base, path);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(BaseRouterDelegate delegate, RoutingPolicy<dynamic> policy,
-            PathMatcher matcher, bool canPop, String base, String route)?
+            PathMatcher matcher, bool canPop, String base, String path)?
         root,
     TResult Function(BaseWouter parent, RoutingPolicy<dynamic> policy,
-            PathMatcher matcher, bool canPop, String base, String route)?
+            PathMatcher matcher, bool canPop, String base, String path)?
         child,
   }) {
-    return root?.call(delegate, policy, matcher, canPop, base, route);
+    return root?.call(delegate, policy, matcher, canPop, base, path);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(BaseRouterDelegate delegate, RoutingPolicy<dynamic> policy,
-            PathMatcher matcher, bool canPop, String base, String route)?
+            PathMatcher matcher, bool canPop, String base, String path)?
         root,
     TResult Function(BaseWouter parent, RoutingPolicy<dynamic> policy,
-            PathMatcher matcher, bool canPop, String base, String route)?
+            PathMatcher matcher, bool canPop, String base, String path)?
         child,
     required TResult orElse(),
   }) {
     if (root != null) {
-      return root(delegate, policy, matcher, canPop, base, route);
+      return root(delegate, policy, matcher, canPop, base, path);
     }
     return orElse();
   }
@@ -399,7 +399,7 @@ abstract class RootWouterType implements WouterType {
       required PathMatcher matcher,
       required bool canPop,
       required String base,
-      required String route}) = _$RootWouterType;
+      required String path}) = _$RootWouterType;
 
   BaseRouterDelegate get delegate;
   @override
@@ -411,7 +411,7 @@ abstract class RootWouterType implements WouterType {
   @override
   String get base;
   @override
-  String get route;
+  String get path;
   @override
   @JsonKey(ignore: true)
   $RootWouterTypeCopyWith<RootWouterType> get copyWith =>
@@ -431,7 +431,7 @@ abstract class $ChildWouterTypeCopyWith<$Res>
       PathMatcher matcher,
       bool canPop,
       String base,
-      String route});
+      String path});
 }
 
 /// @nodoc
@@ -451,7 +451,7 @@ class _$ChildWouterTypeCopyWithImpl<$Res> extends _$WouterTypeCopyWithImpl<$Res>
     Object? matcher = freezed,
     Object? canPop = freezed,
     Object? base = freezed,
-    Object? route = freezed,
+    Object? path = freezed,
   }) {
     return _then(ChildWouterType(
       parent: parent == freezed
@@ -474,9 +474,9 @@ class _$ChildWouterTypeCopyWithImpl<$Res> extends _$WouterTypeCopyWithImpl<$Res>
           ? _value.base
           : base // ignore: cast_nullable_to_non_nullable
               as String,
-      route: route == freezed
-          ? _value.route
-          : route // ignore: cast_nullable_to_non_nullable
+      path: path == freezed
+          ? _value.path
+          : path // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -493,7 +493,7 @@ class _$ChildWouterType
       required this.matcher,
       required this.canPop,
       required this.base,
-      required this.route});
+      required this.path});
 
   @override
   final BaseWouter parent;
@@ -506,11 +506,11 @@ class _$ChildWouterType
   @override
   final String base;
   @override
-  final String route;
+  final String path;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'WouterType.child(parent: $parent, policy: $policy, matcher: $matcher, canPop: $canPop, base: $base, route: $route)';
+    return 'WouterType.child(parent: $parent, policy: $policy, matcher: $matcher, canPop: $canPop, base: $base, path: $path)';
   }
 
   @override
@@ -523,7 +523,7 @@ class _$ChildWouterType
       ..add(DiagnosticsProperty('matcher', matcher))
       ..add(DiagnosticsProperty('canPop', canPop))
       ..add(DiagnosticsProperty('base', base))
-      ..add(DiagnosticsProperty('route', route));
+      ..add(DiagnosticsProperty('path', path));
   }
 
   @override
@@ -536,7 +536,7 @@ class _$ChildWouterType
             (identical(other.matcher, matcher) || other.matcher == matcher) &&
             const DeepCollectionEquality().equals(other.canPop, canPop) &&
             const DeepCollectionEquality().equals(other.base, base) &&
-            const DeepCollectionEquality().equals(other.route, route));
+            const DeepCollectionEquality().equals(other.path, path));
   }
 
   @override
@@ -547,7 +547,7 @@ class _$ChildWouterType
       matcher,
       const DeepCollectionEquality().hash(canPop),
       const DeepCollectionEquality().hash(base),
-      const DeepCollectionEquality().hash(route));
+      const DeepCollectionEquality().hash(path));
 
   @JsonKey(ignore: true)
   @override
@@ -563,41 +563,41 @@ class _$ChildWouterType
             PathMatcher matcher,
             bool canPop,
             String base,
-            String route)
+            String path)
         root,
     required TResult Function(BaseWouter parent, RoutingPolicy<dynamic> policy,
-            PathMatcher matcher, bool canPop, String base, String route)
+            PathMatcher matcher, bool canPop, String base, String path)
         child,
   }) {
-    return child(parent, policy, matcher, canPop, base, route);
+    return child(parent, policy, matcher, canPop, base, path);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(BaseRouterDelegate delegate, RoutingPolicy<dynamic> policy,
-            PathMatcher matcher, bool canPop, String base, String route)?
+            PathMatcher matcher, bool canPop, String base, String path)?
         root,
     TResult Function(BaseWouter parent, RoutingPolicy<dynamic> policy,
-            PathMatcher matcher, bool canPop, String base, String route)?
+            PathMatcher matcher, bool canPop, String base, String path)?
         child,
   }) {
-    return child?.call(parent, policy, matcher, canPop, base, route);
+    return child?.call(parent, policy, matcher, canPop, base, path);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(BaseRouterDelegate delegate, RoutingPolicy<dynamic> policy,
-            PathMatcher matcher, bool canPop, String base, String route)?
+            PathMatcher matcher, bool canPop, String base, String path)?
         root,
     TResult Function(BaseWouter parent, RoutingPolicy<dynamic> policy,
-            PathMatcher matcher, bool canPop, String base, String route)?
+            PathMatcher matcher, bool canPop, String base, String path)?
         child,
     required TResult orElse(),
   }) {
     if (child != null) {
-      return child(parent, policy, matcher, canPop, base, route);
+      return child(parent, policy, matcher, canPop, base, path);
     }
     return orElse();
   }
@@ -641,7 +641,7 @@ abstract class ChildWouterType implements WouterType {
       required PathMatcher matcher,
       required bool canPop,
       required String base,
-      required String route}) = _$ChildWouterType;
+      required String path}) = _$ChildWouterType;
 
   BaseWouter get parent;
   @override
@@ -653,7 +653,7 @@ abstract class ChildWouterType implements WouterType {
   @override
   String get base;
   @override
-  String get route;
+  String get path;
   @override
   @JsonKey(ignore: true)
   $ChildWouterTypeCopyWith<ChildWouterType> get copyWith =>

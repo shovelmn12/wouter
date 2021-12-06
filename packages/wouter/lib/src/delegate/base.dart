@@ -19,7 +19,7 @@ abstract class BaseRouterDelegate extends RouterDelegate<Uri>
   Uri? get currentConfiguration;
 
   /// Returns [currentConfiguration] as String, when null returns "" (empty String)
-  String get route => "${currentConfiguration ?? ""}";
+  String get path => "${currentConfiguration ?? ""}";
 
   String get base => "";
 
@@ -37,7 +37,7 @@ abstract class BaseRouterDelegate extends RouterDelegate<Uri>
 
     state = policy.onPush(
       policy.pushPath(
-        route,
+        this.path,
         policy.buildPath(base, path),
       ),
       state,
@@ -66,7 +66,7 @@ abstract class BaseRouterDelegate extends RouterDelegate<Uri>
     state = policy.onReset(
       policy.initial,
       policy.pushPath(
-        route,
+        this.path,
         policy.buildPath(base, path ?? policy.initial),
       ),
     );

@@ -1,3 +1,10 @@
+## [0.1.6]
+- Breaking: renamed route to path
+
+## [0.1.5]
+- Bug fix: navigator wont rebuild on routes change
+- Docs misspelling
+
 ## [0.1.4]
 - Docs motivation fix
 

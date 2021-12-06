@@ -42,7 +42,7 @@ You are probably asking yourself why? why to write another routing package, ther
   ```
   so if, for example, I would like to expose a Provider at certain node of my widgets tree i'll need to write even more code to try and structure my paths depending on the package. sometimes adding a lot more complexity than needed (we do want to hit that 60 FPS).
 
-  Using Naigator 1.0 its fine and easy to use and do such a thing, because Navigator 1.0 was a widget, just like any other widget, I could just put another Navigator where ever I wanted and just inject data in a specific node in my widgets tree, without writing boilerplate or change all my structure.
+  Using Navigator 1.0 its fine and easy to use and do such a thing, because Navigator 1.0 was a widget, just like any other widget, I could just put another Navigator where ever I wanted and just inject data in a specific node in my widgets tree, without writing boilerplate or change all my structure.
   ```dart
   MyWidget(
     child: SomeProvider(
@@ -54,7 +54,7 @@ You are probably asking yourself why? why to write another routing package, ther
     )
   )
   ```
-  Thse single thing that Navigator 1.0 was missing in my eyes is that I couldn't (I could but it was very complex) controll 2 differnt navigators together to create a more reactive UI for the user.
+  The single thing that Navigator 1.0 was missing in my eyes is that I couldn't (I could but it was very complex) control 2 different navigators together to create a more reactive UI for the user.
   Like mounting widgets depending on the current route, doing such a thing with more than 1 navigator is complex.
   Well Wouter can do that
   ```dart
@@ -85,7 +85,7 @@ You are probably asking yourself why? why to write another routing package, ther
 
 - They are too much
 
-  Almost all other packages are trying to be more than just a routing package. ```TabRouterController```, ```BottomRouteCntroller```, guards, etc... Wouter is not trying to be anything else then Routing package, keep it simple. No guards no controllers only one simple thing: path. The current path controlls all what other widgets display or do.
+  Almost all other packages are trying to be more than just a routing package. ```TabRouterController```, ```BottomRouteCntroller```, guards, etc... Wouter is not trying to be anything else then Routing package, keep it simple. No guards no controllers only one simple thing: path. The current path controls all what other widgets display or do.
   Using ```Redirect``` widget you can easily redirect unknown paths, Using the regex ```"/:_(.*)"```, and you can mount/unmount each route depending on if the user allowed there or not.
   ```dart
   MyWidget(
@@ -125,6 +125,7 @@ You are probably asking yourself why? why to write another routing package, ther
 - Using ```const``` everywhere
 - Uses [freezed](https://pub.dev/packages/freezed) to generate classes
 - Matching routes out of build time (before running ```Widget build(BuildContext context)```)
+- Immutability under the hood
 
 ## Widgets
 

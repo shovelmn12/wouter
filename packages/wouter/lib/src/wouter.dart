@@ -82,15 +82,15 @@ class WouterState extends State<Wouter> with ChildWouter, _ChangeNotifierState {
 
   @protected
   set stack(List<String> stack) {
-    final prev = route;
+    final prev = path;
 
     _stack = stack;
 
-    onRouteChanged(prev, route);
+    onRouteChanged(prev, path);
   }
 
   @override
-  String get route {
+  String get path {
     try {
       return stack.last;
     } catch (e) {
