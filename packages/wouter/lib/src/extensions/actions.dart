@@ -26,7 +26,7 @@ extension BaseWouterExtensions on BaseWouter {
         root: (wouter) {
           final next = wouter.policy.pushPath(
             wouter.path,
-            wouter.policy.buildPath(base, path),
+            wouter.policy.buildRootPath(base, path),
           );
 
           return popUntil((current) => next == current);
@@ -43,7 +43,7 @@ extension BaseWouterExtensions on BaseWouter {
           wouter.delegate.update((state) => policy.onPush(
                 wouter.policy.pushPath(
                   wouter.path,
-                  wouter.policy.buildPath(base, path),
+                  wouter.policy.buildRootPath(base, path),
                 ),
                 policy.onPop(state, result),
                 policy.buildOnResultCallback(completer),

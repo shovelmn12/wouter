@@ -9,9 +9,11 @@ import 'routing_policy.dart';
 class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
   @override
   final String initial;
+  final Set<Pattern> groups;
 
   const URLRoutingPolicy({
     this.initial = '/',
+    this.groups = const {},
   });
 
   @override
@@ -33,11 +35,38 @@ class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
   String buildPath(String base, String path) {
     if (path.startsWith(".") || path.startsWith("/")) {
       return path;
+    } else if (path.isEmpty && base.isEmpty) {
+      return initial;
     } else if (path.isEmpty) {
+      if (base.startsWith("/")) {
+        return base.substring(1);
+      }
+
       return base;
+    } else if (base.isEmpty) {
+      if (path.startsWith("/")) {
+        return path.substring(1);
+      }
+
+      return path;
     } else {
+      if (base.startsWith("/")) {
+        return "${base.substring(1)}/$path";
+      }
+
       return "$base/$path";
     }
+  }
+
+  @override
+  String buildRootPath(String base, String path) {
+    final next = buildPath(base, path);
+
+    if (next.startsWith("/")) {
+      return next;
+    }
+
+    return "/$next";
   }
 
   @override
@@ -105,10 +134,8 @@ class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
   }
 
   @override
-  List<T> onReset(String current, String path) {
-    final next = pushPath(current, path);
-
-    if (next.isEmpty || next == initial) {
+  List<T> onReset(String path) {
+    if (path.isEmpty || path == initial) {
       return <T>[
         RouteEntry(
           path: initial,
@@ -117,7 +144,7 @@ class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
     }
 
     return [
-      ...onReset("", popPath(next)),
+      ...onReset(popPath(path)),
       RouteEntry(
         path: path,
       ) as T,

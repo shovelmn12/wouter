@@ -26,7 +26,8 @@ abstract class WouterBaseRouterDelegate extends BaseRouterDelegate
   final String base;
 
   @override
-  List<String> get stack => state.map((entry) => entry.path).toList();
+  List<String> get stack =>
+      List<String>.unmodifiable(state.map((entry) => entry.path));
 
   //only parent update uri
   @override
@@ -34,6 +35,11 @@ abstract class WouterBaseRouterDelegate extends BaseRouterDelegate
 
   @override
   bool get canPop => state.length > 1;
+
+  @override
+  set state(List<RouteEntry> state) {
+    super.state = List<RouteEntry>.unmodifiable(state);
+  }
 
   WouterBaseRouterDelegate({
     required this.child,

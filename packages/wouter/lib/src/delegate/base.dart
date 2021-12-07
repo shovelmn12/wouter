@@ -38,7 +38,7 @@ abstract class BaseRouterDelegate extends RouterDelegate<Uri>
     state = policy.onPush(
       policy.pushPath(
         this.path,
-        policy.buildPath(base, path),
+        policy.buildRootPath(base, path),
       ),
       state,
       policy.buildOnResultCallback(completer),
@@ -64,10 +64,9 @@ abstract class BaseRouterDelegate extends RouterDelegate<Uri>
     state.forEach((route) => route.onResult?.call(null));
 
     state = policy.onReset(
-      policy.initial,
       policy.pushPath(
         this.path,
-        policy.buildPath(base, path ?? policy.initial),
+        policy.buildRootPath(base, path ?? policy.initial),
       ),
     );
   }

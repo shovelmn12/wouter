@@ -84,7 +84,7 @@ class WouterState extends State<Wouter> with ChildWouter, _ChangeNotifierState {
   set stack(List<String> stack) {
     final prev = path;
 
-    _stack = stack;
+    _stack = List<String>.unmodifiable(stack);
 
     onRouteChanged(prev, path);
   }
