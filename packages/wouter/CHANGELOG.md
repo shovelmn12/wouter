@@ -1,5 +1,8 @@
 ## [0.1.6]
 - Breaking: renamed route to path
+- Breaking: removed buildRootPath from RoutingPolicy
+- URLPolicy: add path groups
+- Bug Fix: pushing relative path sometimes breaks
 
 ## [0.1.5]
 - Bug fix: navigator wont rebuild on routes change

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 
@@ -9,7 +10,7 @@ import 'routing_policy.dart';
 class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
   @override
   final String initial;
-  final Set<Pattern> groups;
+  final Set<String> groups;
 
   const URLRoutingPolicy({
     this.initial = '/',
@@ -59,36 +60,52 @@ class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
   }
 
   @override
-  String buildRootPath(String base, String path) {
-    final next = buildPath(base, path);
-
-    if (next.startsWith("/")) {
-      return next;
-    }
-
-    return "/$next";
-  }
-
-  @override
   String pushPath(String current, String path) {
     if (path.startsWith(".")) {
       return normalize("$current/$path");
     } else if (path.startsWith("/")) {
-      return path;
+      return normalize(path);
     } else if (path.isEmpty) {
       return initial;
     } else {
-      return "$current/$path";
+      return normalize("$current/$path");
     }
   }
 
   @override
   String popPath(String path) {
-    final parts = path.split('/');
+    final groups = this.groups.foldIndexed<Map<String, Pair<Match, String>>>(
+        const {},
+        (parentIndex, acc, pattern) => {
+              ...acc,
+              ...RegExp(pattern)
+                  .allMatches(path)
+                  .foldIndexed<Map<String, Pair<Match, String>>>(
+                      const <String, Pair<Match, String>>{},
+                      (index, acc, match) => {
+                            ...acc,
+                            "pattern-$parentIndex-match-$index": Pair(
+                              item1: match,
+                              item2: path.substring(match.start, match.end),
+                            ),
+                          }),
+            });
+    final parts = groups.entries
+        .fold<String>(
+            path,
+            (path, entry) => path.replaceRange(
+                  entry.value.item1.start,
+                  entry.value.item1.end,
+                  "/${entry.key}",
+                ))
+        .split('/');
     final newPath = parts.sublist(0, parts.length - 1).join('/');
 
     if (newPath.isNotEmpty) {
-      return newPath;
+      return groups.entries.fold<String>(
+        newPath,
+        (path, entry) => path.replaceAll(entry.key, entry.value.item2),
+      );
     }
 
     return initial;

@@ -15,9 +15,6 @@ abstract class RoutingPolicy<T> {
   /// builds path for a child wouter
   String buildPath(String base, String path);
 
-  /// builds path for root wouter
-  String buildRootPath(String base, String path);
-
   /// merging current and next path
   String pushPath(String current, String path);
 

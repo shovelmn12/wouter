@@ -8,3 +8,4 @@ export 'src/navigators/navigators.dart';
 export 'src/redirect.dart';
 export 'src/route_information_parser.dart';
 export 'src/wouter.dart';
+export 'src/base.dart';
