@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -152,6 +151,8 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
         );
       }
     }
+
+    return null;
   }
 
   @protected

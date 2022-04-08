@@ -1,7 +1,6 @@
 import 'dart:async';
 
-import '../../wouter.dart';
-import '../base.dart';
+import 'package:wouter/wouter.dart';
 
 extension BaseWouterExtensions on BaseWouter {
   List<T> _popUntil<T extends RouteEntry>(

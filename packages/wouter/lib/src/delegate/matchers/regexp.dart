@@ -63,4 +63,6 @@ MatchData? regexpPathMatcher(
       arguments: arguments,
     );
   }
+
+  return null;
 }

@@ -1,8 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wouter/wouter.dart';
 
-import '../base.dart';
 import 'base.dart';
 
 class WouterSwitch<T extends Page> extends StatelessWidget {

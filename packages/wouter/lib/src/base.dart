@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
-
-import '../wouter.dart';
-import 'delegate/delegate.dart';
+import 'package:wouter/wouter.dart';
 
 abstract class BaseWouter implements ChangeNotifier {
   WouterType get type;

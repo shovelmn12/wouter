@@ -1,3 +1,6 @@
+## [0.1.7]
+- Dependency update
+
 ## [0.1.6]
 - Breaking: renamed route to path
 - Breaking: removed buildRootPath from RoutingPolicy

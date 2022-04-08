@@ -1,10 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../../../wouter.dart';
-import '../../base.dart';
-import '../models.dart';
+import 'package:wouter/wouter.dart';
 
 part 'model.freezed.dart';
 

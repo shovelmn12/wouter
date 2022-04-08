@@ -1,7 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:wouter/src/base.dart';
-
-import '../wouter.dart';
+import 'package:wouter/wouter.dart';
 
 extension WouterBuildContextExtensions on BuildContext {
   BaseWouter get wouter => Wouter.of(this);
