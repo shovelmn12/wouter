@@ -20,7 +20,7 @@ class _RedirectState extends State<Redirect> {
   @override
   void initState() {
     WidgetsBinding.instance
-        ?.addPostFrameCallback((_) => context.wouter.replace(widget.to));
+        .addPostFrameCallback((_) => context.wouter.replace(widget.to));
 
     super.initState();
   }

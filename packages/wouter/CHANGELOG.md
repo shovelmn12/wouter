@@ -1,3 +1,6 @@
+## [0.1.8]
+- Dependency update
+
 ## [0.1.7]
 - Dependency update
 
