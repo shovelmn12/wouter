@@ -1,42 +1,39 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart' hide TransitionBuilder;
 import 'package:wouter/wouter.dart';
 
 import 'base.dart';
 
-class WouterSwitch<T extends Page> extends StatelessWidget {
-  final Map<String, WouterRouteBuilder<T>> routes;
-  final List<NavigatorObserver> observers;
-  final TransitionDelegate<T> transition;
+class WouterSwitch extends StatelessWidget {
+  final Map<String, WouterRouteBuilder<Widget>> routes;
+  final TransitionBuilder? transition;
 
   const WouterSwitch({
     Key? key,
     required this.routes,
-    this.observers = const [],
-    this.transition = const DefaultTransitionDelegate(),
+    this.transition,
   }) : super(key: key);
 
   Widget _builder(
     BuildContext context,
     BaseWouter wouter,
-    List<T> stack,
+    List<Widget> stack,
   ) =>
-      stack.isEmpty
-          ? const SizedBox.shrink()
-          : Navigator(
-              pages: stack,
-              observers: observers,
-              transitionDelegate: transition,
-              onPopPage: (route, result) {
-                final result = wouter.pop();
-
-                route.didPop(result);
-
-                return result;
-              },
-            );
+      Stack(
+        children: stack
+            .map((child) => RepaintBoundary(
+                  child: Overlay(
+                    initialEntries: [
+                      OverlayEntry(
+                        builder: (context) => transition?.call(context, child) ?? child,
+                      )
+                    ],
+                  ),
+                ))
+            .toList(),
+      );
 
   @override
-  Widget build(BuildContext context) => BaseWouterNavigator<T>.builder(
+  Widget build(BuildContext context) => BaseWouterNavigator<Widget>.builder(
         routes: routes,
         builder: _builder,
       );

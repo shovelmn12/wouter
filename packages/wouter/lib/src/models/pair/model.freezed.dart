@@ -12,22 +12,7 @@ part of 'model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$PairTearOff {
-  const _$PairTearOff();
-
-  _Pair<T, S> call<T, S>({required T item1, required S item2}) {
-    return _Pair<T, S>(
-      item1: item1,
-      item2: item2,
-    );
-  }
-}
-
-/// @nodoc
-const $Pair = _$PairTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$Pair<T, S> {
@@ -73,28 +58,31 @@ class _$PairCopyWithImpl<T, S, $Res> implements $PairCopyWith<T, S, $Res> {
 }
 
 /// @nodoc
-abstract class _$PairCopyWith<T, S, $Res> implements $PairCopyWith<T, S, $Res> {
-  factory _$PairCopyWith(_Pair<T, S> value, $Res Function(_Pair<T, S>) then) =
-      __$PairCopyWithImpl<T, S, $Res>;
+abstract class _$$_PairCopyWith<T, S, $Res>
+    implements $PairCopyWith<T, S, $Res> {
+  factory _$$_PairCopyWith(
+          _$_Pair<T, S> value, $Res Function(_$_Pair<T, S>) then) =
+      __$$_PairCopyWithImpl<T, S, $Res>;
   @override
   $Res call({T item1, S item2});
 }
 
 /// @nodoc
-class __$PairCopyWithImpl<T, S, $Res> extends _$PairCopyWithImpl<T, S, $Res>
-    implements _$PairCopyWith<T, S, $Res> {
-  __$PairCopyWithImpl(_Pair<T, S> _value, $Res Function(_Pair<T, S>) _then)
-      : super(_value, (v) => _then(v as _Pair<T, S>));
+class __$$_PairCopyWithImpl<T, S, $Res> extends _$PairCopyWithImpl<T, S, $Res>
+    implements _$$_PairCopyWith<T, S, $Res> {
+  __$$_PairCopyWithImpl(
+      _$_Pair<T, S> _value, $Res Function(_$_Pair<T, S>) _then)
+      : super(_value, (v) => _then(v as _$_Pair<T, S>));
 
   @override
-  _Pair<T, S> get _value => super._value as _Pair<T, S>;
+  _$_Pair<T, S> get _value => super._value as _$_Pair<T, S>;
 
   @override
   $Res call({
     Object? item1 = freezed,
     Object? item2 = freezed,
   }) {
-    return _then(_Pair<T, S>(
+    return _then(_$_Pair<T, S>(
       item1: item1 == freezed
           ? _value.item1
           : item1 // ignore: cast_nullable_to_non_nullable
@@ -109,7 +97,7 @@ class __$PairCopyWithImpl<T, S, $Res> extends _$PairCopyWithImpl<T, S, $Res>
 
 /// @nodoc
 
-class _$_Pair<T, S> with DiagnosticableTreeMixin implements _Pair<T, S> {
+class _$_Pair<T, S> implements _Pair<T, S> {
   const _$_Pair({required this.item1, required this.item2});
 
   @override
@@ -118,24 +106,15 @@ class _$_Pair<T, S> with DiagnosticableTreeMixin implements _Pair<T, S> {
   final S item2;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'Pair<$T, $S>(item1: $item1, item2: $item2)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'Pair<$T, $S>'))
-      ..add(DiagnosticsProperty('item1', item1))
-      ..add(DiagnosticsProperty('item2', item2));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Pair<T, S> &&
+            other is _$_Pair<T, S> &&
             const DeepCollectionEquality().equals(other.item1, item1) &&
             const DeepCollectionEquality().equals(other.item2, item2));
   }
@@ -148,12 +127,13 @@ class _$_Pair<T, S> with DiagnosticableTreeMixin implements _Pair<T, S> {
 
   @JsonKey(ignore: true)
   @override
-  _$PairCopyWith<T, S, _Pair<T, S>> get copyWith =>
-      __$PairCopyWithImpl<T, S, _Pair<T, S>>(this, _$identity);
+  _$$_PairCopyWith<T, S, _$_Pair<T, S>> get copyWith =>
+      __$$_PairCopyWithImpl<T, S, _$_Pair<T, S>>(this, _$identity);
 }
 
 abstract class _Pair<T, S> implements Pair<T, S> {
-  const factory _Pair({required T item1, required S item2}) = _$_Pair<T, S>;
+  const factory _Pair({required final T item1, required final S item2}) =
+      _$_Pair<T, S>;
 
   @override
   T get item1;
@@ -161,6 +141,6 @@ abstract class _Pair<T, S> implements Pair<T, S> {
   S get item2;
   @override
   @JsonKey(ignore: true)
-  _$PairCopyWith<T, S, _Pair<T, S>> get copyWith =>
+  _$$_PairCopyWith<T, S, _$_Pair<T, S>> get copyWith =>
       throw _privateConstructorUsedError;
 }

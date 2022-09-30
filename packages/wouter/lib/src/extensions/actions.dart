@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:wouter/wouter.dart';
 
-extension BaseWouterExtensions on BaseWouter {
+extension BaseWouterExtensions on WouterState {
   List<T> _popUntil<T extends RouteEntry>(
     List<T> state,
     PopPredicate<String> predicate,
@@ -25,13 +25,18 @@ extension BaseWouterExtensions on BaseWouter {
         root: (wouter) {
           final next = wouter.policy.pushPath(
             wouter.path,
-            wouter.policy.buildPath(base, path),
+            base,
+            path,
           );
 
           return popUntil((current) => next == current);
         },
         child: (wouter) => wouter.parent.popTo(
-          wouter.policy.buildPath(base, path),
+          wouter.policy.pushPath(
+            wouter.policy.initial,
+            base,
+            path,
+          ),
         ),
       );
 
@@ -39,10 +44,19 @@ extension BaseWouterExtensions on BaseWouter {
         root: (wouter) {
           final completer = Completer<T>();
 
+          print('current ${wouter.delegate.state}');
+          print('removing ${policy.onPop(wouter.delegate.state, result)}');
+          print('pushing ${wouter.policy.pushPath(
+            wouter.path,
+            base,
+            path,
+          )}');
+
           wouter.delegate.update((state) => policy.onPush(
                 wouter.policy.pushPath(
                   wouter.path,
-                  wouter.policy.buildPath(base, path),
+                  base,
+                  path,
                 ),
                 policy.onPop(state, result),
                 policy.buildOnResultCallback(completer),
@@ -51,7 +65,11 @@ extension BaseWouterExtensions on BaseWouter {
           return completer.future;
         },
         child: (wouter) => wouter.parent.replace(
-          wouter.policy.buildPath(base, path),
+          wouter.policy.pushPath(
+            wouter.policy.initial,
+            base,
+            path,
+          ),
           result,
         ),
       );

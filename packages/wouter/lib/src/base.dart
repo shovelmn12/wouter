@@ -51,17 +51,22 @@ mixin ChildWouter implements BaseWouter {
   @override
   RoutingPolicy get policy => parent.policy;
 
+  @override
   Future<R?> push<R>(String path) => parent.push(
-        policy.buildPath(
+        policy.pushPath(
+          policy.initial,
           base,
           path,
         ),
       );
 
+  @override
   bool pop([dynamic result]) => parent.pop(result);
 
+  @override
   void reset([String? path]) => parent.reset(
-        policy.buildPath(
+        policy.pushPath(
+          policy.initial,
           base,
           path ?? policy.initial,
         ),

@@ -13,10 +13,10 @@ abstract class RoutingPolicy<T> {
   String removeBase(String base, String path);
 
   /// builds path for a child wouter
-  String buildPath(String base, String path);
+  // String buildPath(String base, String path);
 
   /// merging current and next path
-  String pushPath(String current, String path);
+  String pushPath(String current, String base, String path);
 
   /// pop path
   String popPath(String path);

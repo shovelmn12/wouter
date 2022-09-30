@@ -22,8 +22,7 @@ abstract class BaseWouterNavigator<T> extends StatefulWidget {
   }) = BaseWouterNavigatorBuilder;
 }
 
-abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
-    extends State<T> {
+abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W> extends State<T> {
   @protected
   late BaseWouter _parent = context.wouter;
 
@@ -76,8 +75,7 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
 
   @override
   void didUpdateWidget(covariant T oldWidget) {
-    if (!const DeepCollectionEquality()
-        .equals(oldWidget.routes, widget.routes)) {
+    if (!const DeepCollectionEquality().equals(oldWidget.routes, widget.routes)) {
       _onChange();
     }
 
@@ -110,8 +108,7 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   void unsubscribe(BaseWouter wouter) => wouter.removeListener(_onChange);
 
   @protected
-  bool shouldNotify(List<StackEntry<W>> prev, List<StackEntry<W>> next) =>
-      !const DeepCollectionEquality().equals(
+  bool shouldNotify(List<StackEntry<W>> prev, List<StackEntry<W>> next) => !const DeepCollectionEquality().equals(
         prev.map((entry) => entry.path),
         next.map((entry) => entry.path),
       );
@@ -157,8 +154,7 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
 
   @protected
   List<StackEntry<W>> createStack(PathMatcher matcher, List<String> stack) {
-    final result = stack
-        .fold<Pair<List<StackEntry<W>>, Map<String, WouterRouteBuilder<W>?>>>(
+    final result = stack.fold<Pair<List<StackEntry<W>>, Map<String, WouterRouteBuilder<W>?>>>(
       Pair(
         item1: <StackEntry<W>>[],
         item2: Map.of(routes),

@@ -33,34 +33,7 @@ class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
   }
 
   @override
-  String buildPath(String base, String path) {
-    if (path.startsWith(".") || path.startsWith("/")) {
-      return path;
-    } else if (path.isEmpty && base.isEmpty) {
-      return initial;
-    } else if (path.isEmpty) {
-      if (base.startsWith("/")) {
-        return base.substring(1);
-      }
-
-      return base;
-    } else if (base.isEmpty) {
-      if (path.startsWith("/")) {
-        return path.substring(1);
-      }
-
-      return path;
-    } else {
-      if (base.startsWith("/")) {
-        return "${base.substring(1)}/$path";
-      }
-
-      return "$base/$path";
-    }
-  }
-
-  @override
-  String pushPath(String current, String path) {
+  String pushPath(String current, String base, String path) {
     if (path.startsWith(".")) {
       return normalize("$current/$path");
     } else if (path.startsWith("/")) {
@@ -68,7 +41,7 @@ class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
     } else if (path.isEmpty) {
       return initial;
     } else {
-      return normalize("$current/$path");
+      return normalize("$base/$path");
     }
   }
 
@@ -78,17 +51,15 @@ class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
         const {},
         (parentIndex, acc, pattern) => {
               ...acc,
-              ...RegExp(pattern)
-                  .allMatches(path)
-                  .foldIndexed<Map<String, Pair<Match, String>>>(
-                      const <String, Pair<Match, String>>{},
-                      (index, acc, match) => {
-                            ...acc,
-                            "pattern-$parentIndex-match-$index": Pair(
-                              item1: match,
-                              item2: path.substring(match.start, match.end),
-                            ),
-                          }),
+              ...RegExp(pattern).allMatches(path).foldIndexed<Map<String, Pair<Match, String>>>(
+                  const <String, Pair<Match, String>>{},
+                  (index, acc, match) => {
+                        ...acc,
+                        "pattern-$parentIndex-match-$index": Pair(
+                          item1: match,
+                          item2: path.substring(match.start, match.end),
+                        ),
+                      }),
             });
     final parts = groups.entries
         .fold<String>(
@@ -113,7 +84,7 @@ class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
 
   @override
   List<String> createStack(String path) {
-    final next = pushPath("", path);
+    final next = pushPath("", "", path);
 
     if (next.isEmpty || next == initial) {
       return [
@@ -169,8 +140,7 @@ class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
   }
 
   @override
-  ValueSetter<R?> buildOnResultCallback<R>(Completer<R?> completer) =>
-      (R? value) {
+  ValueSetter<R?> buildOnResultCallback<R>(Completer<R?> completer) => (R? value) {
         if (completer.isCompleted) {
           return;
         }

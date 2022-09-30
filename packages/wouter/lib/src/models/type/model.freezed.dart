@@ -12,49 +12,7 @@ part of 'model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$WouterTypeTearOff {
-  const _$WouterTypeTearOff();
-
-  RootWouterType root(
-      {required BaseRouterDelegate delegate,
-      required RoutingPolicy<dynamic> policy,
-      required PathMatcher matcher,
-      required bool canPop,
-      required String base,
-      required String path}) {
-    return RootWouterType(
-      delegate: delegate,
-      policy: policy,
-      matcher: matcher,
-      canPop: canPop,
-      base: base,
-      path: path,
-    );
-  }
-
-  ChildWouterType child(
-      {required BaseWouter parent,
-      required RoutingPolicy<dynamic> policy,
-      required PathMatcher matcher,
-      required bool canPop,
-      required String base,
-      required String path}) {
-    return ChildWouterType(
-      parent: parent,
-      policy: policy,
-      matcher: matcher,
-      canPop: canPop,
-      base: base,
-      path: path,
-    );
-  }
-}
-
-/// @nodoc
-const $WouterType = _$WouterTypeTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$WouterType {
@@ -63,7 +21,6 @@ mixin _$WouterType {
   bool get canPop => throw _privateConstructorUsedError;
   String get base => throw _privateConstructorUsedError;
   String get path => throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
@@ -180,11 +137,11 @@ class _$WouterTypeCopyWithImpl<$Res> implements $WouterTypeCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class $RootWouterTypeCopyWith<$Res>
+abstract class _$$RootWouterTypeCopyWith<$Res>
     implements $WouterTypeCopyWith<$Res> {
-  factory $RootWouterTypeCopyWith(
-          RootWouterType value, $Res Function(RootWouterType) then) =
-      _$RootWouterTypeCopyWithImpl<$Res>;
+  factory _$$RootWouterTypeCopyWith(
+          _$RootWouterType value, $Res Function(_$RootWouterType) then) =
+      __$$RootWouterTypeCopyWithImpl<$Res>;
   @override
   $Res call(
       {BaseRouterDelegate delegate,
@@ -196,14 +153,15 @@ abstract class $RootWouterTypeCopyWith<$Res>
 }
 
 /// @nodoc
-class _$RootWouterTypeCopyWithImpl<$Res> extends _$WouterTypeCopyWithImpl<$Res>
-    implements $RootWouterTypeCopyWith<$Res> {
-  _$RootWouterTypeCopyWithImpl(
-      RootWouterType _value, $Res Function(RootWouterType) _then)
-      : super(_value, (v) => _then(v as RootWouterType));
+class __$$RootWouterTypeCopyWithImpl<$Res>
+    extends _$WouterTypeCopyWithImpl<$Res>
+    implements _$$RootWouterTypeCopyWith<$Res> {
+  __$$RootWouterTypeCopyWithImpl(
+      _$RootWouterType _value, $Res Function(_$RootWouterType) _then)
+      : super(_value, (v) => _then(v as _$RootWouterType));
 
   @override
-  RootWouterType get _value => super._value as RootWouterType;
+  _$RootWouterType get _value => super._value as _$RootWouterType;
 
   @override
   $Res call({
@@ -214,7 +172,7 @@ class _$RootWouterTypeCopyWithImpl<$Res> extends _$WouterTypeCopyWithImpl<$Res>
     Object? base = freezed,
     Object? path = freezed,
   }) {
-    return _then(RootWouterType(
+    return _then(_$RootWouterType(
       delegate: delegate == freezed
           ? _value.delegate
           : delegate // ignore: cast_nullable_to_non_nullable
@@ -245,7 +203,7 @@ class _$RootWouterTypeCopyWithImpl<$Res> extends _$WouterTypeCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$RootWouterType with DiagnosticableTreeMixin implements RootWouterType {
+class _$RootWouterType implements RootWouterType {
   const _$RootWouterType(
       {required this.delegate,
       required this.policy,
@@ -268,28 +226,15 @@ class _$RootWouterType with DiagnosticableTreeMixin implements RootWouterType {
   final String path;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'WouterType.root(delegate: $delegate, policy: $policy, matcher: $matcher, canPop: $canPop, base: $base, path: $path)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'WouterType.root'))
-      ..add(DiagnosticsProperty('delegate', delegate))
-      ..add(DiagnosticsProperty('policy', policy))
-      ..add(DiagnosticsProperty('matcher', matcher))
-      ..add(DiagnosticsProperty('canPop', canPop))
-      ..add(DiagnosticsProperty('base', base))
-      ..add(DiagnosticsProperty('path', path));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is RootWouterType &&
+            other is _$RootWouterType &&
             const DeepCollectionEquality().equals(other.delegate, delegate) &&
             const DeepCollectionEquality().equals(other.policy, policy) &&
             (identical(other.matcher, matcher) || other.matcher == matcher) &&
@@ -310,8 +255,8 @@ class _$RootWouterType with DiagnosticableTreeMixin implements RootWouterType {
 
   @JsonKey(ignore: true)
   @override
-  $RootWouterTypeCopyWith<RootWouterType> get copyWith =>
-      _$RootWouterTypeCopyWithImpl<RootWouterType>(this, _$identity);
+  _$$RootWouterTypeCopyWith<_$RootWouterType> get copyWith =>
+      __$$RootWouterTypeCopyWithImpl<_$RootWouterType>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -395,12 +340,12 @@ class _$RootWouterType with DiagnosticableTreeMixin implements RootWouterType {
 
 abstract class RootWouterType implements WouterType {
   const factory RootWouterType(
-      {required BaseRouterDelegate delegate,
-      required RoutingPolicy<dynamic> policy,
-      required PathMatcher matcher,
-      required bool canPop,
-      required String base,
-      required String path}) = _$RootWouterType;
+      {required final BaseRouterDelegate delegate,
+      required final RoutingPolicy<dynamic> policy,
+      required final PathMatcher matcher,
+      required final bool canPop,
+      required final String base,
+      required final String path}) = _$RootWouterType;
 
   BaseRouterDelegate get delegate;
   @override
@@ -415,16 +360,16 @@ abstract class RootWouterType implements WouterType {
   String get path;
   @override
   @JsonKey(ignore: true)
-  $RootWouterTypeCopyWith<RootWouterType> get copyWith =>
+  _$$RootWouterTypeCopyWith<_$RootWouterType> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ChildWouterTypeCopyWith<$Res>
+abstract class _$$ChildWouterTypeCopyWith<$Res>
     implements $WouterTypeCopyWith<$Res> {
-  factory $ChildWouterTypeCopyWith(
-          ChildWouterType value, $Res Function(ChildWouterType) then) =
-      _$ChildWouterTypeCopyWithImpl<$Res>;
+  factory _$$ChildWouterTypeCopyWith(
+          _$ChildWouterType value, $Res Function(_$ChildWouterType) then) =
+      __$$ChildWouterTypeCopyWithImpl<$Res>;
   @override
   $Res call(
       {BaseWouter parent,
@@ -436,14 +381,15 @@ abstract class $ChildWouterTypeCopyWith<$Res>
 }
 
 /// @nodoc
-class _$ChildWouterTypeCopyWithImpl<$Res> extends _$WouterTypeCopyWithImpl<$Res>
-    implements $ChildWouterTypeCopyWith<$Res> {
-  _$ChildWouterTypeCopyWithImpl(
-      ChildWouterType _value, $Res Function(ChildWouterType) _then)
-      : super(_value, (v) => _then(v as ChildWouterType));
+class __$$ChildWouterTypeCopyWithImpl<$Res>
+    extends _$WouterTypeCopyWithImpl<$Res>
+    implements _$$ChildWouterTypeCopyWith<$Res> {
+  __$$ChildWouterTypeCopyWithImpl(
+      _$ChildWouterType _value, $Res Function(_$ChildWouterType) _then)
+      : super(_value, (v) => _then(v as _$ChildWouterType));
 
   @override
-  ChildWouterType get _value => super._value as ChildWouterType;
+  _$ChildWouterType get _value => super._value as _$ChildWouterType;
 
   @override
   $Res call({
@@ -454,7 +400,7 @@ class _$ChildWouterTypeCopyWithImpl<$Res> extends _$WouterTypeCopyWithImpl<$Res>
     Object? base = freezed,
     Object? path = freezed,
   }) {
-    return _then(ChildWouterType(
+    return _then(_$ChildWouterType(
       parent: parent == freezed
           ? _value.parent
           : parent // ignore: cast_nullable_to_non_nullable
@@ -485,9 +431,7 @@ class _$ChildWouterTypeCopyWithImpl<$Res> extends _$WouterTypeCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ChildWouterType
-    with DiagnosticableTreeMixin
-    implements ChildWouterType {
+class _$ChildWouterType implements ChildWouterType {
   const _$ChildWouterType(
       {required this.parent,
       required this.policy,
@@ -510,28 +454,15 @@ class _$ChildWouterType
   final String path;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'WouterType.child(parent: $parent, policy: $policy, matcher: $matcher, canPop: $canPop, base: $base, path: $path)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'WouterType.child'))
-      ..add(DiagnosticsProperty('parent', parent))
-      ..add(DiagnosticsProperty('policy', policy))
-      ..add(DiagnosticsProperty('matcher', matcher))
-      ..add(DiagnosticsProperty('canPop', canPop))
-      ..add(DiagnosticsProperty('base', base))
-      ..add(DiagnosticsProperty('path', path));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is ChildWouterType &&
+            other is _$ChildWouterType &&
             const DeepCollectionEquality().equals(other.parent, parent) &&
             const DeepCollectionEquality().equals(other.policy, policy) &&
             (identical(other.matcher, matcher) || other.matcher == matcher) &&
@@ -552,8 +483,8 @@ class _$ChildWouterType
 
   @JsonKey(ignore: true)
   @override
-  $ChildWouterTypeCopyWith<ChildWouterType> get copyWith =>
-      _$ChildWouterTypeCopyWithImpl<ChildWouterType>(this, _$identity);
+  _$$ChildWouterTypeCopyWith<_$ChildWouterType> get copyWith =>
+      __$$ChildWouterTypeCopyWithImpl<_$ChildWouterType>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -637,12 +568,12 @@ class _$ChildWouterType
 
 abstract class ChildWouterType implements WouterType {
   const factory ChildWouterType(
-      {required BaseWouter parent,
-      required RoutingPolicy<dynamic> policy,
-      required PathMatcher matcher,
-      required bool canPop,
-      required String base,
-      required String path}) = _$ChildWouterType;
+      {required final BaseWouter parent,
+      required final RoutingPolicy<dynamic> policy,
+      required final PathMatcher matcher,
+      required final bool canPop,
+      required final String base,
+      required final String path}) = _$ChildWouterType;
 
   BaseWouter get parent;
   @override
@@ -657,6 +588,6 @@ abstract class ChildWouterType implements WouterType {
   String get path;
   @override
   @JsonKey(ignore: true)
-  $ChildWouterTypeCopyWith<ChildWouterType> get copyWith =>
+  _$$ChildWouterTypeCopyWith<_$ChildWouterType> get copyWith =>
       throw _privateConstructorUsedError;
 }

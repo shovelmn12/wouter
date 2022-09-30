@@ -26,6 +26,8 @@ dependencies:
 
   wouter:
     path: ../packages/wouter
+  flutter_widgets_app:
+    path: ../../flutter_widgets_app
 
 dev_dependencies:
   flutter_test:

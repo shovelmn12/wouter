@@ -12,22 +12,7 @@ part of 'model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$RouteEntryTearOff {
-  const _$RouteEntryTearOff();
-
-  _RouteEntry<T> call<T>({required String path, ValueSetter<T>? onResult}) {
-    return _RouteEntry<T>(
-      path: path,
-      onResult: onResult,
-    );
-  }
-}
-
-/// @nodoc
-const $RouteEntry = _$RouteEntryTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$RouteEntry<T> {
@@ -75,32 +60,32 @@ class _$RouteEntryCopyWithImpl<T, $Res>
 }
 
 /// @nodoc
-abstract class _$RouteEntryCopyWith<T, $Res>
+abstract class _$$_RouteEntryCopyWith<T, $Res>
     implements $RouteEntryCopyWith<T, $Res> {
-  factory _$RouteEntryCopyWith(
-          _RouteEntry<T> value, $Res Function(_RouteEntry<T>) then) =
-      __$RouteEntryCopyWithImpl<T, $Res>;
+  factory _$$_RouteEntryCopyWith(
+          _$_RouteEntry<T> value, $Res Function(_$_RouteEntry<T>) then) =
+      __$$_RouteEntryCopyWithImpl<T, $Res>;
   @override
   $Res call({String path, ValueSetter<T>? onResult});
 }
 
 /// @nodoc
-class __$RouteEntryCopyWithImpl<T, $Res>
+class __$$_RouteEntryCopyWithImpl<T, $Res>
     extends _$RouteEntryCopyWithImpl<T, $Res>
-    implements _$RouteEntryCopyWith<T, $Res> {
-  __$RouteEntryCopyWithImpl(
-      _RouteEntry<T> _value, $Res Function(_RouteEntry<T>) _then)
-      : super(_value, (v) => _then(v as _RouteEntry<T>));
+    implements _$$_RouteEntryCopyWith<T, $Res> {
+  __$$_RouteEntryCopyWithImpl(
+      _$_RouteEntry<T> _value, $Res Function(_$_RouteEntry<T>) _then)
+      : super(_value, (v) => _then(v as _$_RouteEntry<T>));
 
   @override
-  _RouteEntry<T> get _value => super._value as _RouteEntry<T>;
+  _$_RouteEntry<T> get _value => super._value as _$_RouteEntry<T>;
 
   @override
   $Res call({
     Object? path = freezed,
     Object? onResult = freezed,
   }) {
-    return _then(_RouteEntry<T>(
+    return _then(_$_RouteEntry<T>(
       path: path == freezed
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
@@ -115,7 +100,7 @@ class __$RouteEntryCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$_RouteEntry<T> with DiagnosticableTreeMixin implements _RouteEntry<T> {
+class _$_RouteEntry<T> implements _RouteEntry<T> {
   const _$_RouteEntry({required this.path, this.onResult});
 
   @override
@@ -124,24 +109,15 @@ class _$_RouteEntry<T> with DiagnosticableTreeMixin implements _RouteEntry<T> {
   final ValueSetter<T>? onResult;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'RouteEntry<$T>(path: $path, onResult: $onResult)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'RouteEntry<$T>'))
-      ..add(DiagnosticsProperty('path', path))
-      ..add(DiagnosticsProperty('onResult', onResult));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _RouteEntry<T> &&
+            other is _$_RouteEntry<T> &&
             const DeepCollectionEquality().equals(other.path, path) &&
             (identical(other.onResult, onResult) ||
                 other.onResult == onResult));
@@ -153,13 +129,14 @@ class _$_RouteEntry<T> with DiagnosticableTreeMixin implements _RouteEntry<T> {
 
   @JsonKey(ignore: true)
   @override
-  _$RouteEntryCopyWith<T, _RouteEntry<T>> get copyWith =>
-      __$RouteEntryCopyWithImpl<T, _RouteEntry<T>>(this, _$identity);
+  _$$_RouteEntryCopyWith<T, _$_RouteEntry<T>> get copyWith =>
+      __$$_RouteEntryCopyWithImpl<T, _$_RouteEntry<T>>(this, _$identity);
 }
 
 abstract class _RouteEntry<T> implements RouteEntry<T> {
-  const factory _RouteEntry({required String path, ValueSetter<T>? onResult}) =
-      _$_RouteEntry<T>;
+  const factory _RouteEntry(
+      {required final String path,
+      final ValueSetter<T>? onResult}) = _$_RouteEntry<T>;
 
   @override
   String get path;
@@ -167,6 +144,6 @@ abstract class _RouteEntry<T> implements RouteEntry<T> {
   ValueSetter<T>? get onResult;
   @override
   @JsonKey(ignore: true)
-  _$RouteEntryCopyWith<T, _RouteEntry<T>> get copyWith =>
+  _$$_RouteEntryCopyWith<T, _$_RouteEntry<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }

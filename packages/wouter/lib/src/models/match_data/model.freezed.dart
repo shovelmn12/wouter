@@ -12,23 +12,7 @@ part of 'model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$MatchDataTearOff {
-  const _$MatchDataTearOff();
-
-  _MatchData call(
-      {required String path, required Map<String, dynamic> arguments}) {
-    return _MatchData(
-      path: path,
-      arguments: arguments,
-    );
-  }
-}
-
-/// @nodoc
-const $MatchData = _$MatchDataTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$MatchData {
@@ -74,35 +58,36 @@ class _$MatchDataCopyWithImpl<$Res> implements $MatchDataCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$MatchDataCopyWith<$Res> implements $MatchDataCopyWith<$Res> {
-  factory _$MatchDataCopyWith(
-          _MatchData value, $Res Function(_MatchData) then) =
-      __$MatchDataCopyWithImpl<$Res>;
+abstract class _$$_MatchDataCopyWith<$Res> implements $MatchDataCopyWith<$Res> {
+  factory _$$_MatchDataCopyWith(
+          _$_MatchData value, $Res Function(_$_MatchData) then) =
+      __$$_MatchDataCopyWithImpl<$Res>;
   @override
   $Res call({String path, Map<String, dynamic> arguments});
 }
 
 /// @nodoc
-class __$MatchDataCopyWithImpl<$Res> extends _$MatchDataCopyWithImpl<$Res>
-    implements _$MatchDataCopyWith<$Res> {
-  __$MatchDataCopyWithImpl(_MatchData _value, $Res Function(_MatchData) _then)
-      : super(_value, (v) => _then(v as _MatchData));
+class __$$_MatchDataCopyWithImpl<$Res> extends _$MatchDataCopyWithImpl<$Res>
+    implements _$$_MatchDataCopyWith<$Res> {
+  __$$_MatchDataCopyWithImpl(
+      _$_MatchData _value, $Res Function(_$_MatchData) _then)
+      : super(_value, (v) => _then(v as _$_MatchData));
 
   @override
-  _MatchData get _value => super._value as _MatchData;
+  _$_MatchData get _value => super._value as _$_MatchData;
 
   @override
   $Res call({
     Object? path = freezed,
     Object? arguments = freezed,
   }) {
-    return _then(_MatchData(
+    return _then(_$_MatchData(
       path: path == freezed
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
               as String,
       arguments: arguments == freezed
-          ? _value.arguments
+          ? _value._arguments
           : arguments // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
     ));
@@ -111,53 +96,51 @@ class __$MatchDataCopyWithImpl<$Res> extends _$MatchDataCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_MatchData with DiagnosticableTreeMixin implements _MatchData {
-  const _$_MatchData({required this.path, required this.arguments});
+class _$_MatchData implements _MatchData {
+  const _$_MatchData(
+      {required this.path, required final Map<String, dynamic> arguments})
+      : _arguments = arguments;
 
   @override
   final String path;
+  final Map<String, dynamic> _arguments;
   @override
-  final Map<String, dynamic> arguments;
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MatchData(path: $path, arguments: $arguments)';
+  Map<String, dynamic> get arguments {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_arguments);
   }
 
   @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'MatchData'))
-      ..add(DiagnosticsProperty('path', path))
-      ..add(DiagnosticsProperty('arguments', arguments));
+  String toString() {
+    return 'MatchData(path: $path, arguments: $arguments)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _MatchData &&
+            other is _$_MatchData &&
             const DeepCollectionEquality().equals(other.path, path) &&
-            const DeepCollectionEquality().equals(other.arguments, arguments));
+            const DeepCollectionEquality()
+                .equals(other._arguments, _arguments));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(path),
-      const DeepCollectionEquality().hash(arguments));
+      const DeepCollectionEquality().hash(_arguments));
 
   @JsonKey(ignore: true)
   @override
-  _$MatchDataCopyWith<_MatchData> get copyWith =>
-      __$MatchDataCopyWithImpl<_MatchData>(this, _$identity);
+  _$$_MatchDataCopyWith<_$_MatchData> get copyWith =>
+      __$$_MatchDataCopyWithImpl<_$_MatchData>(this, _$identity);
 }
 
 abstract class _MatchData implements MatchData {
   const factory _MatchData(
-      {required String path,
-      required Map<String, dynamic> arguments}) = _$_MatchData;
+      {required final String path,
+      required final Map<String, dynamic> arguments}) = _$_MatchData;
 
   @override
   String get path;
@@ -165,6 +148,6 @@ abstract class _MatchData implements MatchData {
   Map<String, dynamic> get arguments;
   @override
   @JsonKey(ignore: true)
-  _$MatchDataCopyWith<_MatchData> get copyWith =>
+  _$$_MatchDataCopyWith<_$_MatchData> get copyWith =>
       throw _privateConstructorUsedError;
 }

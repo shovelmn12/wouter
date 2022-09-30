@@ -12,23 +12,7 @@ part of 'model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$RegexpDataTearOff {
-  const _$RegexpDataTearOff();
-
-  _RegexpData call(
-      {required RegExp regexp, List<String> parameters = const []}) {
-    return _RegexpData(
-      regexp: regexp,
-      parameters: parameters,
-    );
-  }
-}
-
-/// @nodoc
-const $RegexpData = _$RegexpDataTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$RegexpData {
@@ -75,36 +59,37 @@ class _$RegexpDataCopyWithImpl<$Res> implements $RegexpDataCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$RegexpDataCopyWith<$Res> implements $RegexpDataCopyWith<$Res> {
-  factory _$RegexpDataCopyWith(
-          _RegexpData value, $Res Function(_RegexpData) then) =
-      __$RegexpDataCopyWithImpl<$Res>;
+abstract class _$$_RegexpDataCopyWith<$Res>
+    implements $RegexpDataCopyWith<$Res> {
+  factory _$$_RegexpDataCopyWith(
+          _$_RegexpData value, $Res Function(_$_RegexpData) then) =
+      __$$_RegexpDataCopyWithImpl<$Res>;
   @override
   $Res call({RegExp regexp, List<String> parameters});
 }
 
 /// @nodoc
-class __$RegexpDataCopyWithImpl<$Res> extends _$RegexpDataCopyWithImpl<$Res>
-    implements _$RegexpDataCopyWith<$Res> {
-  __$RegexpDataCopyWithImpl(
-      _RegexpData _value, $Res Function(_RegexpData) _then)
-      : super(_value, (v) => _then(v as _RegexpData));
+class __$$_RegexpDataCopyWithImpl<$Res> extends _$RegexpDataCopyWithImpl<$Res>
+    implements _$$_RegexpDataCopyWith<$Res> {
+  __$$_RegexpDataCopyWithImpl(
+      _$_RegexpData _value, $Res Function(_$_RegexpData) _then)
+      : super(_value, (v) => _then(v as _$_RegexpData));
 
   @override
-  _RegexpData get _value => super._value as _RegexpData;
+  _$_RegexpData get _value => super._value as _$_RegexpData;
 
   @override
   $Res call({
     Object? regexp = freezed,
     Object? parameters = freezed,
   }) {
-    return _then(_RegexpData(
+    return _then(_$_RegexpData(
       regexp: regexp == freezed
           ? _value.regexp
           : regexp // ignore: cast_nullable_to_non_nullable
               as RegExp,
       parameters: parameters == freezed
-          ? _value.parameters
+          ? _value._parameters
           : parameters // ignore: cast_nullable_to_non_nullable
               as List<String>,
     ));
@@ -113,54 +98,52 @@ class __$RegexpDataCopyWithImpl<$Res> extends _$RegexpDataCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_RegexpData with DiagnosticableTreeMixin implements _RegexpData {
-  const _$_RegexpData({required this.regexp, this.parameters = const []});
+class _$_RegexpData implements _RegexpData {
+  const _$_RegexpData(
+      {required this.regexp, final List<String> parameters = const []})
+      : _parameters = parameters;
 
   @override
   final RegExp regexp;
+  final List<String> _parameters;
+  @override
   @JsonKey()
-  @override
-  final List<String> parameters;
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RegexpData(regexp: $regexp, parameters: $parameters)';
+  List<String> get parameters {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_parameters);
   }
 
   @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'RegexpData'))
-      ..add(DiagnosticsProperty('regexp', regexp))
-      ..add(DiagnosticsProperty('parameters', parameters));
+  String toString() {
+    return 'RegexpData(regexp: $regexp, parameters: $parameters)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _RegexpData &&
+            other is _$_RegexpData &&
             const DeepCollectionEquality().equals(other.regexp, regexp) &&
             const DeepCollectionEquality()
-                .equals(other.parameters, parameters));
+                .equals(other._parameters, _parameters));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(regexp),
-      const DeepCollectionEquality().hash(parameters));
+      const DeepCollectionEquality().hash(_parameters));
 
   @JsonKey(ignore: true)
   @override
-  _$RegexpDataCopyWith<_RegexpData> get copyWith =>
-      __$RegexpDataCopyWithImpl<_RegexpData>(this, _$identity);
+  _$$_RegexpDataCopyWith<_$_RegexpData> get copyWith =>
+      __$$_RegexpDataCopyWithImpl<_$_RegexpData>(this, _$identity);
 }
 
 abstract class _RegexpData implements RegexpData {
-  const factory _RegexpData({required RegExp regexp, List<String> parameters}) =
-      _$_RegexpData;
+  const factory _RegexpData(
+      {required final RegExp regexp,
+      final List<String> parameters}) = _$_RegexpData;
 
   @override
   RegExp get regexp;
@@ -168,6 +151,6 @@ abstract class _RegexpData implements RegexpData {
   List<String> get parameters;
   @override
   @JsonKey(ignore: true)
-  _$RegexpDataCopyWith<_RegexpData> get copyWith =>
+  _$$_RegexpDataCopyWith<_$_RegexpData> get copyWith =>
       throw _privateConstructorUsedError;
 }

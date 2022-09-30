@@ -23,6 +23,7 @@ abstract class WouterBaseRouterDelegate extends BaseRouterDelegate
   @protected
   final List<RouteEntry> initialState;
 
+  @override
   final String base;
 
   @override

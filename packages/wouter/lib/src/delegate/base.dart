@@ -38,7 +38,8 @@ abstract class BaseRouterDelegate extends RouterDelegate<Uri>
     state = policy.onPush(
       policy.pushPath(
         this.path,
-        policy.buildPath(base, path),
+        base,
+        path,
       ),
       state,
       policy.buildOnResultCallback(completer),
@@ -61,18 +62,20 @@ abstract class BaseRouterDelegate extends RouterDelegate<Uri>
 
   /// Resets the state as if only [path] been pushed.
   void reset([String? path]) {
-    state.forEach((route) => route.onResult?.call(null));
+    for (final route in state) {
+      route.onResult?.call(null);
+    }
 
     state = policy.onReset(
       policy.pushPath(
         this.path,
-        policy.buildPath(base, path ?? policy.initial),
+        base,
+        path ?? policy.initial,
       ),
     );
   }
 
-  void update(List<RouteEntry> Function(List<RouteEntry> state) callback) =>
-      state = callback(state);
+  void update(List<RouteEntry> Function(List<RouteEntry> state) callback) => state = callback(state);
 
   /// Calling [pop]
   @override
@@ -80,8 +83,7 @@ abstract class BaseRouterDelegate extends RouterDelegate<Uri>
 
   /// Calling [reset]
   @override
-  Future<void> setNewRoutePath(Uri uri) =>
-      SynchronousFuture(reset(uri.toString()));
+  Future<void> setNewRoutePath(Uri uri) => SynchronousFuture(reset(uri.toString()));
 
   /// Called by the [Router] to obtain the widget tree that represents the current state.
   ///

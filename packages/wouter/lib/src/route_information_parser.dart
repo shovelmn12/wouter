@@ -8,11 +8,16 @@ class WouterRouteInformationParser extends RouteInformationParser<Uri> {
   @override
   SynchronousFuture<Uri> parseRouteInformation(
     RouteInformation routeInformation,
-  ) =>
-      SynchronousFuture(Uri.parse(routeInformation.location ?? '/'));
+  ) {
+    print('parseRouteInformation ${routeInformation.location}');
+    return SynchronousFuture(Uri.parse(routeInformation.location ?? '/'));
+  }
 
   @override
-  RouteInformation restoreRouteInformation(Uri uri) => RouteInformation(
-        location: uri.toString(),
-      );
+  RouteInformation restoreRouteInformation(Uri configuration) {
+    print('restoreRouteInformation $configuration');
+    return RouteInformation(
+      location: configuration.toString(),
+    );
+  }
 }

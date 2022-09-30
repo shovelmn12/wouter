@@ -12,28 +12,7 @@ part of 'model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$StackEntryTearOff {
-  const _$StackEntryTearOff();
-
-  _StackEntry<T> call<T>(
-      {required String key,
-      required String path,
-      required WouterRouteBuilder<T> builder,
-      Map<String, dynamic> arguments = const {}}) {
-    return _StackEntry<T>(
-      key: key,
-      path: path,
-      builder: builder,
-      arguments: arguments,
-    );
-  }
-}
-
-/// @nodoc
-const $StackEntry = _$StackEntryTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$StackEntry<T> {
@@ -97,11 +76,11 @@ class _$StackEntryCopyWithImpl<T, $Res>
 }
 
 /// @nodoc
-abstract class _$StackEntryCopyWith<T, $Res>
+abstract class _$$_StackEntryCopyWith<T, $Res>
     implements $StackEntryCopyWith<T, $Res> {
-  factory _$StackEntryCopyWith(
-          _StackEntry<T> value, $Res Function(_StackEntry<T>) then) =
-      __$StackEntryCopyWithImpl<T, $Res>;
+  factory _$$_StackEntryCopyWith(
+          _$_StackEntry<T> value, $Res Function(_$_StackEntry<T>) then) =
+      __$$_StackEntryCopyWithImpl<T, $Res>;
   @override
   $Res call(
       {String key,
@@ -111,15 +90,15 @@ abstract class _$StackEntryCopyWith<T, $Res>
 }
 
 /// @nodoc
-class __$StackEntryCopyWithImpl<T, $Res>
+class __$$_StackEntryCopyWithImpl<T, $Res>
     extends _$StackEntryCopyWithImpl<T, $Res>
-    implements _$StackEntryCopyWith<T, $Res> {
-  __$StackEntryCopyWithImpl(
-      _StackEntry<T> _value, $Res Function(_StackEntry<T>) _then)
-      : super(_value, (v) => _then(v as _StackEntry<T>));
+    implements _$$_StackEntryCopyWith<T, $Res> {
+  __$$_StackEntryCopyWithImpl(
+      _$_StackEntry<T> _value, $Res Function(_$_StackEntry<T>) _then)
+      : super(_value, (v) => _then(v as _$_StackEntry<T>));
 
   @override
-  _StackEntry<T> get _value => super._value as _StackEntry<T>;
+  _$_StackEntry<T> get _value => super._value as _$_StackEntry<T>;
 
   @override
   $Res call({
@@ -128,7 +107,7 @@ class __$StackEntryCopyWithImpl<T, $Res>
     Object? builder = freezed,
     Object? arguments = freezed,
   }) {
-    return _then(_StackEntry<T>(
+    return _then(_$_StackEntry<T>(
       key: key == freezed
           ? _value.key
           : key // ignore: cast_nullable_to_non_nullable
@@ -142,7 +121,7 @@ class __$StackEntryCopyWithImpl<T, $Res>
           : builder // ignore: cast_nullable_to_non_nullable
               as WouterRouteBuilder<T>,
       arguments: arguments == freezed
-          ? _value.arguments
+          ? _value._arguments
           : arguments // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
     ));
@@ -151,13 +130,14 @@ class __$StackEntryCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$_StackEntry<T> extends _StackEntry<T> with DiagnosticableTreeMixin {
+class _$_StackEntry<T> extends _StackEntry<T> {
   const _$_StackEntry(
       {required this.key,
       required this.path,
       required this.builder,
-      this.arguments = const {}})
-      : super._();
+      final Map<String, dynamic> arguments = const {}})
+      : _arguments = arguments,
+        super._();
 
   @override
   final String key;
@@ -165,35 +145,29 @@ class _$_StackEntry<T> extends _StackEntry<T> with DiagnosticableTreeMixin {
   final String path;
   @override
   final WouterRouteBuilder<T> builder;
+  final Map<String, dynamic> _arguments;
+  @override
   @JsonKey()
-  @override
-  final Map<String, dynamic> arguments;
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'StackEntry<$T>(key: $key, path: $path, builder: $builder, arguments: $arguments)';
+  Map<String, dynamic> get arguments {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_arguments);
   }
 
   @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'StackEntry<$T>'))
-      ..add(DiagnosticsProperty('key', key))
-      ..add(DiagnosticsProperty('path', path))
-      ..add(DiagnosticsProperty('builder', builder))
-      ..add(DiagnosticsProperty('arguments', arguments));
+  String toString() {
+    return 'StackEntry<$T>(key: $key, path: $path, builder: $builder, arguments: $arguments)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _StackEntry<T> &&
+            other is _$_StackEntry<T> &&
             const DeepCollectionEquality().equals(other.key, key) &&
             const DeepCollectionEquality().equals(other.path, path) &&
             (identical(other.builder, builder) || other.builder == builder) &&
-            const DeepCollectionEquality().equals(other.arguments, arguments));
+            const DeepCollectionEquality()
+                .equals(other._arguments, _arguments));
   }
 
   @override
@@ -202,20 +176,20 @@ class _$_StackEntry<T> extends _StackEntry<T> with DiagnosticableTreeMixin {
       const DeepCollectionEquality().hash(key),
       const DeepCollectionEquality().hash(path),
       builder,
-      const DeepCollectionEquality().hash(arguments));
+      const DeepCollectionEquality().hash(_arguments));
 
   @JsonKey(ignore: true)
   @override
-  _$StackEntryCopyWith<T, _StackEntry<T>> get copyWith =>
-      __$StackEntryCopyWithImpl<T, _StackEntry<T>>(this, _$identity);
+  _$$_StackEntryCopyWith<T, _$_StackEntry<T>> get copyWith =>
+      __$$_StackEntryCopyWithImpl<T, _$_StackEntry<T>>(this, _$identity);
 }
 
 abstract class _StackEntry<T> extends StackEntry<T> {
   const factory _StackEntry(
-      {required String key,
-      required String path,
-      required WouterRouteBuilder<T> builder,
-      Map<String, dynamic> arguments}) = _$_StackEntry<T>;
+      {required final String key,
+      required final String path,
+      required final WouterRouteBuilder<T> builder,
+      final Map<String, dynamic> arguments}) = _$_StackEntry<T>;
   const _StackEntry._() : super._();
 
   @override
@@ -228,6 +202,6 @@ abstract class _StackEntry<T> extends StackEntry<T> {
   Map<String, dynamic> get arguments;
   @override
   @JsonKey(ignore: true)
-  _$StackEntryCopyWith<T, _StackEntry<T>> get copyWith =>
+  _$$_StackEntryCopyWith<T, _$_StackEntry<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
