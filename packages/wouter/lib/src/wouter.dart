@@ -16,11 +16,14 @@ class Wouter extends StatefulWidget {
 
   final String base;
 
+  final RoutingPolicy policy;
+
   const Wouter({
     Key? key,
     required this.child,
     this.matcher = PathMatchers.regexp,
     this.base = "",
+    this.policy = const URLRoutingPolicy<RouteEntry<String>>(),
   }) : super(key: key);
 
   /// Retrieves the immediate [WouterState] ancestor from the given context.
@@ -60,22 +63,30 @@ class WouterState extends State<Wouter> with WouterStackListenerMixin<Wouter> {
     if (oldWidget.matcher != widget.matcher) {
       matcher = widget.matcher();
 
+      setState(() {});
     }
 
     super.didUpdateWidget(oldWidget);
   }
 
-  @override
-  RoutingPolicy get policy => parent.policy;
+  RoutingPolicy get policy => context.maybeWouter?.policy ?? widget.policy;
 
   @override
-  Future<R?> push<R>(String path) => parent.push(
+  Future<R?> push<R>(String path) {
+    final parent = this.parent;
+
+    if (parent == null) {
+
+    } else {
+      return parent.push(
         policy.pushPath(
           policy.initial,
           base,
           path,
         ),
       );
+    }
+  }
 
   @override
   bool pop([dynamic result]) => parent.pop(result);
@@ -88,6 +99,9 @@ class WouterState extends State<Wouter> with WouterStackListenerMixin<Wouter> {
           path ?? policy.initial,
         ),
       );
+
+  @override
+  void onStackChanged(List<String> stack) => setState(() {});
 
   @override
   Widget build(BuildContext context) => Provider<WouterState>.value(

@@ -100,7 +100,7 @@ class __$$_RouteEntryCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$_RouteEntry<T> implements _RouteEntry<T> {
+class _$_RouteEntry<T> with DiagnosticableTreeMixin implements _RouteEntry<T> {
   const _$_RouteEntry({required this.path, this.onResult});
 
   @override
@@ -109,8 +109,17 @@ class _$_RouteEntry<T> implements _RouteEntry<T> {
   final ValueSetter<T>? onResult;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'RouteEntry<$T>(path: $path, onResult: $onResult)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'RouteEntry<$T>'))
+      ..add(DiagnosticsProperty('path', path))
+      ..add(DiagnosticsProperty('onResult', onResult));
   }
 
   @override

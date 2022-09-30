@@ -14,6 +14,10 @@ mixin WouterStackListenerMixin<W extends StatefulWidget> on State<W> {
   final BehaviorSubject<List<String>> _stackSubject = BehaviorSubject.seeded(const []);
   late StreamSubscription<List<String>>? _subscription;
 
+  late WouterState? _parent = context.maybeWouter;
+
+  WouterState? get parent => _parent;
+
   @override
   void initState() {
     subscribe(context.maybeWouter);
@@ -23,7 +27,11 @@ mixin WouterStackListenerMixin<W extends StatefulWidget> on State<W> {
 
   @override
   void didChangeDependencies() {
-    subscribe(context.maybeWouter);
+    final parent = context.maybeWouter;
+
+    if (_parent != parent) {
+      subscribe(parent);
+    }
 
     super.didChangeDependencies();
   }
@@ -38,11 +46,13 @@ mixin WouterStackListenerMixin<W extends StatefulWidget> on State<W> {
   @protected
   void subscribe(WouterState? wouter) {
     _subscription?.cancel();
-    _subscription = null;
 
     if (wouter != null) {
+      _parent = wouter;
       _subscription = onSubscribe(wouter._stackSubject).listen(onStackChanged);
     } else {
+      _parent = null;
+      _subscription = null;
       _stackSubject.add(const []);
     }
   }

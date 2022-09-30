@@ -8,7 +8,7 @@ import '../models/models.dart';
 part 'base.builder.dart';
 
 abstract class BaseWouterNavigator<T> extends StatefulWidget {
-  final Map<String, WouterRouteBuilder<T>> routes;
+  final Map<String, WouterRouteBuilder> routes;
 
   const BaseWouterNavigator({
     Key? key,
@@ -17,14 +17,14 @@ abstract class BaseWouterNavigator<T> extends StatefulWidget {
 
   const factory BaseWouterNavigator.builder({
     Key? key,
-    required Map<String, WouterRouteBuilder<T>> routes,
+    required Map<String, WouterRouteBuilder> routes,
     required WouterStackBuilder<T> builder,
   }) = BaseWouterNavigatorBuilder;
 }
 
-abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W> extends State<T> {
+abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator, W> extends State<T> {
   @protected
-  late BaseWouter _parent = context.wouter;
+  late WouterState _parent = context.wouter;
 
   @protected
   BaseWouter get parent => _parent;
@@ -38,13 +38,13 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W> ext
     subscribe(parent);
   }
 
-  List<StackEntry<W>> _stack = const [];
+  List<StackEntry> _stack = const [];
 
   @protected
-  List<StackEntry<W>> get stack => _stack;
+  List<StackEntry> get stack => _stack;
 
   @protected
-  set stack(List<StackEntry<W>> stack) {
+  set stack(List<StackEntry> stack) {
     final prev = _stack;
 
     _stack = stack;
@@ -53,7 +53,7 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W> ext
   }
 
   @protected
-  Map<String, WouterRouteBuilder<W>> get routes => widget.routes;
+  Map<String, WouterRouteBuilder> get routes => widget.routes;
 
   @override
   void initState() {
@@ -66,9 +66,9 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W> ext
   void didChangeDependencies() {
     final wouter = context.wouter;
 
-    if (parent != wouter) {
-      parent = wouter;
-    }
+    // if (parent != wouter) {
+    //   parent = wouter;
+    // }
 
     super.didChangeDependencies();
   }
@@ -108,23 +108,23 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W> ext
   void unsubscribe(BaseWouter wouter) => wouter.removeListener(_onChange);
 
   @protected
-  bool shouldNotify(List<StackEntry<W>> prev, List<StackEntry<W>> next) => !const DeepCollectionEquality().equals(
+  bool shouldNotify(List<StackEntry> prev, List<StackEntry> next) => !const DeepCollectionEquality().equals(
         prev.map((entry) => entry.path),
         next.map((entry) => entry.path),
       );
 
   @protected
-  void onStackChanged(List<StackEntry<W>> prev, List<StackEntry<W>> next) {
+  void onStackChanged(List<StackEntry> prev, List<StackEntry> next) {
     if (shouldNotify(prev, next)) {
       setState(() {});
     }
   }
 
   @protected
-  StackEntry<W>? matchPathToRoute(
+  StackEntry? matchPathToRoute(
     String path,
     PathMatcher matcher,
-    List<MapEntry<String, WouterRouteBuilder<W>?>> routes,
+    List<MapEntry<String, WouterRouteBuilder?>> routes,
   ) {
     for (final entry in routes) {
       final match = matcher(
@@ -140,7 +140,7 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W> ext
           return null;
         }
 
-        return StackEntry<W>(
+        return StackEntry(
           key: entry.key,
           path: match.path,
           builder: value,
@@ -153,10 +153,10 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W> ext
   }
 
   @protected
-  List<StackEntry<W>> createStack(PathMatcher matcher, List<String> stack) {
-    final result = stack.fold<Pair<List<StackEntry<W>>, Map<String, WouterRouteBuilder<W>?>>>(
+  List<StackEntry> createStack(PathMatcher matcher, List<String> stack) {
+    final result = stack.fold<Pair<List<StackEntry>, Map<String, WouterRouteBuilder?>>>(
       Pair(
-        item1: <StackEntry<W>>[],
+        item1: <StackEntry>[],
         item2: Map.of(routes),
       ),
       (state, path) {
@@ -187,10 +187,10 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W> ext
   }
 
   @protected
-  List<W> buildStack(BuildContext context, List<StackEntry<W>> stack) =>
+  List buildStack(BuildContext context, List<StackEntry> stack) =>
       stack.map((builder) => builder(context)).toList();
 
-  Widget builder(BuildContext context, List<W> stack);
+  Widget builder(BuildContext context, List<StackEntry> stack);
 
   @override
   Widget build(BuildContext context) => RepaintBoundary(

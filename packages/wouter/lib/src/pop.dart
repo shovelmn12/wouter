@@ -17,7 +17,7 @@ class Pop extends StatefulWidget {
 class PopState extends State<Pop> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) => context.wouter.pop());
+    // WidgetsBinding.instance.addPostFrameCallback((_) => context.wouter.pop());
 
     super.initState();
   }

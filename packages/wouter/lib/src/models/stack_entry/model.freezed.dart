@@ -15,37 +15,36 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$StackEntry<T> {
+mixin _$StackEntry {
   String get key => throw _privateConstructorUsedError;
   String get path => throw _privateConstructorUsedError;
-  WouterRouteBuilder<T> get builder => throw _privateConstructorUsedError;
+  WouterRouteBuilder get builder => throw _privateConstructorUsedError;
   Map<String, dynamic> get arguments => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $StackEntryCopyWith<T, StackEntry<T>> get copyWith =>
+  $StackEntryCopyWith<StackEntry> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $StackEntryCopyWith<T, $Res> {
+abstract class $StackEntryCopyWith<$Res> {
   factory $StackEntryCopyWith(
-          StackEntry<T> value, $Res Function(StackEntry<T>) then) =
-      _$StackEntryCopyWithImpl<T, $Res>;
+          StackEntry value, $Res Function(StackEntry) then) =
+      _$StackEntryCopyWithImpl<$Res>;
   $Res call(
       {String key,
       String path,
-      WouterRouteBuilder<T> builder,
+      WouterRouteBuilder builder,
       Map<String, dynamic> arguments});
 }
 
 /// @nodoc
-class _$StackEntryCopyWithImpl<T, $Res>
-    implements $StackEntryCopyWith<T, $Res> {
+class _$StackEntryCopyWithImpl<$Res> implements $StackEntryCopyWith<$Res> {
   _$StackEntryCopyWithImpl(this._value, this._then);
 
-  final StackEntry<T> _value;
+  final StackEntry _value;
   // ignore: unused_field
-  final $Res Function(StackEntry<T>) _then;
+  final $Res Function(StackEntry) _then;
 
   @override
   $Res call({
@@ -66,7 +65,7 @@ class _$StackEntryCopyWithImpl<T, $Res>
       builder: builder == freezed
           ? _value.builder
           : builder // ignore: cast_nullable_to_non_nullable
-              as WouterRouteBuilder<T>,
+              as WouterRouteBuilder,
       arguments: arguments == freezed
           ? _value.arguments
           : arguments // ignore: cast_nullable_to_non_nullable
@@ -76,29 +75,28 @@ class _$StackEntryCopyWithImpl<T, $Res>
 }
 
 /// @nodoc
-abstract class _$$_StackEntryCopyWith<T, $Res>
-    implements $StackEntryCopyWith<T, $Res> {
+abstract class _$$_StackEntryCopyWith<$Res>
+    implements $StackEntryCopyWith<$Res> {
   factory _$$_StackEntryCopyWith(
-          _$_StackEntry<T> value, $Res Function(_$_StackEntry<T>) then) =
-      __$$_StackEntryCopyWithImpl<T, $Res>;
+          _$_StackEntry value, $Res Function(_$_StackEntry) then) =
+      __$$_StackEntryCopyWithImpl<$Res>;
   @override
   $Res call(
       {String key,
       String path,
-      WouterRouteBuilder<T> builder,
+      WouterRouteBuilder builder,
       Map<String, dynamic> arguments});
 }
 
 /// @nodoc
-class __$$_StackEntryCopyWithImpl<T, $Res>
-    extends _$StackEntryCopyWithImpl<T, $Res>
-    implements _$$_StackEntryCopyWith<T, $Res> {
+class __$$_StackEntryCopyWithImpl<$Res> extends _$StackEntryCopyWithImpl<$Res>
+    implements _$$_StackEntryCopyWith<$Res> {
   __$$_StackEntryCopyWithImpl(
-      _$_StackEntry<T> _value, $Res Function(_$_StackEntry<T>) _then)
-      : super(_value, (v) => _then(v as _$_StackEntry<T>));
+      _$_StackEntry _value, $Res Function(_$_StackEntry) _then)
+      : super(_value, (v) => _then(v as _$_StackEntry));
 
   @override
-  _$_StackEntry<T> get _value => super._value as _$_StackEntry<T>;
+  _$_StackEntry get _value => super._value as _$_StackEntry;
 
   @override
   $Res call({
@@ -107,7 +105,7 @@ class __$$_StackEntryCopyWithImpl<T, $Res>
     Object? builder = freezed,
     Object? arguments = freezed,
   }) {
-    return _then(_$_StackEntry<T>(
+    return _then(_$_StackEntry(
       key: key == freezed
           ? _value.key
           : key // ignore: cast_nullable_to_non_nullable
@@ -119,7 +117,7 @@ class __$$_StackEntryCopyWithImpl<T, $Res>
       builder: builder == freezed
           ? _value.builder
           : builder // ignore: cast_nullable_to_non_nullable
-              as WouterRouteBuilder<T>,
+              as WouterRouteBuilder,
       arguments: arguments == freezed
           ? _value._arguments
           : arguments // ignore: cast_nullable_to_non_nullable
@@ -130,7 +128,7 @@ class __$$_StackEntryCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$_StackEntry<T> extends _StackEntry<T> {
+class _$_StackEntry extends _StackEntry {
   const _$_StackEntry(
       {required this.key,
       required this.path,
@@ -144,7 +142,7 @@ class _$_StackEntry<T> extends _StackEntry<T> {
   @override
   final String path;
   @override
-  final WouterRouteBuilder<T> builder;
+  final WouterRouteBuilder builder;
   final Map<String, dynamic> _arguments;
   @override
   @JsonKey()
@@ -155,14 +153,14 @@ class _$_StackEntry<T> extends _StackEntry<T> {
 
   @override
   String toString() {
-    return 'StackEntry<$T>(key: $key, path: $path, builder: $builder, arguments: $arguments)';
+    return 'StackEntry(key: $key, path: $path, builder: $builder, arguments: $arguments)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_StackEntry<T> &&
+            other is _$_StackEntry &&
             const DeepCollectionEquality().equals(other.key, key) &&
             const DeepCollectionEquality().equals(other.path, path) &&
             (identical(other.builder, builder) || other.builder == builder) &&
@@ -180,16 +178,16 @@ class _$_StackEntry<T> extends _StackEntry<T> {
 
   @JsonKey(ignore: true)
   @override
-  _$$_StackEntryCopyWith<T, _$_StackEntry<T>> get copyWith =>
-      __$$_StackEntryCopyWithImpl<T, _$_StackEntry<T>>(this, _$identity);
+  _$$_StackEntryCopyWith<_$_StackEntry> get copyWith =>
+      __$$_StackEntryCopyWithImpl<_$_StackEntry>(this, _$identity);
 }
 
-abstract class _StackEntry<T> extends StackEntry<T> {
+abstract class _StackEntry extends StackEntry {
   const factory _StackEntry(
       {required final String key,
       required final String path,
-      required final WouterRouteBuilder<T> builder,
-      final Map<String, dynamic> arguments}) = _$_StackEntry<T>;
+      required final WouterRouteBuilder builder,
+      final Map<String, dynamic> arguments}) = _$_StackEntry;
   const _StackEntry._() : super._();
 
   @override
@@ -197,11 +195,11 @@ abstract class _StackEntry<T> extends StackEntry<T> {
   @override
   String get path;
   @override
-  WouterRouteBuilder<T> get builder;
+  WouterRouteBuilder get builder;
   @override
   Map<String, dynamic> get arguments;
   @override
   @JsonKey(ignore: true)
-  _$$_StackEntryCopyWith<T, _$_StackEntry<T>> get copyWith =>
+  _$$_StackEntryCopyWith<_$_StackEntry> get copyWith =>
       throw _privateConstructorUsedError;
 }

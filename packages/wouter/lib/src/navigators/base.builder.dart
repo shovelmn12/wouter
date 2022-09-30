@@ -11,7 +11,7 @@ class BaseWouterNavigatorBuilder<T> extends BaseWouterNavigator<T> {
 
   const BaseWouterNavigatorBuilder({
     Key? key,
-    required Map<String, WouterRouteBuilder<T>> routes,
+    required Map<String, WouterRouteBuilder> routes,
     required this.builder,
   }) : super(
           key: key,

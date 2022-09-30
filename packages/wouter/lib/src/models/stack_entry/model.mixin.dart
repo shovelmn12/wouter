@@ -1,9 +1,9 @@
 part of 'model.dart';
 
-mixin StackEntryBuilder<T> implements Function {
-  WouterRouteBuilder<T> get builder;
+mixin StackEntryBuilder implements Function {
+  WouterRouteBuilder get builder;
 
   Map<String, dynamic> get arguments;
 
-  T call(BuildContext context) => builder(context, arguments);
+  Widget call(BuildContext context) => builder(context, arguments);
 }
