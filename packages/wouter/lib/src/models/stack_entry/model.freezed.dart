@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'model.dart';
 
@@ -12,28 +12,7 @@ part of 'model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$StackEntryTearOff {
-  const _$StackEntryTearOff();
-
-  _StackEntry<T> call<T>(
-      {required String key,
-      required String path,
-      required WouterRouteBuilder<T> builder,
-      Map<String, dynamic> arguments = const {}}) {
-    return _StackEntry<T>(
-      key: key,
-      path: path,
-      builder: builder,
-      arguments: arguments,
-    );
-  }
-}
-
-/// @nodoc
-const $StackEntry = _$StackEntryTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$StackEntry<T> {
@@ -51,7 +30,8 @@ mixin _$StackEntry<T> {
 abstract class $StackEntryCopyWith<T, $Res> {
   factory $StackEntryCopyWith(
           StackEntry<T> value, $Res Function(StackEntry<T>) then) =
-      _$StackEntryCopyWithImpl<T, $Res>;
+      _$StackEntryCopyWithImpl<T, $Res, StackEntry<T>>;
+  @useResult
   $Res call(
       {String key,
       String path,
@@ -60,49 +40,52 @@ abstract class $StackEntryCopyWith<T, $Res> {
 }
 
 /// @nodoc
-class _$StackEntryCopyWithImpl<T, $Res>
+class _$StackEntryCopyWithImpl<T, $Res, $Val extends StackEntry<T>>
     implements $StackEntryCopyWith<T, $Res> {
   _$StackEntryCopyWithImpl(this._value, this._then);
 
-  final StackEntry<T> _value;
   // ignore: unused_field
-  final $Res Function(StackEntry<T>) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? key = freezed,
-    Object? path = freezed,
-    Object? builder = freezed,
-    Object? arguments = freezed,
+    Object? key = null,
+    Object? path = null,
+    Object? builder = null,
+    Object? arguments = null,
   }) {
     return _then(_value.copyWith(
-      key: key == freezed
+      key: null == key
           ? _value.key
           : key // ignore: cast_nullable_to_non_nullable
               as String,
-      path: path == freezed
+      path: null == path
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
               as String,
-      builder: builder == freezed
+      builder: null == builder
           ? _value.builder
           : builder // ignore: cast_nullable_to_non_nullable
               as WouterRouteBuilder<T>,
-      arguments: arguments == freezed
+      arguments: null == arguments
           ? _value.arguments
           : arguments // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
-    ));
+    ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$StackEntryCopyWith<T, $Res>
+abstract class _$$_StackEntryCopyWith<T, $Res>
     implements $StackEntryCopyWith<T, $Res> {
-  factory _$StackEntryCopyWith(
-          _StackEntry<T> value, $Res Function(_StackEntry<T>) then) =
-      __$StackEntryCopyWithImpl<T, $Res>;
+  factory _$$_StackEntryCopyWith(
+          _$_StackEntry<T> value, $Res Function(_$_StackEntry<T>) then) =
+      __$$_StackEntryCopyWithImpl<T, $Res>;
   @override
+  @useResult
   $Res call(
       {String key,
       String path,
@@ -111,38 +94,36 @@ abstract class _$StackEntryCopyWith<T, $Res>
 }
 
 /// @nodoc
-class __$StackEntryCopyWithImpl<T, $Res>
-    extends _$StackEntryCopyWithImpl<T, $Res>
-    implements _$StackEntryCopyWith<T, $Res> {
-  __$StackEntryCopyWithImpl(
-      _StackEntry<T> _value, $Res Function(_StackEntry<T>) _then)
-      : super(_value, (v) => _then(v as _StackEntry<T>));
+class __$$_StackEntryCopyWithImpl<T, $Res>
+    extends _$StackEntryCopyWithImpl<T, $Res, _$_StackEntry<T>>
+    implements _$$_StackEntryCopyWith<T, $Res> {
+  __$$_StackEntryCopyWithImpl(
+      _$_StackEntry<T> _value, $Res Function(_$_StackEntry<T>) _then)
+      : super(_value, _then);
 
-  @override
-  _StackEntry<T> get _value => super._value as _StackEntry<T>;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? key = freezed,
-    Object? path = freezed,
-    Object? builder = freezed,
-    Object? arguments = freezed,
+    Object? key = null,
+    Object? path = null,
+    Object? builder = null,
+    Object? arguments = null,
   }) {
-    return _then(_StackEntry<T>(
-      key: key == freezed
+    return _then(_$_StackEntry<T>(
+      key: null == key
           ? _value.key
           : key // ignore: cast_nullable_to_non_nullable
               as String,
-      path: path == freezed
+      path: null == path
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
               as String,
-      builder: builder == freezed
+      builder: null == builder
           ? _value.builder
           : builder // ignore: cast_nullable_to_non_nullable
               as WouterRouteBuilder<T>,
-      arguments: arguments == freezed
-          ? _value.arguments
+      arguments: null == arguments
+          ? _value._arguments
           : arguments // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
     ));
@@ -156,8 +137,9 @@ class _$_StackEntry<T> extends _StackEntry<T> with DiagnosticableTreeMixin {
       {required this.key,
       required this.path,
       required this.builder,
-      this.arguments = const {}})
-      : super._();
+      final Map<String, dynamic> arguments = const {}})
+      : _arguments = arguments,
+        super._();
 
   @override
   final String key;
@@ -165,9 +147,14 @@ class _$_StackEntry<T> extends _StackEntry<T> with DiagnosticableTreeMixin {
   final String path;
   @override
   final WouterRouteBuilder<T> builder;
-  @JsonKey()
+  final Map<String, dynamic> _arguments;
   @override
-  final Map<String, dynamic> arguments;
+  @JsonKey()
+  Map<String, dynamic> get arguments {
+    if (_arguments is EqualUnmodifiableMapView) return _arguments;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_arguments);
+  }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -189,33 +176,31 @@ class _$_StackEntry<T> extends _StackEntry<T> with DiagnosticableTreeMixin {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _StackEntry<T> &&
-            const DeepCollectionEquality().equals(other.key, key) &&
-            const DeepCollectionEquality().equals(other.path, path) &&
+            other is _$_StackEntry<T> &&
+            (identical(other.key, key) || other.key == key) &&
+            (identical(other.path, path) || other.path == path) &&
             (identical(other.builder, builder) || other.builder == builder) &&
-            const DeepCollectionEquality().equals(other.arguments, arguments));
+            const DeepCollectionEquality()
+                .equals(other._arguments, _arguments));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(key),
-      const DeepCollectionEquality().hash(path),
-      builder,
-      const DeepCollectionEquality().hash(arguments));
+  int get hashCode => Object.hash(runtimeType, key, path, builder,
+      const DeepCollectionEquality().hash(_arguments));
 
   @JsonKey(ignore: true)
   @override
-  _$StackEntryCopyWith<T, _StackEntry<T>> get copyWith =>
-      __$StackEntryCopyWithImpl<T, _StackEntry<T>>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$_StackEntryCopyWith<T, _$_StackEntry<T>> get copyWith =>
+      __$$_StackEntryCopyWithImpl<T, _$_StackEntry<T>>(this, _$identity);
 }
 
 abstract class _StackEntry<T> extends StackEntry<T> {
   const factory _StackEntry(
-      {required String key,
-      required String path,
-      required WouterRouteBuilder<T> builder,
-      Map<String, dynamic> arguments}) = _$_StackEntry<T>;
+      {required final String key,
+      required final String path,
+      required final WouterRouteBuilder<T> builder,
+      final Map<String, dynamic> arguments}) = _$_StackEntry<T>;
   const _StackEntry._() : super._();
 
   @override
@@ -228,6 +213,6 @@ abstract class _StackEntry<T> extends StackEntry<T> {
   Map<String, dynamic> get arguments;
   @override
   @JsonKey(ignore: true)
-  _$StackEntryCopyWith<T, _StackEntry<T>> get copyWith =>
+  _$$_StackEntryCopyWith<T, _$_StackEntry<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }

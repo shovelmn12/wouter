@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'model.dart';
 
@@ -12,22 +12,7 @@ part of 'model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$PairTearOff {
-  const _$PairTearOff();
-
-  _Pair<T, S> call<T, S>({required T item1, required S item2}) {
-    return _Pair<T, S>(
-      item1: item1,
-      item2: item2,
-    );
-  }
-}
-
-/// @nodoc
-const $Pair = _$PairTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$Pair<T, S> {
@@ -42,64 +27,71 @@ mixin _$Pair<T, S> {
 /// @nodoc
 abstract class $PairCopyWith<T, S, $Res> {
   factory $PairCopyWith(Pair<T, S> value, $Res Function(Pair<T, S>) then) =
-      _$PairCopyWithImpl<T, S, $Res>;
+      _$PairCopyWithImpl<T, S, $Res, Pair<T, S>>;
+  @useResult
   $Res call({T item1, S item2});
 }
 
 /// @nodoc
-class _$PairCopyWithImpl<T, S, $Res> implements $PairCopyWith<T, S, $Res> {
+class _$PairCopyWithImpl<T, S, $Res, $Val extends Pair<T, S>>
+    implements $PairCopyWith<T, S, $Res> {
   _$PairCopyWithImpl(this._value, this._then);
 
-  final Pair<T, S> _value;
   // ignore: unused_field
-  final $Res Function(Pair<T, S>) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? item1 = freezed,
     Object? item2 = freezed,
   }) {
     return _then(_value.copyWith(
-      item1: item1 == freezed
+      item1: freezed == item1
           ? _value.item1
           : item1 // ignore: cast_nullable_to_non_nullable
               as T,
-      item2: item2 == freezed
+      item2: freezed == item2
           ? _value.item2
           : item2 // ignore: cast_nullable_to_non_nullable
               as S,
-    ));
+    ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$PairCopyWith<T, S, $Res> implements $PairCopyWith<T, S, $Res> {
-  factory _$PairCopyWith(_Pair<T, S> value, $Res Function(_Pair<T, S>) then) =
-      __$PairCopyWithImpl<T, S, $Res>;
+abstract class _$$_PairCopyWith<T, S, $Res>
+    implements $PairCopyWith<T, S, $Res> {
+  factory _$$_PairCopyWith(
+          _$_Pair<T, S> value, $Res Function(_$_Pair<T, S>) then) =
+      __$$_PairCopyWithImpl<T, S, $Res>;
   @override
+  @useResult
   $Res call({T item1, S item2});
 }
 
 /// @nodoc
-class __$PairCopyWithImpl<T, S, $Res> extends _$PairCopyWithImpl<T, S, $Res>
-    implements _$PairCopyWith<T, S, $Res> {
-  __$PairCopyWithImpl(_Pair<T, S> _value, $Res Function(_Pair<T, S>) _then)
-      : super(_value, (v) => _then(v as _Pair<T, S>));
+class __$$_PairCopyWithImpl<T, S, $Res>
+    extends _$PairCopyWithImpl<T, S, $Res, _$_Pair<T, S>>
+    implements _$$_PairCopyWith<T, S, $Res> {
+  __$$_PairCopyWithImpl(
+      _$_Pair<T, S> _value, $Res Function(_$_Pair<T, S>) _then)
+      : super(_value, _then);
 
-  @override
-  _Pair<T, S> get _value => super._value as _Pair<T, S>;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? item1 = freezed,
     Object? item2 = freezed,
   }) {
-    return _then(_Pair<T, S>(
-      item1: item1 == freezed
+    return _then(_$_Pair<T, S>(
+      item1: freezed == item1
           ? _value.item1
           : item1 // ignore: cast_nullable_to_non_nullable
               as T,
-      item2: item2 == freezed
+      item2: freezed == item2
           ? _value.item2
           : item2 // ignore: cast_nullable_to_non_nullable
               as S,
@@ -135,7 +127,7 @@ class _$_Pair<T, S> with DiagnosticableTreeMixin implements _Pair<T, S> {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Pair<T, S> &&
+            other is _$_Pair<T, S> &&
             const DeepCollectionEquality().equals(other.item1, item1) &&
             const DeepCollectionEquality().equals(other.item2, item2));
   }
@@ -148,12 +140,14 @@ class _$_Pair<T, S> with DiagnosticableTreeMixin implements _Pair<T, S> {
 
   @JsonKey(ignore: true)
   @override
-  _$PairCopyWith<T, S, _Pair<T, S>> get copyWith =>
-      __$PairCopyWithImpl<T, S, _Pair<T, S>>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$_PairCopyWith<T, S, _$_Pair<T, S>> get copyWith =>
+      __$$_PairCopyWithImpl<T, S, _$_Pair<T, S>>(this, _$identity);
 }
 
 abstract class _Pair<T, S> implements Pair<T, S> {
-  const factory _Pair({required T item1, required S item2}) = _$_Pair<T, S>;
+  const factory _Pair({required final T item1, required final S item2}) =
+      _$_Pair<T, S>;
 
   @override
   T get item1;
@@ -161,6 +155,6 @@ abstract class _Pair<T, S> implements Pair<T, S> {
   S get item2;
   @override
   @JsonKey(ignore: true)
-  _$PairCopyWith<T, S, _Pair<T, S>> get copyWith =>
+  _$$_PairCopyWith<T, S, _$_Pair<T, S>> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'model.dart';
 
@@ -12,58 +12,16 @@ part of 'model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$WouterTypeTearOff {
-  const _$WouterTypeTearOff();
-
-  RootWouterType root(
-      {required BaseRouterDelegate delegate,
-      required RoutingPolicy<dynamic> policy,
-      required PathMatcher matcher,
-      required bool canPop,
-      required String base,
-      required String path}) {
-    return RootWouterType(
-      delegate: delegate,
-      policy: policy,
-      matcher: matcher,
-      canPop: canPop,
-      base: base,
-      path: path,
-    );
-  }
-
-  ChildWouterType child(
-      {required BaseWouter parent,
-      required RoutingPolicy<dynamic> policy,
-      required PathMatcher matcher,
-      required bool canPop,
-      required String base,
-      required String path}) {
-    return ChildWouterType(
-      parent: parent,
-      policy: policy,
-      matcher: matcher,
-      canPop: canPop,
-      base: base,
-      path: path,
-    );
-  }
-}
-
-/// @nodoc
-const $WouterType = _$WouterTypeTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$WouterType {
   RoutingPolicy<dynamic> get policy => throw _privateConstructorUsedError;
-  PathMatcher get matcher => throw _privateConstructorUsedError;
+  MatchData? Function(String, String, {bool prefix}) get matcher =>
+      throw _privateConstructorUsedError;
   bool get canPop => throw _privateConstructorUsedError;
   String get base => throw _privateConstructorUsedError;
   String get path => throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
@@ -81,10 +39,15 @@ mixin _$WouterType {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(BaseRouterDelegate delegate, RoutingPolicy<dynamic> policy,
-            PathMatcher matcher, bool canPop, String base, String path)?
+    TResult? Function(
+            BaseRouterDelegate delegate,
+            RoutingPolicy<dynamic> policy,
+            PathMatcher matcher,
+            bool canPop,
+            String base,
+            String path)?
         root,
-    TResult Function(BaseWouter parent, RoutingPolicy<dynamic> policy,
+    TResult? Function(BaseWouter parent, RoutingPolicy<dynamic> policy,
             PathMatcher matcher, bool canPop, String base, String path)?
         child,
   }) =>
@@ -108,8 +71,8 @@ mixin _$WouterType {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(RootWouterType value)? root,
-    TResult Function(ChildWouterType value)? child,
+    TResult? Function(RootWouterType value)? root,
+    TResult? Function(ChildWouterType value)? child,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -129,63 +92,68 @@ mixin _$WouterType {
 abstract class $WouterTypeCopyWith<$Res> {
   factory $WouterTypeCopyWith(
           WouterType value, $Res Function(WouterType) then) =
-      _$WouterTypeCopyWithImpl<$Res>;
+      _$WouterTypeCopyWithImpl<$Res, WouterType>;
+  @useResult
   $Res call(
       {RoutingPolicy<dynamic> policy,
-      PathMatcher matcher,
+      MatchData? Function(String, String, {bool prefix}) matcher,
       bool canPop,
       String base,
       String path});
 }
 
 /// @nodoc
-class _$WouterTypeCopyWithImpl<$Res> implements $WouterTypeCopyWith<$Res> {
+class _$WouterTypeCopyWithImpl<$Res, $Val extends WouterType>
+    implements $WouterTypeCopyWith<$Res> {
   _$WouterTypeCopyWithImpl(this._value, this._then);
 
-  final WouterType _value;
   // ignore: unused_field
-  final $Res Function(WouterType) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? policy = freezed,
-    Object? matcher = freezed,
-    Object? canPop = freezed,
-    Object? base = freezed,
-    Object? path = freezed,
+    Object? policy = null,
+    Object? matcher = null,
+    Object? canPop = null,
+    Object? base = null,
+    Object? path = null,
   }) {
     return _then(_value.copyWith(
-      policy: policy == freezed
+      policy: null == policy
           ? _value.policy
           : policy // ignore: cast_nullable_to_non_nullable
               as RoutingPolicy<dynamic>,
-      matcher: matcher == freezed
+      matcher: null == matcher
           ? _value.matcher
           : matcher // ignore: cast_nullable_to_non_nullable
-              as PathMatcher,
-      canPop: canPop == freezed
+              as MatchData? Function(String, String, {bool prefix}),
+      canPop: null == canPop
           ? _value.canPop
           : canPop // ignore: cast_nullable_to_non_nullable
               as bool,
-      base: base == freezed
+      base: null == base
           ? _value.base
           : base // ignore: cast_nullable_to_non_nullable
               as String,
-      path: path == freezed
+      path: null == path
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class $RootWouterTypeCopyWith<$Res>
+abstract class _$$RootWouterTypeCopyWith<$Res>
     implements $WouterTypeCopyWith<$Res> {
-  factory $RootWouterTypeCopyWith(
-          RootWouterType value, $Res Function(RootWouterType) then) =
-      _$RootWouterTypeCopyWithImpl<$Res>;
+  factory _$$RootWouterTypeCopyWith(
+          _$RootWouterType value, $Res Function(_$RootWouterType) then) =
+      __$$RootWouterTypeCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {BaseRouterDelegate delegate,
       RoutingPolicy<dynamic> policy,
@@ -196,46 +164,45 @@ abstract class $RootWouterTypeCopyWith<$Res>
 }
 
 /// @nodoc
-class _$RootWouterTypeCopyWithImpl<$Res> extends _$WouterTypeCopyWithImpl<$Res>
-    implements $RootWouterTypeCopyWith<$Res> {
-  _$RootWouterTypeCopyWithImpl(
-      RootWouterType _value, $Res Function(RootWouterType) _then)
-      : super(_value, (v) => _then(v as RootWouterType));
+class __$$RootWouterTypeCopyWithImpl<$Res>
+    extends _$WouterTypeCopyWithImpl<$Res, _$RootWouterType>
+    implements _$$RootWouterTypeCopyWith<$Res> {
+  __$$RootWouterTypeCopyWithImpl(
+      _$RootWouterType _value, $Res Function(_$RootWouterType) _then)
+      : super(_value, _then);
 
-  @override
-  RootWouterType get _value => super._value as RootWouterType;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? delegate = freezed,
-    Object? policy = freezed,
-    Object? matcher = freezed,
-    Object? canPop = freezed,
-    Object? base = freezed,
-    Object? path = freezed,
+    Object? delegate = null,
+    Object? policy = null,
+    Object? matcher = null,
+    Object? canPop = null,
+    Object? base = null,
+    Object? path = null,
   }) {
-    return _then(RootWouterType(
-      delegate: delegate == freezed
+    return _then(_$RootWouterType(
+      delegate: null == delegate
           ? _value.delegate
           : delegate // ignore: cast_nullable_to_non_nullable
               as BaseRouterDelegate,
-      policy: policy == freezed
+      policy: null == policy
           ? _value.policy
           : policy // ignore: cast_nullable_to_non_nullable
               as RoutingPolicy<dynamic>,
-      matcher: matcher == freezed
+      matcher: null == matcher
           ? _value.matcher
           : matcher // ignore: cast_nullable_to_non_nullable
               as PathMatcher,
-      canPop: canPop == freezed
+      canPop: null == canPop
           ? _value.canPop
           : canPop // ignore: cast_nullable_to_non_nullable
               as bool,
-      base: base == freezed
+      base: null == base
           ? _value.base
           : base // ignore: cast_nullable_to_non_nullable
               as String,
-      path: path == freezed
+      path: null == path
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
               as String,
@@ -289,29 +256,25 @@ class _$RootWouterType with DiagnosticableTreeMixin implements RootWouterType {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is RootWouterType &&
-            const DeepCollectionEquality().equals(other.delegate, delegate) &&
-            const DeepCollectionEquality().equals(other.policy, policy) &&
+            other is _$RootWouterType &&
+            (identical(other.delegate, delegate) ||
+                other.delegate == delegate) &&
+            (identical(other.policy, policy) || other.policy == policy) &&
             (identical(other.matcher, matcher) || other.matcher == matcher) &&
-            const DeepCollectionEquality().equals(other.canPop, canPop) &&
-            const DeepCollectionEquality().equals(other.base, base) &&
-            const DeepCollectionEquality().equals(other.path, path));
+            (identical(other.canPop, canPop) || other.canPop == canPop) &&
+            (identical(other.base, base) || other.base == base) &&
+            (identical(other.path, path) || other.path == path));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(delegate),
-      const DeepCollectionEquality().hash(policy),
-      matcher,
-      const DeepCollectionEquality().hash(canPop),
-      const DeepCollectionEquality().hash(base),
-      const DeepCollectionEquality().hash(path));
+  int get hashCode =>
+      Object.hash(runtimeType, delegate, policy, matcher, canPop, base, path);
 
   @JsonKey(ignore: true)
   @override
-  $RootWouterTypeCopyWith<RootWouterType> get copyWith =>
-      _$RootWouterTypeCopyWithImpl<RootWouterType>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$RootWouterTypeCopyWith<_$RootWouterType> get copyWith =>
+      __$$RootWouterTypeCopyWithImpl<_$RootWouterType>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -334,10 +297,15 @@ class _$RootWouterType with DiagnosticableTreeMixin implements RootWouterType {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(BaseRouterDelegate delegate, RoutingPolicy<dynamic> policy,
-            PathMatcher matcher, bool canPop, String base, String path)?
+    TResult? Function(
+            BaseRouterDelegate delegate,
+            RoutingPolicy<dynamic> policy,
+            PathMatcher matcher,
+            bool canPop,
+            String base,
+            String path)?
         root,
-    TResult Function(BaseWouter parent, RoutingPolicy<dynamic> policy,
+    TResult? Function(BaseWouter parent, RoutingPolicy<dynamic> policy,
             PathMatcher matcher, bool canPop, String base, String path)?
         child,
   }) {
@@ -373,8 +341,8 @@ class _$RootWouterType with DiagnosticableTreeMixin implements RootWouterType {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(RootWouterType value)? root,
-    TResult Function(ChildWouterType value)? child,
+    TResult? Function(RootWouterType value)? root,
+    TResult? Function(ChildWouterType value)? child,
   }) {
     return root?.call(this);
   }
@@ -395,12 +363,12 @@ class _$RootWouterType with DiagnosticableTreeMixin implements RootWouterType {
 
 abstract class RootWouterType implements WouterType {
   const factory RootWouterType(
-      {required BaseRouterDelegate delegate,
-      required RoutingPolicy<dynamic> policy,
-      required PathMatcher matcher,
-      required bool canPop,
-      required String base,
-      required String path}) = _$RootWouterType;
+      {required final BaseRouterDelegate delegate,
+      required final RoutingPolicy<dynamic> policy,
+      required final PathMatcher matcher,
+      required final bool canPop,
+      required final String base,
+      required final String path}) = _$RootWouterType;
 
   BaseRouterDelegate get delegate;
   @override
@@ -415,17 +383,18 @@ abstract class RootWouterType implements WouterType {
   String get path;
   @override
   @JsonKey(ignore: true)
-  $RootWouterTypeCopyWith<RootWouterType> get copyWith =>
+  _$$RootWouterTypeCopyWith<_$RootWouterType> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ChildWouterTypeCopyWith<$Res>
+abstract class _$$ChildWouterTypeCopyWith<$Res>
     implements $WouterTypeCopyWith<$Res> {
-  factory $ChildWouterTypeCopyWith(
-          ChildWouterType value, $Res Function(ChildWouterType) then) =
-      _$ChildWouterTypeCopyWithImpl<$Res>;
+  factory _$$ChildWouterTypeCopyWith(
+          _$ChildWouterType value, $Res Function(_$ChildWouterType) then) =
+      __$$ChildWouterTypeCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {BaseWouter parent,
       RoutingPolicy<dynamic> policy,
@@ -436,46 +405,45 @@ abstract class $ChildWouterTypeCopyWith<$Res>
 }
 
 /// @nodoc
-class _$ChildWouterTypeCopyWithImpl<$Res> extends _$WouterTypeCopyWithImpl<$Res>
-    implements $ChildWouterTypeCopyWith<$Res> {
-  _$ChildWouterTypeCopyWithImpl(
-      ChildWouterType _value, $Res Function(ChildWouterType) _then)
-      : super(_value, (v) => _then(v as ChildWouterType));
+class __$$ChildWouterTypeCopyWithImpl<$Res>
+    extends _$WouterTypeCopyWithImpl<$Res, _$ChildWouterType>
+    implements _$$ChildWouterTypeCopyWith<$Res> {
+  __$$ChildWouterTypeCopyWithImpl(
+      _$ChildWouterType _value, $Res Function(_$ChildWouterType) _then)
+      : super(_value, _then);
 
-  @override
-  ChildWouterType get _value => super._value as ChildWouterType;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? parent = freezed,
-    Object? policy = freezed,
-    Object? matcher = freezed,
-    Object? canPop = freezed,
-    Object? base = freezed,
-    Object? path = freezed,
+    Object? parent = null,
+    Object? policy = null,
+    Object? matcher = null,
+    Object? canPop = null,
+    Object? base = null,
+    Object? path = null,
   }) {
-    return _then(ChildWouterType(
-      parent: parent == freezed
+    return _then(_$ChildWouterType(
+      parent: null == parent
           ? _value.parent
           : parent // ignore: cast_nullable_to_non_nullable
               as BaseWouter,
-      policy: policy == freezed
+      policy: null == policy
           ? _value.policy
           : policy // ignore: cast_nullable_to_non_nullable
               as RoutingPolicy<dynamic>,
-      matcher: matcher == freezed
+      matcher: null == matcher
           ? _value.matcher
           : matcher // ignore: cast_nullable_to_non_nullable
               as PathMatcher,
-      canPop: canPop == freezed
+      canPop: null == canPop
           ? _value.canPop
           : canPop // ignore: cast_nullable_to_non_nullable
               as bool,
-      base: base == freezed
+      base: null == base
           ? _value.base
           : base // ignore: cast_nullable_to_non_nullable
               as String,
-      path: path == freezed
+      path: null == path
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
               as String,
@@ -531,29 +499,24 @@ class _$ChildWouterType
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is ChildWouterType &&
-            const DeepCollectionEquality().equals(other.parent, parent) &&
-            const DeepCollectionEquality().equals(other.policy, policy) &&
+            other is _$ChildWouterType &&
+            (identical(other.parent, parent) || other.parent == parent) &&
+            (identical(other.policy, policy) || other.policy == policy) &&
             (identical(other.matcher, matcher) || other.matcher == matcher) &&
-            const DeepCollectionEquality().equals(other.canPop, canPop) &&
-            const DeepCollectionEquality().equals(other.base, base) &&
-            const DeepCollectionEquality().equals(other.path, path));
+            (identical(other.canPop, canPop) || other.canPop == canPop) &&
+            (identical(other.base, base) || other.base == base) &&
+            (identical(other.path, path) || other.path == path));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(parent),
-      const DeepCollectionEquality().hash(policy),
-      matcher,
-      const DeepCollectionEquality().hash(canPop),
-      const DeepCollectionEquality().hash(base),
-      const DeepCollectionEquality().hash(path));
+  int get hashCode =>
+      Object.hash(runtimeType, parent, policy, matcher, canPop, base, path);
 
   @JsonKey(ignore: true)
   @override
-  $ChildWouterTypeCopyWith<ChildWouterType> get copyWith =>
-      _$ChildWouterTypeCopyWithImpl<ChildWouterType>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$ChildWouterTypeCopyWith<_$ChildWouterType> get copyWith =>
+      __$$ChildWouterTypeCopyWithImpl<_$ChildWouterType>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -576,10 +539,15 @@ class _$ChildWouterType
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(BaseRouterDelegate delegate, RoutingPolicy<dynamic> policy,
-            PathMatcher matcher, bool canPop, String base, String path)?
+    TResult? Function(
+            BaseRouterDelegate delegate,
+            RoutingPolicy<dynamic> policy,
+            PathMatcher matcher,
+            bool canPop,
+            String base,
+            String path)?
         root,
-    TResult Function(BaseWouter parent, RoutingPolicy<dynamic> policy,
+    TResult? Function(BaseWouter parent, RoutingPolicy<dynamic> policy,
             PathMatcher matcher, bool canPop, String base, String path)?
         child,
   }) {
@@ -615,8 +583,8 @@ class _$ChildWouterType
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(RootWouterType value)? root,
-    TResult Function(ChildWouterType value)? child,
+    TResult? Function(RootWouterType value)? root,
+    TResult? Function(ChildWouterType value)? child,
   }) {
     return child?.call(this);
   }
@@ -637,12 +605,12 @@ class _$ChildWouterType
 
 abstract class ChildWouterType implements WouterType {
   const factory ChildWouterType(
-      {required BaseWouter parent,
-      required RoutingPolicy<dynamic> policy,
-      required PathMatcher matcher,
-      required bool canPop,
-      required String base,
-      required String path}) = _$ChildWouterType;
+      {required final BaseWouter parent,
+      required final RoutingPolicy<dynamic> policy,
+      required final PathMatcher matcher,
+      required final bool canPop,
+      required final String base,
+      required final String path}) = _$ChildWouterType;
 
   BaseWouter get parent;
   @override
@@ -657,6 +625,6 @@ abstract class ChildWouterType implements WouterType {
   String get path;
   @override
   @JsonKey(ignore: true)
-  $ChildWouterTypeCopyWith<ChildWouterType> get copyWith =>
+  _$$ChildWouterTypeCopyWith<_$ChildWouterType> get copyWith =>
       throw _privateConstructorUsedError;
 }
