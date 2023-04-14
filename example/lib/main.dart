@@ -120,7 +120,7 @@ class AllPeopleScreen extends StatelessWidget {
                 (person) => ListTile(
                   title: Text(
                       "${person["name"]["first"]} ${person["name"]["last"]}"),
-                  onTap: () => context.wouter.push("${person["_id"]}"),
+                  onTap: () => context.wouter.push("./${person["_id"]}"),
                 ),
               )
               .toList(),
