@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:collection/collection.dart';
 
 import 'base.dart';
 import 'delegate/delegate.dart';
@@ -11,21 +15,24 @@ class Wouter extends StatefulWidget {
   // final WouterBaseRouterDelegate delegate;
   final Widget child;
 
-  final PathMatcherBuilder matcher;
+  final PathMatcherBuilder? matcher;
+
+  final RoutingPolicy<RouteEntry>? policy;
 
   final String base;
 
   const Wouter({
     Key? key,
     required this.child,
-    this.matcher = PathMatchers.regexp,
+    this.matcher,
+    this.policy,
     this.base = "",
   }) : super(key: key);
 
   /// Retrieves the immediate [WouterState] ancestor from the given context.
   ///
   /// If no Wouter ancestor exists for the given context, this will assert in debug mode, and throw an exception in release mode.
-  static BaseWouter of(BuildContext context) {
+  static WouterState of(BuildContext context) {
     final wouter = maybeOf(context);
 
     assert(wouter != null, 'There was no Wouter in current context.');
@@ -36,9 +43,9 @@ class Wouter extends StatefulWidget {
   /// Retrieves the immediate [WouterState] ancestor from the given context.
   ///
   /// If no Wouter ancestor exists for the given context, this will return null.
-  static BaseWouter? maybeOf(BuildContext context) {
+  static WouterState? maybeOf(BuildContext context) {
     try {
-      return context.read<BaseWouter>();
+      return context.read<WouterState>();
     } catch (_) {
       return null;
     }
@@ -48,150 +55,174 @@ class Wouter extends StatefulWidget {
   State<Wouter> createState() => WouterState();
 }
 
-class WouterState extends State<Wouter> with ChildWouter, _ChangeNotifierState {
-  @protected
-  late BaseWouter _parent = context.wouter;
+class WouterState extends State<Wouter> with BaseWouter {
+  final BehaviorSubject<List<RouteEntry>> _stackSubject =
+      BehaviorSubject.seeded(const []);
+
+  Stream<List<RouteEntry>> get stream => _stackSubject.stream.distinct();
+
+  StreamSubscription<List<RouteEntry>>? _subscription;
 
   @override
-  @protected
-  BaseWouter get parent => _parent;
+  RoutingPolicy get policy =>
+      widget.policy ?? parent?.policy ?? const URLRoutingPolicy();
 
   @protected
-  set parent(BaseWouter wouter) {
-    unsubscribe(parent);
+  WouterState? get parent => context.maybeWouter;
 
-    _parent = wouter;
+  late WouterState? _prevParent = parent;
 
-    subscribe(wouter);
-  }
-
-  late PathMatcher matcher = widget.matcher();
+  PathMatcher get matcher =>
+      widget.matcher?.call() ?? parent?.matcher ?? PathMatchers.regexp();
 
   @override
-  bool get canPop => stack.isNotEmpty || parent.canPop;
+  bool get canPop => stack.isNotEmpty || (parent?.canPop ?? false);
 
   @override
   @protected
   String get base => widget.base;
 
-  List<String> _stack = const [];
-
   @override
   @protected
-  List<String> get stack => _stack;
-
-  @protected
-  set stack(List<String> stack) {
-    final prev = path;
-
-    _stack = List<String>.unmodifiable(stack);
-
-    onRouteChanged(prev, path);
-  }
+  List<String> get stack => const [];
 
   @override
-  String get path {
-    try {
-      return stack.last;
-    } catch (e) {
-      return "";
-    }
-  }
+  String get path => _stackSubject.valueOrNull?.lastOrNull?.path ?? "";
 
   @override
   void initState() {
-    subscribe(parent);
+    final parent = this.parent;
+
+    if (parent != null) {
+      _subscription = subscribe(parent);
+    }
 
     super.initState();
   }
 
   @override
-  void didChangeDependencies() {
-    final wouter = context.wouter;
-
-    if (parent != wouter) {
-      parent = wouter;
-    }
-
-    super.didChangeDependencies();
-  }
-
-  @override
   void didUpdateWidget(covariant Wouter oldWidget) {
-    if (oldWidget.matcher != widget.matcher) {
-      matcher = widget.matcher();
-
-      notifyListeners();
+    if (oldWidget.matcher != widget.matcher ||
+        oldWidget.policy != widget.policy) {
+      setState(() {});
     }
 
     super.didUpdateWidget(oldWidget);
   }
 
   @override
+  void didChangeDependencies() {
+    final parent = this.parent;
+
+    if (parent != null && _prevParent != parent) {
+      _prevParent = parent;
+      _subscription?.cancel();
+      _subscription = subscribe(parent);
+    }
+
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
-    unsubscribe(parent);
+    _dispose();
 
     super.dispose();
   }
 
-  @protected
-  void subscribe(BaseWouter wouter) {
-    wouter.addListener(_onChange);
-
-    _onChange();
+  void _dispose() async {
+    await _subscription?.cancel();
+    await _stackSubject.close();
   }
 
-  void _onChange() => onChange(parent);
-
   @protected
-  void onChange(BaseWouter wouter) => stack = wouter.stack
-      .where((path) => path.startsWith(base))
-      .map((path) => policy.removeBase(base, path))
-      .toList();
-
-  @protected
-  void unsubscribe(BaseWouter wouter) => wouter.removeListener(_onChange);
-
-  @protected
-  bool shouldNotify(String prev, String next) => prev != next;
-
-  @protected
-  void onRouteChanged(String prev, String next) {
-    if (shouldNotify(prev, next)) {
-      notifyListeners();
-    }
-  }
+  StreamSubscription<List<RouteEntry>> subscribe(WouterState wouter) =>
+      wouter.stream
+          .distinct()
+          .map((stack) => stack
+              .where((entry) => entry.path.startsWith(base))
+              .map((entry) => entry.copyWith(
+                    path: wouter.policy.removeBase(base, entry.path),
+                  ))
+              .toList())
+          .distinct()
+          .listen(_stackSubject.add);
 
   @override
-  Widget build(BuildContext context) =>
-      ChangeNotifierProvider<BaseWouter>.value(
+  Widget build(BuildContext context) => Provider<WouterState>.value(
         value: this,
         child: widget.child,
       );
-}
 
-mixin _ChangeNotifierState<T extends StatefulWidget> on State<T>
-    implements ChangeNotifier {
-  @protected
-  final ChangeNotifier notifier = ChangeNotifier();
-
+  /// Push a [path].
+  ///
+  /// Returns a Future that completes to the result value passed to pop when the pushed route is popped off the navigator.
+  ///
+  ///The T type argument is the type of the return value of the route.
+  ///
   @override
-  bool get hasListeners => notifier.hasListeners;
+  Future<R?> push<R>(String path) {
+    final parent = this.parent;
 
-  @override
-  void dispose() {
-    notifier.dispose();
+    if (parent == null) {
+      final completer = Completer<R?>();
 
-    super.dispose();
+      _stackSubject.add(
+        policy.onPush(
+          policy.pushPath(
+            "$base/${this.path}",
+            policy.buildPath(base, path),
+          ),
+          _stackSubject.value,
+          policy.buildOnResultCallback(completer),
+        ),
+      );
+
+      return completer.future;
+    } else {
+      return parent.push(policy.buildPath(base, path));
+    }
   }
 
-  @protected
-  void notifyListeners() => notifier.notifyListeners();
-
+  /// Pop the history stack.
+  /// Returns [canPop] before popping.
   @override
-  void addListener(VoidCallback listener) => notifier.addListener(listener);
+  bool pop([dynamic result]) {
+    final parent = this.parent;
 
+    if (parent == null) {
+      if (_stackSubject.value.isNotEmpty) {
+        _stackSubject.add(
+          policy.onPop(_stackSubject.value, result),
+        );
+
+        return true;
+      }
+
+      return false;
+    } else {
+      return parent.pop(result);
+    }
+  }
+
+  /// Resets the state as if only [path] been pushed.
   @override
-  void removeListener(VoidCallback listener) =>
-      notifier.removeListener(listener);
+  void reset([String? path]) {
+    final parent = this.parent;
+
+    if (parent == null) {
+      _stackSubject.value.forEach((route) => route.onResult?.call(null));
+
+      _stackSubject.add(
+        policy.onReset(
+          policy.pushPath(
+            "$base/${this.path}",
+            policy.buildPath(base, path ?? ""),
+          ),
+        ),
+      );
+    } else {
+      parent.reset(policy.buildPath(base, path ?? ""));
+    }
+  }
 }

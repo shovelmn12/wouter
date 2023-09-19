@@ -3,40 +3,26 @@ import 'package:wouter/wouter.dart';
 
 import 'base.dart';
 
-class WouterSwitch<T extends Page> extends StatelessWidget {
+class WouterSwitch<T extends Widget> extends StatelessWidget {
   final Map<String, WouterRouteBuilder<T>> routes;
-  final List<NavigatorObserver> observers;
-  final TransitionDelegate<T> transition;
 
   const WouterSwitch({
     Key? key,
     required this.routes,
-    this.observers = const [],
-    this.transition = const DefaultTransitionDelegate(),
   }) : super(key: key);
 
-  Widget _builder(
-    BuildContext context,
-    BaseWouter wouter,
-    List<T> stack,
-  ) =>
+  Widget _builder(BuildContext context,
+      BaseWouter wouter,
+      List<T> stack,) =>
       stack.isEmpty
           ? const SizedBox.shrink()
-          : Navigator(
-              pages: stack,
-              observers: observers,
-              transitionDelegate: transition,
-              onPopPage: (route, result) {
-                final result = wouter.pop();
-
-                route.didPop(result);
-
-                return result;
-              },
-            );
+          : Stack(
+        children: stack,
+      );
 
   @override
-  Widget build(BuildContext context) => BaseWouterNavigator<T>.builder(
+  Widget build(BuildContext context) =>
+      BaseWouterNavigator<T>.builder(
         routes: routes,
         builder: _builder,
       );

@@ -1,9 +1,10 @@
+import 'dart:async';
+
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../base.dart';
-import '../extensions/extensions.dart';
-import '../models/models.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:wouter/wouter.dart';
 
 part 'base.builder.dart';
 
@@ -24,51 +25,34 @@ abstract class BaseWouterNavigator<T> extends StatefulWidget {
 
 abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
     extends State<T> {
-  @protected
-  late BaseWouter _parent = context.wouter;
+  final BehaviorSubject<List<StackEntry<W>>> _stackSubject =
+      BehaviorSubject.seeded(const []);
+
+  StreamSubscription<List<StackEntry<W>>>? _subscription;
 
   @protected
-  BaseWouter get parent => _parent;
+  WouterState get parent => context.wouter;
 
-  @protected
-  set parent(BaseWouter parent) {
-    unsubscribe(parent);
-
-    _parent = parent;
-
-    subscribe(parent);
-  }
-
-  List<StackEntry<W>> _stack = const [];
-
-  @protected
-  List<StackEntry<W>> get stack => _stack;
-
-  @protected
-  set stack(List<StackEntry<W>> stack) {
-    final prev = _stack;
-
-    _stack = stack;
-
-    onStackChanged(prev, stack);
-  }
+  late WouterState _prevParent = parent;
 
   @protected
   Map<String, WouterRouteBuilder<W>> get routes => widget.routes;
 
   @override
   void initState() {
-    subscribe(parent);
+    _subscription = subscribe(parent);
 
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
-    final wouter = context.wouter;
+    final parent = this.parent;
 
-    if (parent != wouter) {
-      parent = wouter;
+    if (_prevParent != parent) {
+      _prevParent = parent;
+      _subscription?.cancel();
+      _subscription = subscribe(parent);
     }
 
     super.didChangeDependencies();
@@ -78,7 +62,7 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   void didUpdateWidget(covariant T oldWidget) {
     if (!const DeepCollectionEquality()
         .equals(oldWidget.routes, widget.routes)) {
-      _onChange();
+      setState(() {});
     }
 
     super.didUpdateWidget(oldWidget);
@@ -86,42 +70,29 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
 
   @override
   void dispose() {
-    unsubscribe(parent);
+    _dispose();
 
     super.dispose();
   }
 
-  @protected
-  void subscribe(BaseWouter wouter) {
-    wouter.addListener(_onChange);
-
-    _onChange();
+  void _dispose() async {
+    await _subscription?.cancel();
+    await _stackSubject.close();
   }
 
-  void _onChange() => onChange(parent);
-
   @protected
-  void onChange(BaseWouter wouter) => stack = createStack(
-        wouter.matcher,
-        wouter.policy.createStack(wouter.path),
-      );
-
-  @protected
-  void unsubscribe(BaseWouter wouter) => wouter.removeListener(_onChange);
-
-  @protected
-  bool shouldNotify(List<StackEntry<W>> prev, List<StackEntry<W>> next) =>
-      !const DeepCollectionEquality().equals(
-        prev.map((entry) => entry.path),
-        next.map((entry) => entry.path),
-      );
-
-  @protected
-  void onStackChanged(List<StackEntry<W>> prev, List<StackEntry<W>> next) {
-    if (shouldNotify(prev, next)) {
-      setState(() {});
-    }
-  }
+  StreamSubscription<List<StackEntry<W>>> subscribe(WouterState wouter) =>
+      wouter.stream
+          .map((stack) => stack.lastOrNull?.path ?? "")
+          .distinct()
+          .map(wouter.policy.createStack)
+          .distinct()
+          .map((stack) => createStack(
+                wouter.matcher,
+                stack,
+              ))
+          .distinct()
+          .listen(_stackSubject.add);
 
   @protected
   StackEntry<W>? matchPathToRoute(
@@ -198,9 +169,12 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
 
   @override
   Widget build(BuildContext context) => RepaintBoundary(
-        child: builder(
-          context,
-          buildStack(context, stack),
+        child: StreamBuilder<List<StackEntry<W>>>(
+          stream: _stackSubject.distinct(const DeepCollectionEquality().equals),
+          builder: (context, snapshot) => builder(
+            context,
+            buildStack(context, snapshot.data ?? const []),
+          ),
         ),
       );
 }

@@ -8,12 +8,9 @@ import '../../models/models.dart';
 import 'routing_policy.dart';
 
 class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
-  @override
-  final String initial;
   final Set<String> groups;
 
   const URLRoutingPolicy({
-    this.initial = '/',
     this.groups = const {},
   });
 
@@ -23,7 +20,7 @@ class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
       final next = path.substring(base.length);
 
       if (next.isEmpty) {
-        return initial;
+        return path;
       }
 
       return next;
@@ -37,7 +34,7 @@ class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
     if (path.startsWith(".") || path.startsWith("/")) {
       return path;
     } else if (path.isEmpty && base.isEmpty) {
-      return initial;
+      return path;
     } else if (path.isEmpty) {
       if (base.startsWith("/")) {
         return base.substring(1);
@@ -66,7 +63,7 @@ class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
     } else if (path.startsWith("/")) {
       return normalize(path);
     } else if (path.isEmpty) {
-      return initial;
+      return path;
     } else {
       return normalize("$current/$path");
     }
@@ -108,16 +105,16 @@ class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
       );
     }
 
-    return initial;
+    return "";
   }
 
   @override
   List<String> createStack(String path) {
     final next = pushPath("", path);
 
-    if (next.isEmpty || next == initial) {
+    if (next.isEmpty) {
       return [
-        initial,
+        next,
       ];
     }
 
@@ -152,10 +149,10 @@ class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
 
   @override
   List<T> onReset(String path) {
-    if (path.isEmpty || path == initial) {
+    if (path.isEmpty) {
       return <T>[
         RouteEntry(
-          path: initial,
+          path: path,
         ) as T,
       ];
     }

@@ -5,8 +5,6 @@ import 'package:flutter/foundation.dart';
 export 'url.dart';
 
 abstract class RoutingPolicy<T> {
-  String get initial;
-
   const RoutingPolicy();
 
   /// removes a [base] from a [path]

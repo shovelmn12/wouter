@@ -1,4 +1,7 @@
 // DATA
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wouter/wouter.dart';
 
@@ -60,7 +63,7 @@ const Map<String, Map<String, dynamic>> people = {
 
 // SCREENS
 class HomeScreen extends StatelessWidget {
-  const HomeScreen();
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -81,22 +84,19 @@ class PeopleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Wouter(
+        key: const ValueKey("people-wouter"),
         base: "/people",
         child: WouterSwitch(
           routes: {
-            "/": (context, arguments) => const MaterialPage(
+            "/": (context, arguments) => const AllPeopleScreen(
                   key: ValueKey("all-people-screen"),
-                  child: AllPeopleScreen(),
                 ),
-            r"/:id(\d+)": (context, arguments) => MaterialPage(
+            r"/:id(\d+)": (context, arguments) => PersonDetailsScreen(
                   key: ValueKey("people-${arguments["id"]}-screen"),
-                  child: PersonDetailsScreen(
-                    person: people[arguments["id"]]!,
-                  ),
+                  person: people[arguments["id"]]!,
                 ),
-            "/:_(.*)": (context, arguments) => const MaterialPage(
+            "/:_(.*)": (context, arguments) => const Redirect(
                   key: ValueKey("people-redirect-screen"),
-                  child: Redirect(),
                 ),
           },
         ),
@@ -104,13 +104,14 @@ class PeopleScreen extends StatelessWidget {
 }
 
 class AllPeopleScreen extends StatelessWidget {
-  const AllPeopleScreen();
+  const AllPeopleScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          leading: BackButton(
-            onPressed: () => Navigator.pop(context),
+          leading: IconButton(
+            onPressed: () => context.wouter.pop(),
+            icon: Icon(Icons.arrow_back),
           ),
           title: const Text("People"),
         ),
@@ -132,12 +133,17 @@ class PersonDetailsScreen extends StatelessWidget {
   final Map<String, dynamic> person;
 
   const PersonDetailsScreen({
+    Key? key,
     required this.person,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            onPressed: () => context.wouter.pop(),
+            icon: Icon(Icons.arrow_back),
+          ),
           title: Text("${person["name"]["first"]} ${person["name"]["last"]}"),
         ),
         body: ListView(
@@ -168,32 +174,75 @@ class PersonDetailsScreen extends StatelessWidget {
       );
 }
 
-class MyApp extends StatelessWidget {
-  final delegate = WouterRouterDelegate(
-    child: WouterSwitch(
-      routes: {
-        "/": (context, arguments) => const MaterialPage(
-              key: ValueKey("home-screen"),
-              child: HomeScreen(),
-            ),
-        "/people/:_(.*)": (context, arguments) => const MaterialPage(
-              key: ValueKey("people-screen"),
-              child: PeopleScreen(),
-            ),
-        "/:_(.*)": (context, arguments) => const MaterialPage(
-              key: ValueKey("redirect-screen"),
-              child: Redirect(),
-            ),
-      },
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final GlobalKey<WouterState> _wouterKey = GlobalKey();
+
+  final StreamController<String> _controller = StreamController.broadcast();
+
+  late final delegate = WouterRouterDelegate(
+    onNotifyListeners: _controller.stream,
+    onGetPath: () => _wouterKey.currentState?.path ?? "",
+    onPop: ([dynamic result]) {
+      print("WouterRouterDelegate onPop");
+      return _wouterKey.currentState?.pop() ?? true;
+    },
+    onReset: (String path) async => _wouterKey.currentState?.reset(path),
+    builder: (context) => Wouter(
+      key: _wouterKey,
+      child: WouterSwitch(
+        routes: {
+          "/": (context, arguments) => const HomeScreen(
+                key: ValueKey("home-screen"),
+              ),
+          "/people/:_(.*)": (context, arguments) => const PeopleScreen(
+                key: ValueKey("people-screen"),
+              ),
+          "/:_(.*)": (context, arguments) => const Redirect(
+                key: ValueKey("redirect-screen"),
+              ),
+        },
+      ),
     ),
   );
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final wouter = _wouterKey.currentState;
+
+      if (wouter != null) {
+        wouter.stream
+            .map((stack) => stack.lastOrNull?.path ?? "")
+            .distinct()
+            .listen(_controller.add);
+      }
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.close();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) => MaterialApp.router(
         routerDelegate: delegate,
         routeInformationParser: const WouterRouteInformationParser(),
         backButtonDispatcher: WouterBackButtonDispatcher(
-          delegate: delegate,
+          onPop: (value) async {
+            print("WouterBackButtonDispatcher onPop");
+
+            return SynchronousFuture(_wouterKey.currentState?.pop() ?? false);
+          },
         ),
       );
 }
