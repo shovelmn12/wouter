@@ -14,10 +14,4 @@ class WouterBackButtonDispatcher extends BackButtonDispatcher {
 
   @override
   Future<bool> invokeCallback(Future<bool> defaultValue) => onPop(defaultValue);
-
-  @override
-  ChildBackButtonDispatcher createChildBackButtonDispatcher() {
-    print("createChildBackButtonDispatcher");
-    return super.createChildBackButtonDispatcher();
-  }
 }

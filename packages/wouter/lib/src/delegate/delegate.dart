@@ -1,20 +1,9 @@
-// export 'base.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:wouter/wouter.dart';
 
-// import 'package:rxdart/rxdart.dart';
-// import 'package:wouter/src/wouter.dart';
-
-export 'matchers/matchers.dart';
-export 'mixins/mixins.dart';
-
-// export 'router.dart';
-export 'routing_policy/routing_policy.dart';
-// export 'wouter.dart';
-
-typedef OnPopCallback = bool Function([dynamic result]);
-typedef OnResetPathCallback = Future<void> Function(String path);
+export 'functions.dart';
 
 class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
   final OnPopCallback onPop;
@@ -28,13 +17,14 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
   String get currentConfiguration => onGetPath();
 
   WouterRouterDelegate({
-    required Stream<String> onNotifyListeners,
+    required ValueGetter<Stream<String>> onNotifyListeners,
     required this.onPop,
     required this.onReset,
     required this.onGetPath,
     required this.builder,
   }) {
-    _subscription = onNotifyListeners.listen((event) => notifyListeners());
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) => _subscription =
+        onNotifyListeners().listen((event) => notifyListeners()));
   }
 
   @override
@@ -49,7 +39,10 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
         onPopPage: (route, result) => !onPop(result),
         pages: [
           MaterialPage(
-            child: builder(context),
+            child: Container(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              child: builder(context),
+            ),
           )
         ],
       );

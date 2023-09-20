@@ -1,10 +1,6 @@
 part of 'base.dart';
 
-typedef WouterStackBuilder<T> = Widget Function(
-  BuildContext context,
-  BaseWouter wouter,
-  List<T> stack,
-);
+
 
 class BaseWouterNavigatorBuilder<T> extends BaseWouterNavigator<T> {
   final WouterStackBuilder<T> builder;

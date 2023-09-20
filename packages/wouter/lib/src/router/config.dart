@@ -1,10 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:wouter/src/back_button_dispatcher.dart';
-import 'package:wouter/src/delegate/delegate.dart';
-import 'package:wouter/src/route_information.dart';
-import 'package:wouter/src/wouter.dart';
+import 'package:wouter/wouter.dart';
 
 class WouterConfig extends RouterConfig<String> {
   WouterConfig({
@@ -12,7 +9,13 @@ class WouterConfig extends RouterConfig<String> {
   })  : assert(wouter.key is GlobalKey<WouterState>),
         super(
           routerDelegate: WouterRouterDelegate(
-            onNotifyListeners: Stream.empty(),
+            onNotifyListeners: () =>
+                (wouter.key as GlobalKey<WouterState>)
+                    .currentState
+                    ?.stream
+                    .map((stack) => stack.lastOrNull?.path ?? "")
+                    .distinct() ??
+                Stream.empty(),
             onPop: ([result]) =>
                 (wouter.key as GlobalKey<WouterState>)
                     .currentState

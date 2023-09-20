@@ -1,11 +1,4 @@
-import 'package:flutter/widgets.dart';
-
-import 'models.dart';
-
-typedef WouterRouteBuilder<T> = T Function(
-  BuildContext context,
-  Map<String, dynamic> arguments,
-);
+import 'package:wouter/wouter.dart';
 
 typedef RegexpBuilder = RegexpData Function(
   String pattern, {
@@ -13,12 +6,8 @@ typedef RegexpBuilder = RegexpData Function(
   bool prefix,
 });
 
-typedef PathMatcherBuilder = PathMatcher Function();
 
-typedef PathMatcher = MatchData? Function(
-  String path,
-  String pattern, {
-  bool prefix,
-});
 
 typedef PopPredicate<T> = bool Function(T value);
+
+

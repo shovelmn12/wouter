@@ -1,6 +1,5 @@
 import 'package:path_to_regexp/path_to_regexp.dart';
-
-import '../../models/models.dart';
+import 'package:wouter/wouter.dart';
 
 RegexpBuilder pathToRegexpCache(RegexpBuilder builder) {
   final Map<String, RegexpData?> cache = {};

@@ -1,7 +1,3 @@
-// DATA
-import 'dart:async';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wouter/wouter.dart';
 
@@ -87,6 +83,7 @@ class PeopleScreen extends StatelessWidget {
         key: const ValueKey("people-wouter"),
         base: "/people",
         child: WouterSwitch(
+          key: const ValueKey("people-switch"),
           routes: {
             "/": (context, arguments) => const AllPeopleScreen(
                   key: ValueKey("all-people-screen"),
@@ -174,75 +171,29 @@ class PersonDetailsScreen extends StatelessWidget {
       );
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
+class MyApp extends StatelessWidget {
   final GlobalKey<WouterState> _wouterKey = GlobalKey();
-
-  final StreamController<String> _controller = StreamController.broadcast();
-
-  late final delegate = WouterRouterDelegate(
-    onNotifyListeners: _controller.stream,
-    onGetPath: () => _wouterKey.currentState?.path ?? "",
-    onPop: ([dynamic result]) {
-      print("WouterRouterDelegate onPop");
-      return _wouterKey.currentState?.pop() ?? true;
-    },
-    onReset: (String path) async => _wouterKey.currentState?.reset(path),
-    builder: (context) => Wouter(
-      key: _wouterKey,
-      child: WouterSwitch(
-        routes: {
-          "/": (context, arguments) => const HomeScreen(
-                key: ValueKey("home-screen"),
-              ),
-          "/people/:_(.*)": (context, arguments) => const PeopleScreen(
-                key: ValueKey("people-screen"),
-              ),
-          "/:_(.*)": (context, arguments) => const Redirect(
-                key: ValueKey("redirect-screen"),
-              ),
-        },
-      ),
-    ),
-  );
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final wouter = _wouterKey.currentState;
-
-      if (wouter != null) {
-        wouter.stream
-            .map((stack) => stack.lastOrNull?.path ?? "")
-            .distinct()
-            .listen(_controller.add);
-      }
-    });
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.close();
-
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) => MaterialApp.router(
-        routerDelegate: delegate,
-        routeInformationParser: const WouterRouteInformationParser(),
-        backButtonDispatcher: WouterBackButtonDispatcher(
-          onPop: (value) async {
-            print("WouterBackButtonDispatcher onPop");
-
-            return SynchronousFuture(_wouterKey.currentState?.pop() ?? false);
-          },
+        routerConfig: WouterConfig(
+          wouter: Wouter(
+            key: _wouterKey,
+            child: WouterSwitch(
+              key: const ValueKey("home-switch"),
+              routes: {
+                "/": (context, arguments) => const HomeScreen(
+                      key: ValueKey("home-screen"),
+                    ),
+                "/people/:_(.*)": (context, arguments) => const PeopleScreen(
+                      key: ValueKey("people-screen"),
+                    ),
+                "/:_(.*)": (context, arguments) => const Redirect(
+                      key: ValueKey("redirect-screen"),
+                    ),
+              },
+            ),
+          ),
         ),
       );
 }

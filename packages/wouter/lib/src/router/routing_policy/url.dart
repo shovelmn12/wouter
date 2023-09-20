@@ -3,9 +3,7 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
-
-import '../../models/models.dart';
-import 'routing_policy.dart';
+import 'package:wouter/wouter.dart';
 
 class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
   final Set<String> groups;
@@ -17,13 +15,7 @@ class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
   @override
   String removeBase(String base, String path) {
     if (path.startsWith(base)) {
-      final next = path.substring(base.length);
-
-      if (next.isEmpty) {
-        return path;
-      }
-
-      return next;
+      return path.substring(base.length);
     }
 
     return path;
@@ -81,7 +73,7 @@ class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
                       const <String, Pair<Match, String>>{},
                       (index, acc, match) => {
                             ...acc,
-                            "pattern-$parentIndex-match-$index": Pair(
+                            "pattern-$parentIndex-match-$index": (
                               item1: match,
                               item2: path.substring(match.start, match.end),
                             ),

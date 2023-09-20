@@ -4,15 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:collection/collection.dart';
-
-import 'base.dart';
-import 'delegate/delegate.dart';
-import 'extensions/extensions.dart';
-import 'models/models.dart';
+import 'package:wouter/wouter.dart';
 
 /// A [Widget] to use when using nested routing with base path
 class Wouter extends StatefulWidget {
-  // final WouterBaseRouterDelegate delegate;
   final Widget child;
 
   final PathMatcherBuilder? matcher;
@@ -76,15 +71,11 @@ class WouterState extends State<Wouter> with BaseWouter {
       widget.matcher?.call() ?? parent?.matcher ?? PathMatchers.regexp();
 
   @override
-  bool get canPop => stack.isNotEmpty || (parent?.canPop ?? false);
+  bool get canPop =>
+      _stackSubject.value.isNotEmpty || (parent?.canPop ?? false);
 
   @override
-  @protected
   String get base => widget.base;
-
-  @override
-  @protected
-  List<String> get stack => const [];
 
   @override
   String get path => _stackSubject.valueOrNull?.lastOrNull?.path ?? "";

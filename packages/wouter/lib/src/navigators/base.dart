@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rxdart/rxdart.dart';
@@ -83,7 +82,8 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   @protected
   StreamSubscription<List<StackEntry<W>>> subscribe(WouterState wouter) =>
       wouter.stream
-          .map((stack) => stack.lastOrNull?.path ?? "")
+          .map((stack) => wouter.policy
+              .removeBase(wouter.base, stack.lastOrNull?.path ?? ""))
           .distinct()
           .map(wouter.policy.createStack)
           .distinct()
@@ -130,7 +130,7 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   List<StackEntry<W>> createStack(PathMatcher matcher, List<String> stack) {
     final result = stack
         .fold<Pair<List<StackEntry<W>>, Map<String, WouterRouteBuilder<W>?>>>(
-      Pair(
+      (
         item1: <StackEntry<W>>[],
         item2: Map.of(routes),
       ),
@@ -145,7 +145,7 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
           return state;
         }
 
-        return state.copyWith.call(
+        return (
           item1: List.unmodifiable([
             ...state.item1,
             entry,

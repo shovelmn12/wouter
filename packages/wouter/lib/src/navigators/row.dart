@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wouter/wouter.dart';
 
-import 'base.dart';
-
 class WouterRow<T extends Widget> extends StatelessWidget {
   final Map<String, WouterRouteBuilder<T>> routes;
 
