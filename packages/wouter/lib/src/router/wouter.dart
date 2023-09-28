@@ -63,6 +63,7 @@ class WouterState extends State<Wouter> with BaseWouter {
       widget.policy ?? parent?.policy ?? const URLRoutingPolicy();
 
   @protected
+  @override
   WouterState? get parent => context.maybeWouter;
 
   late WouterState? _prevParent = parent;
@@ -216,4 +217,8 @@ class WouterState extends State<Wouter> with BaseWouter {
       parent.reset(policy.buildPath(base, path ?? ""));
     }
   }
+
+  @override
+  void update(List<RouteEntry> Function(List<RouteEntry> state) update) =>
+      _stackSubject.add(update(_stackSubject.valueOrNull ?? const []));
 }

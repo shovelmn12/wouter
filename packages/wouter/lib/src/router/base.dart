@@ -3,6 +3,8 @@ import 'package:wouter/wouter.dart';
 abstract mixin class BaseWouter {
   bool get canPop;
 
+  WouterState? get parent;
+
   RoutingPolicy get policy;
 
   PathMatcher get matcher;
@@ -16,4 +18,6 @@ abstract mixin class BaseWouter {
   bool pop([dynamic result]);
 
   void reset([String? path]);
+
+  void update(List<RouteEntry> Function(List<RouteEntry> state) update);
 }
