@@ -7,6 +7,7 @@ class WouterSwitch<T extends Widget> extends StatelessWidget {
   final AnimatedSwitcherLayoutBuilder layoutBuilder;
   final Curve switchInCurve;
   final Curve switchOutCurve;
+  final Color? background;
 
   const WouterSwitch({
     Key? key,
@@ -15,6 +16,7 @@ class WouterSwitch<T extends Widget> extends StatelessWidget {
     this.layoutBuilder = AnimatedSwitcher.defaultLayoutBuilder,
     this.switchInCurve = Curves.easeInOut,
     this.switchOutCurve = Curves.easeInOut,
+    this.background,
   }) : super(key: key);
 
   static Widget defaultTransitionBuilder(
@@ -32,7 +34,7 @@ class WouterSwitch<T extends Widget> extends StatelessWidget {
     List<T> stack,
   ) =>
       Container(
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: background ?? Theme.of(context).scaffoldBackgroundColor,
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),
           transitionBuilder: transitionBuilder,
