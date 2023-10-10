@@ -26,8 +26,10 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
     extends State<T> {
   final BehaviorSubject<List<StackEntry<W>>> _stackSubject =
       BehaviorSubject.seeded(const []);
+  final BehaviorSubject<Map<String, WouterRouteBuilder<W>>> _routesSubject =
+      BehaviorSubject.seeded(const {});
 
-  StreamSubscription<List<StackEntry<W>>>? _subscription;
+  late StreamSubscription<List<StackEntry<W>>> _subscription;
 
   @protected
   WouterState get parent => context.wouter;
@@ -39,6 +41,7 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
 
   @override
   void initState() {
+    _routesSubject.add(routes);
     _subscription = subscribe(parent);
 
     super.initState();
@@ -50,7 +53,7 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
 
     if (_prevParent != parent) {
       _prevParent = parent;
-      _subscription?.cancel();
+      _subscription.cancel();
       _subscription = subscribe(parent);
     }
 
@@ -61,7 +64,7 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   void didUpdateWidget(covariant T oldWidget) {
     if (!const DeepCollectionEquality()
         .equals(oldWidget.routes.keys, widget.routes.keys)) {
-      setState(() {});
+      _routesSubject.add(routes);
     }
 
     super.didUpdateWidget(oldWidget);
@@ -75,61 +78,29 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   }
 
   void _dispose() async {
-    await _subscription?.cancel();
+    await _subscription.cancel();
     await _stackSubject.close();
+    await _routesSubject.close();
   }
 
   @protected
   StreamSubscription<List<StackEntry<W>>> subscribe(WouterState wouter) =>
-      wouter.stream
-          .map((stack) => wouter.policy
-              .removeBase(wouter.base, stack.lastOrNull?.path ?? ""))
-          .distinct()
-          .map(wouter.policy.createStack)
-          .distinct()
-          .map((stack) => createStack(
-                wouter.matcher,
-                stack,
-              ))
-          .distinct()
-          .listen(_stackSubject.add);
-
-  @protected
-  StackEntry<W>? matchPathToRoute(
-    String path,
-    PathMatcher matcher,
-    List<MapEntry<String, WouterRouteBuilder<W>?>> routes,
-  ) {
-    for (final entry in routes) {
-      final match = matcher(
-        path,
-        entry.key,
-        prefix: false,
-      );
-
-      if (match != null) {
-        final value = entry.value;
-
-        if (value == null) {
-          return null;
-        }
-
-        return StackEntry<W>(
-          key: entry.key,
-          path: match.path,
-          builder: value,
-          arguments: match.arguments,
-        );
-      }
-    }
-
-    return null;
-  }
+      Rx.combineLatest2(
+        wouter.stream
+            .map((stack) => wouter.policy
+                .removeBase(wouter.base, stack.lastOrNull?.path ?? ""))
+            .distinct()
+            .map(wouter.policy.createStack)
+            .distinct(),
+        _routesSubject.stream.distinct(),
+        (stack, routes) => createStack(wouter.matcher, stack, routes),
+      ).distinct().listen(_stackSubject.add);
 
   @protected
   List<StackEntry<W>> createStack(
     PathMatcher matcher,
     List<String> stack,
+    Map<String, WouterRouteBuilder<W>> routes,
   ) {
     final result = stack
         .fold<Pair<List<StackEntry<W>>, Map<String, WouterRouteBuilder<W>?>>>(
@@ -162,6 +133,38 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
     );
 
     return result.item1;
+  }
+
+  @protected
+  StackEntry<W>? matchPathToRoute(
+    String path,
+    PathMatcher matcher,
+    List<MapEntry<String, WouterRouteBuilder<W>?>> routes,
+  ) {
+    for (final entry in routes) {
+      final match = matcher(
+        path,
+        entry.key,
+        prefix: false,
+      );
+
+      if (match != null) {
+        final value = entry.value;
+
+        if (value == null) {
+          return null;
+        }
+
+        return StackEntry<W>(
+          key: entry.key,
+          path: match.path,
+          builder: value,
+          arguments: match.arguments,
+        );
+      }
+    }
+
+    return null;
   }
 
   @protected
