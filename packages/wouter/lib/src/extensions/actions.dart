@@ -3,16 +3,16 @@ import 'dart:async';
 import 'package:wouter/wouter.dart';
 
 extension BaseWouterExtensions on BaseWouter {
-  List<T> _popUntil<T extends RouteEntry>(
-    List<T> state,
-    PopPredicate<String> predicate,
-  ) {
-    if (predicate(state.last.path)) {
-      return state;
-    }
+  // List<T> _popUntil<T extends RouteEntry>(
+  //   List<T> state,
+  //   PopPredicate<String> predicate,
+  // ) {
+  //   if (predicate(state.last.path)) {
+  //     return state;
+  //   }
 
-    return _popUntil(policy.onPop(state), predicate);
-  }
+  //   return _popUntil(policy.onPop(state), predicate);
+  // }
 
   // void popUntil(PopPredicate<String> predicate) {
   //   parent?.popUntil(predicate) ??
