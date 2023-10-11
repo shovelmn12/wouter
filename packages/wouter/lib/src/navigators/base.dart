@@ -63,7 +63,7 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   @override
   void didUpdateWidget(covariant T oldWidget) {
     if (!const DeepCollectionEquality()
-        .equals(oldWidget.routes.keys, widget.routes.keys)) {
+        .equals(oldWidget.routes, widget.routes)) {
       _routesSubject.add(routes);
     }
 
