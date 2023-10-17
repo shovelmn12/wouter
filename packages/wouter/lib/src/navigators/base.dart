@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:wouter/wouter.dart';
 
@@ -32,7 +33,7 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   late StreamSubscription<List<StackEntry<W>>> _subscription;
 
   @protected
-  WouterState get parent => context.wouter;
+  WouterState get parent => context.read<WouterState>();
 
   late WouterState _prevParent = parent;
 

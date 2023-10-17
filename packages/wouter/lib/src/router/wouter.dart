@@ -40,7 +40,7 @@ class Wouter extends StatefulWidget {
   /// If no Wouter ancestor exists for the given context, this will return null.
   static WouterState? maybeOf(BuildContext context) {
     try {
-      return context.read<WouterState>();
+      return context.watch<WouterState>();
     } catch (_) {
       return null;
     }
@@ -52,7 +52,11 @@ class Wouter extends StatefulWidget {
 
 class WouterState extends State<Wouter> with BaseWouter {
   final BehaviorSubject<List<RouteEntry>> _stackSubject =
-      BehaviorSubject.seeded(const []);
+      BehaviorSubject.seeded(const [
+    RouteEntry(
+      path: "/",
+    ),
+  ]);
 
   Stream<List<RouteEntry>> get stream => _stackSubject.stream.distinct();
 
@@ -64,7 +68,13 @@ class WouterState extends State<Wouter> with BaseWouter {
 
   @protected
   @override
-  WouterState? get parent => context.maybeWouter;
+  WouterState? get parent {
+    try {
+      return context.read<WouterState>();
+    } catch (_) {
+      return null;
+    }
+  }
 
   late WouterState? _prevParent = parent;
 
@@ -79,7 +89,8 @@ class WouterState extends State<Wouter> with BaseWouter {
   String get base => widget.base;
 
   @override
-  String get path => _stackSubject.valueOrNull?.lastOrNull?.path ?? "";
+  String get path =>
+      (parent?._stackSubject ?? _stackSubject).value.lastOrNull?.path ?? "";
 
   @override
   void initState() {
@@ -88,6 +99,11 @@ class WouterState extends State<Wouter> with BaseWouter {
     if (parent != null) {
       _subscription = subscribe(parent);
     }
+
+    _stackSubject
+        .map((stack) => stack.lastOrNull?.path ?? "")
+        .distinct()
+        .listen((_) => setState(() {}));
 
     super.initState();
   }
@@ -141,8 +157,12 @@ class WouterState extends State<Wouter> with BaseWouter {
           .listen(_stackSubject.add);
 
   @override
-  Widget build(BuildContext context) => Provider<WouterState>.value(
-        value: this,
+  Widget build(BuildContext context) => StreamProvider<WouterState>.value(
+        initialData: this,
+        value: _stackSubject
+            .map((stack) => stack.last.path)
+            .distinct()
+            .map((_) => this),
         child: widget.child,
       );
 
@@ -220,5 +240,5 @@ class WouterState extends State<Wouter> with BaseWouter {
 
   @override
   void update(List<RouteEntry> Function(List<RouteEntry> state) update) =>
-      _stackSubject.add(update(_stackSubject.valueOrNull ?? const []));
+      _stackSubject.add(update(_stackSubject.value));
 }
