@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:collection/collection.dart';
 import 'package:wouter/wouter.dart';
 
 /// A [Widget] to use when using nested routing with base path
