@@ -89,8 +89,7 @@ class WouterState extends State<Wouter> with BaseWouter {
   String get base => widget.base;
 
   @override
-  String get path =>
-      (parent?._stackSubject ?? _stackSubject).value.lastOrNull?.path ?? "";
+  String get path => (parent?._stackSubject ?? _stackSubject).value.last.path;
 
   @override
   void initState() {
@@ -101,7 +100,8 @@ class WouterState extends State<Wouter> with BaseWouter {
     }
 
     _stackSubject
-        .map((stack) => stack.lastOrNull?.path ?? "")
+        .where((stack) => stack.isNotEmpty)
+        .map((stack) => stack.last.path)
         .distinct()
         .listen((_) => setState(() {}));
 
@@ -157,12 +157,9 @@ class WouterState extends State<Wouter> with BaseWouter {
           .listen(_stackSubject.add);
 
   @override
-  Widget build(BuildContext context) => StreamProvider<WouterState>.value(
-        initialData: this,
-        value: _stackSubject
-            .map((stack) => stack.last.path)
-            .distinct()
-            .map((_) => this),
+  Widget build(BuildContext context) => Provider<WouterState>.value(
+        value: this,
+        updateShouldNotify: (_, __) => true,
         child: widget.child,
       );
 
