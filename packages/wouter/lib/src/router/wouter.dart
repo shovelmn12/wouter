@@ -11,17 +11,17 @@ class Wouter extends StatefulWidget {
 
   final PathMatcherBuilder? matcher;
 
-  final RoutingPolicy<RouteEntry>? policy;
+  final RoutingPolicy<List<RouteEntry>>? policy;
 
   final String base;
 
   const Wouter({
-    Key? key,
+    super.key,
     required this.child,
     this.matcher,
     this.policy,
     this.base = "",
-  }) : super(key: key);
+  });
 
   /// Retrieves the immediate [WouterState] ancestor from the given context.
   ///
@@ -50,12 +50,7 @@ class Wouter extends StatefulWidget {
 }
 
 class WouterState extends State<Wouter> with BaseWouter {
-  final BehaviorSubject<List<RouteEntry>> _stackSubject =
-      BehaviorSubject.seeded(const [
-    RouteEntry(
-      path: "/",
-    ),
-  ]);
+  final BehaviorSubject<List<RouteEntry>> _stackSubject = BehaviorSubject();
 
   Stream<List<RouteEntry>> get stream => _stackSubject.stream.distinct();
 
@@ -88,7 +83,11 @@ class WouterState extends State<Wouter> with BaseWouter {
   String get base => widget.base;
 
   @override
-  String get path => (parent?._stackSubject ?? _stackSubject).value.last.path;
+  List<String> get stack =>
+      _stackSubject.value.map((entry) => entry.path).toList();
+
+  @override
+  String get path => stack.last;
 
   @override
   void initState() {
@@ -96,6 +95,12 @@ class WouterState extends State<Wouter> with BaseWouter {
 
     if (parent != null) {
       _subscription = subscribe(parent);
+    } else {
+      _stackSubject.add(const [
+        RouteEntry(
+          path: "/",
+        )
+      ]);
     }
 
     _stackSubject
@@ -215,7 +220,7 @@ class WouterState extends State<Wouter> with BaseWouter {
 
   /// Resets the state as if only [path] been pushed.
   @override
-  void reset([String? path]) {
+  void reset([String path = ""]) {
     final parent = this.parent;
 
     if (parent == null) {
@@ -224,13 +229,13 @@ class WouterState extends State<Wouter> with BaseWouter {
       _stackSubject.add(
         policy.onReset(
           policy.pushPath(
-            "$base/${this.path}",
-            policy.buildPath(base, path ?? ""),
+            "$base${this.path}",
+            policy.buildPath(base, path),
           ),
         ),
       );
     } else {
-      parent.reset(policy.buildPath(base, path ?? ""));
+      parent.reset(policy.buildPath(base, path));
     }
   }
 

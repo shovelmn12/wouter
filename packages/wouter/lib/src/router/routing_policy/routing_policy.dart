@@ -7,28 +7,28 @@ export 'url.dart';
 abstract class RoutingPolicy<T> {
   const RoutingPolicy();
 
-  /// removes a [base] from a [path]
+  /// removes [base] from [path]
   String removeBase(String base, String path);
 
-  /// builds path for a child wouter
+  /// build path for a child wouter
   String buildPath(String base, String path);
 
-  /// merging current and next path
+  /// merge current and next path
   String pushPath(String current, String path);
 
   /// pop path
   String popPath(String path);
 
-  /// creating stack for [path]
+  /// create stack for [path]
   List<String> createStack(String path);
 
-  /// pushing [path] to [state]
+  /// push [path] to [state]
   T onPush<R>(String path, covariant T state, [ValueSetter<R>? onResult]);
 
-  /// popping state
+  /// pop state
   T onPop(T state, [dynamic result]);
 
-  /// returning state as if only [path] was pushed
+  /// returns state as if only [path] was pushed
   T onReset(String path);
 
   /// build result call back for [completer]

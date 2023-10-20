@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wouter/wouter.dart';
 
 class WouterSwitch<T extends Widget> extends StatelessWidget {
+  final String? tag;
   final Map<String, WouterRouteBuilder<T>> routes;
   final AnimatedSwitcherTransitionBuilder transitionBuilder;
   final AnimatedSwitcherLayoutBuilder layoutBuilder;
@@ -10,14 +11,15 @@ class WouterSwitch<T extends Widget> extends StatelessWidget {
   final Color? background;
 
   const WouterSwitch({
-    Key? key,
+    super.key,
+    this.tag,
     required this.routes,
     this.transitionBuilder = defaultTransitionBuilder,
     this.layoutBuilder = AnimatedSwitcher.defaultLayoutBuilder,
     this.switchInCurve = Curves.easeInOut,
     this.switchOutCurve = Curves.easeInOut,
     this.background,
-  }) : super(key: key);
+  });
 
   static Widget defaultTransitionBuilder(
     Widget child,
@@ -50,6 +52,7 @@ class WouterSwitch<T extends Widget> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BaseWouterNavigator<T>.builder(
+        tag: tag,
         routes: routes,
         builder: _builder,
       );

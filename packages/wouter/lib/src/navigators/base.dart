@@ -9,15 +9,18 @@ import 'package:wouter/wouter.dart';
 part 'base.builder.dart';
 
 abstract class BaseWouterNavigator<T> extends StatefulWidget {
+  final String? tag;
   final Map<String, WouterRouteBuilder<T>> routes;
 
   const BaseWouterNavigator({
-    Key? key,
+    super.key,
+    this.tag,
     required this.routes,
-  }) : super(key: key);
+  });
 
   const factory BaseWouterNavigator.builder({
     Key? key,
+    String? tag,
     required Map<String, WouterRouteBuilder<T>> routes,
     required WouterStackBuilder<T> builder,
   }) = BaseWouterNavigatorBuilder;
@@ -88,8 +91,8 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   StreamSubscription<List<StackEntry<W>>> subscribe(WouterState wouter) =>
       Rx.combineLatest2(
         wouter.stream
-            .map((stack) => wouter.policy
-                .removeBase(wouter.base, stack.lastOrNull?.path ?? ""))
+            .where((stack) => stack.isNotEmpty)
+            .map((stack) => stack.last.path)
             .distinct()
             .map(wouter.policy.createStack)
             .distinct(),

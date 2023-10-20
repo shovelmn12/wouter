@@ -55,63 +55,79 @@ class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
     } else if (path.startsWith("/")) {
       return normalize(path);
     } else if (path.isEmpty) {
-      return path;
+      return "/";
     } else {
       return normalize("$current/$path");
     }
   }
 
-  @override
-  String popPath(String path) {
-    final groups = this.groups.foldIndexed<Map<String, Pair<Match, String>>>(
-        const {},
-        (parentIndex, acc, pattern) => {
-              ...acc,
-              ...RegExp(pattern)
-                  .allMatches(path)
-                  .foldIndexed<Map<String, Pair<Match, String>>>(
-                      const <String, Pair<Match, String>>{},
-                      (index, acc, match) => {
-                            ...acc,
-                            "pattern-$parentIndex-match-$index": (
-                              item1: match,
-                              item2: path.substring(match.start, match.end),
-                            ),
-                          }),
-            });
-    final parts = groups.entries
-        .fold<String>(
-            path,
-            (path, entry) => path.replaceRange(
-                  entry.value.item1.start,
-                  entry.value.item1.end,
-                  "/${entry.key}",
-                ))
-        .split('/');
-    final newPath = parts.sublist(0, parts.length - 1).join('/');
-
-    if (newPath.isNotEmpty) {
-      return groups.entries.fold<String>(
-        newPath,
-        (path, entry) => path.replaceAll(entry.key, entry.value.item2),
-      );
+  String _popPath(String path) {
+    if (this.groups.isEmpty) {
+      final parts = path.split("/");
+      return parts.sublist(0, parts.length - 1).join('/');
     }
 
-    return "";
+    final groups = this.groups.foldIndexed<Map<String, Pair<Match, String>>>(
+      const {},
+      (parentIndex, acc, pattern) => {
+        ...acc,
+        ...RegExp(pattern)
+            .allMatches(path)
+            .foldIndexed<Map<String, Pair<Match, String>>>(
+                const <String, Pair<Match, String>>{},
+                (index, acc, match) => {
+                      ...acc,
+                      "pattern-$parentIndex-match-$index": (
+                        item1: match,
+                        item2: path.substring(match.start, match.end),
+                      ),
+                    }),
+      },
+    );
+
+    final parts = groups.entries
+        .fold<String>(
+          path,
+          (path, entry) => path.replaceRange(
+            entry.value.item1.start,
+            entry.value.item1.end,
+            "/${entry.key}",
+          ),
+        )
+        .split('/');
+
+    return groups.entries.fold<String>(
+      parts.sublist(0, parts.length - 1).join('/'),
+      (path, entry) => path.replaceAll(entry.key, entry.value.item2),
+    );
+  }
+
+  @override
+  String popPath(String path) {
+    final nextPath = _popPath(path);
+
+    if (nextPath.isNotEmpty) {
+      return nextPath;
+    }
+
+    return "/";
   }
 
   @override
   List<String> createStack(String path) {
-    final next = pushPath("", path);
+    final next = pushPath(
+      "",
+      path,
+    );
 
-    if (next.isEmpty) {
+    if (next == "/") {
       return [
         next,
       ];
     }
 
     return [
-      ...createStack(popPath(next)),
+      if (!groups.contains(next)) ...createStack(popPath(next)),
       next,
     ];
   }
@@ -141,16 +157,16 @@ class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
 
   @override
   List<T> onReset(String path) {
-    if (path.isEmpty) {
+    if (path == "/") {
       return <T>[
         RouteEntry(
-          path: path,
+          path: "/",
         ) as T,
       ];
     }
 
     return [
-      ...onReset(popPath(path)),
+      if (!groups.contains(path)) ...onReset(popPath(path)),
       RouteEntry(
         path: path,
       ) as T,

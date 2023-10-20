@@ -40,7 +40,7 @@ extension BaseWouterExtensions on BaseWouter {
       update((state) => policy.onPush(
             policy.pushPath(
               path,
-              policy.buildPath(base, path),
+              policy.buildPath(base, this.path),
             ),
             policy.onPop(state, result),
             policy.buildOnResultCallback(completer),

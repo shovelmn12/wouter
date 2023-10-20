@@ -5,9 +5,9 @@ class WouterRow<T extends Widget> extends StatelessWidget {
   final Map<String, WouterRouteBuilder<T>> routes;
 
   const WouterRow({
-    Key? key,
+    super.key,
     required this.routes,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) => BaseWouterNavigator<T>.builder(

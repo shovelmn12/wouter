@@ -2,25 +2,25 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:wouter/wouter.dart';
 
-class Redirect extends StatefulWidget {
+class Reset extends StatefulWidget {
   final Widget child;
   final String to;
 
-  const Redirect({
+  const Reset({
     super.key,
     this.to = "",
     this.child = const SizedBox.shrink(),
   });
 
   @override
-  State<Redirect> createState() => _RedirectState();
+  State<Reset> createState() => _ResetState();
 }
 
-class _RedirectState extends State<Redirect> {
+class _ResetState extends State<Reset> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(
-        (_) => context.read<WouterState>().replace(widget.to));
+        (_) => context.read<WouterState>().reset(widget.to));
 
     super.initState();
   }
