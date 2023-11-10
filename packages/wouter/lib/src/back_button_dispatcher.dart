@@ -1,11 +1,13 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
-typedef BackButtonDispatcherCallback = Future<bool> Function(
-    Future<bool> defaultValue);
+typedef BackButtonDispatcherCallback = bool? Function();
 
 /// Overrides default back button behavior in [BackButtonDispatcher]
 /// to call [WouterRouterDelegate.pop].
-class WouterBackButtonDispatcher extends BackButtonDispatcher {
+class WouterBackButtonDispatcher extends RootBackButtonDispatcher {
   final BackButtonDispatcherCallback onPop;
 
   WouterBackButtonDispatcher({
@@ -13,5 +15,6 @@ class WouterBackButtonDispatcher extends BackButtonDispatcher {
   });
 
   @override
-  Future<bool> invokeCallback(Future<bool> defaultValue) => onPop(defaultValue);
+  Future<bool> invokeCallback(Future<bool> defaultValue) =>
+      SynchronousFuture(onPop() ?? false);
 }

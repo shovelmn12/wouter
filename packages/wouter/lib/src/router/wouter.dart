@@ -77,7 +77,7 @@ class WouterState extends State<Wouter> with BaseWouter {
 
   @override
   bool get canPop =>
-      _stackSubject.value.isNotEmpty || (parent?.canPop ?? false);
+      _stackSubject.value.length > 1 || (parent?.canPop ?? false);
 
   @override
   String get base => widget.base;
@@ -204,7 +204,7 @@ class WouterState extends State<Wouter> with BaseWouter {
     final parent = this.parent;
 
     if (parent == null) {
-      if (_stackSubject.value.isNotEmpty) {
+      if (canPop) {
         _stackSubject.add(
           policy.onPop(_stackSubject.value, result),
         );

@@ -62,17 +62,21 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text("Home Screen"),
+  Widget build(BuildContext context) {
+    final wouter = context.wouter;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Home Screen"),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () => wouter.push("/people"),
+          child: Text("See people"),
         ),
-        body: Center(
-          child: ElevatedButton(
-            onPressed: () => context.wouter.push("/people"),
-            child: Text("See people"),
-          ),
-        ),
-      );
+      ),
+    );
+  }
 }
 
 class PeopleScreen extends StatelessWidget {
@@ -104,26 +108,30 @@ class AllPeopleScreen extends StatelessWidget {
   const AllPeopleScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () => context.wouter.pop(),
-            icon: Icon(Icons.arrow_back),
-          ),
-          title: const Text("People"),
+  Widget build(BuildContext context) {
+    final wouter = context.wouter;
+
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => wouter.pop(),
+          icon: Icon(Icons.arrow_back),
         ),
-        body: ListView(
-          children: people.values
-              .map(
-                (person) => ListTile(
-                  title: Text(
-                      "${person["name"]["first"]} ${person["name"]["last"]}"),
-                  onTap: () => context.wouter.push("./${person["_id"]}"),
-                ),
-              )
-              .toList(),
-        ),
-      );
+        title: const Text("People"),
+      ),
+      body: ListView(
+        children: people.values
+            .map(
+              (person) => ListTile(
+                title: Text(
+                    "${person["name"]["first"]} ${person["name"]["last"]}"),
+                onTap: () => wouter.push("./${person["_id"]}"),
+              ),
+            )
+            .toList(),
+      ),
+    );
+  }
 }
 
 class PersonDetailsScreen extends StatelessWidget {
@@ -135,39 +143,62 @@ class PersonDetailsScreen extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () => context.wouter.pop(),
-            icon: Icon(Icons.arrow_back),
-          ),
-          title: Text("${person["name"]["first"]} ${person["name"]["last"]}"),
+  Widget build(BuildContext context) {
+    final wouter = context.wouter;
+
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => wouter.pop(),
+          icon: Icon(Icons.arrow_back),
         ),
-        body: ListView(
-          children: person.entries
-              .where((element) => element.key != "name" && element.key != "_id")
-              .map(
-                (e) => ListTile(
-                  title: Row(
-                    children: [
-                      Text(
-                        "${e.key}",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
+        title: Text("${person["name"]["first"]} ${person["name"]["last"]}"),
+      ),
+      body: ListView(
+        children: person.entries
+            .where((element) => element.key != "name" && element.key != "_id")
+            .map(
+              (e) => ListTile(
+                title: Row(
+                  children: [
+                    Text(
+                      "${e.key}",
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
                       ),
-                      const SizedBox(
-                        width: 16,
-                      ),
-                      Expanded(
-                        child: Text("${e.value}"),
-                      ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Expanded(
+                      child: Text("${e.value}"),
+                    ),
+                  ],
                 ),
-              )
-              .toList(),
-        ),
+              ),
+            )
+            .toList(),
+      ),
+    );
+  }
+}
+
+class _Router extends StatelessWidget {
+  const _Router();
+
+  @override
+  Widget build(BuildContext context) => WouterSwitch(
+        routes: {
+          "/": (context, arguments) => const HomeScreen(
+                key: ValueKey("home-screen"),
+              ),
+          "/people/:_(.*)": (context, arguments) => const PeopleScreen(
+                key: ValueKey("people-screen"),
+              ),
+          "/:_(.*)": (context, arguments) => const Redirect(
+                key: ValueKey("redirect-screen"),
+              ),
+        },
       );
 }
 
@@ -179,20 +210,7 @@ class MyApp extends StatelessWidget {
         routerConfig: WouterConfig(
           wouter: Wouter(
             key: _wouterKey,
-            child: WouterSwitch(
-              key: const ValueKey("home-switch"),
-              routes: {
-                "/": (context, arguments) => const HomeScreen(
-                      key: ValueKey("home-screen"),
-                    ),
-                "/people/:_(.*)": (context, arguments) => const PeopleScreen(
-                      key: ValueKey("people-screen"),
-                    ),
-                "/:_(.*)": (context, arguments) => const Redirect(
-                      key: ValueKey("redirect-screen"),
-                    ),
-              },
-            ),
+            child: _Router(),
           ),
         ),
       );

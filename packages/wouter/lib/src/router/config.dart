@@ -13,7 +13,7 @@ class WouterConfig extends RouterConfig<String> {
                 (wouter.key as GlobalKey<WouterState>)
                     .currentState
                     ?.stream
-                    .map((stack) => stack.lastOrNull?.path ?? "")
+                    .map((stack) => stack.last.path)
                     .distinct() ??
                 Stream.empty(),
             onPop: ([result]) =>
@@ -29,9 +29,8 @@ class WouterConfig extends RouterConfig<String> {
             builder: (context) => wouter,
           ),
           backButtonDispatcher: WouterBackButtonDispatcher(
-            onPop: (value) async =>
-                (wouter.key as GlobalKey<WouterState>).currentState?.pop() ??
-                true,
+            onPop: () =>
+                (wouter.key as GlobalKey<WouterState>).currentState?.pop(),
           ),
           routeInformationParser: const WouterRouteInformationParser(),
           routeInformationProvider: WouterRouteInformationProvider(
