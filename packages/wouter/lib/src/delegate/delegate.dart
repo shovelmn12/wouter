@@ -9,6 +9,7 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
   final OnPopCallback onPop;
   final OnResetPathCallback onReset;
   final ValueGetter<String> onGetPath;
+  final ValueGetter<bool> onCanPop;
   final WidgetBuilder builder;
 
   late StreamSubscription<void> _subscription;
@@ -16,11 +17,14 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
   @override
   String get currentConfiguration => onGetPath();
 
+  bool get canPop => onCanPop();
+
   WouterRouterDelegate({
     required ValueGetter<Stream<String>> onNotifyListeners,
     required this.onPop,
     required this.onReset,
     required this.onGetPath,
+    required this.onCanPop,
     required this.builder,
   }) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) => _subscription =
@@ -41,9 +45,11 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
           MaterialPage(
             child: Container(
               color: Theme.of(context).scaffoldBackgroundColor,
-              child: builder(context),
+              child: Builder(
+                builder: builder,
+              ),
             ),
-          )
+          ),
         ],
       );
 

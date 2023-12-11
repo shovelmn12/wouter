@@ -5,37 +5,27 @@ import 'package:wouter/wouter.dart';
 
 class WouterConfig extends RouterConfig<String> {
   WouterConfig({
-    required Wouter wouter,
-  })  : assert(wouter.key is GlobalKey<WouterState>),
-        super(
+    required GlobalKey<WouterState> key,
+    required WidgetBuilder builder,
+  }) : super(
           routerDelegate: WouterRouterDelegate(
             onNotifyListeners: () =>
-                (wouter.key as GlobalKey<WouterState>)
-                    .currentState
-                    ?.stream
+                key.currentState?.stream
                     .map((stack) => stack.last.path)
                     .distinct() ??
                 Stream.empty(),
-            onPop: ([result]) =>
-                (wouter.key as GlobalKey<WouterState>)
-                    .currentState
-                    ?.pop(result) ??
-                true,
-            onReset: (path) async => (wouter.key as GlobalKey<WouterState>)
-                .currentState
-                ?.reset(path),
-            onGetPath: () =>
-                (wouter.key as GlobalKey<WouterState>).currentState?.path ?? "",
-            builder: (context) => wouter,
+            onPop: ([result]) => key.currentState?.pop(result) ?? true,
+            onReset: (path) async => key.currentState?.reset(path),
+            onGetPath: () => key.currentState?.path ?? "",
+            onCanPop: () => key.currentState?.canPop ?? false,
+            builder: builder,
           ),
           backButtonDispatcher: WouterBackButtonDispatcher(
-            onPop: () =>
-                (wouter.key as GlobalKey<WouterState>).currentState?.pop(),
+            onPop: () => key.currentState?.pop(),
           ),
           routeInformationParser: const WouterRouteInformationParser(),
           routeInformationProvider: WouterRouteInformationProvider(
-            onGetRoute: () =>
-                (wouter.key as GlobalKey<WouterState>).currentState?.path ?? "",
+            onGetRoute: () => key.currentState?.path ?? "",
           ),
         );
 }
