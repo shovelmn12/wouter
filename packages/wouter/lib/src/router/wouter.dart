@@ -14,7 +14,7 @@ class Wouter extends StatefulWidget {
 
   final PathMatcherBuilder? matcher;
 
-  final RoutingPolicy<List<RouteEntry>>? policy;
+  final RoutingPolicy? policy;
 
   final String base;
 

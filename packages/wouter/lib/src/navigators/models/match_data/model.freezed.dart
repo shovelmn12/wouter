@@ -62,21 +62,22 @@ class _$MatchDataCopyWithImpl<$Res, $Val extends MatchData>
 }
 
 /// @nodoc
-abstract class _$$_MatchDataCopyWith<$Res> implements $MatchDataCopyWith<$Res> {
-  factory _$$_MatchDataCopyWith(
-          _$_MatchData value, $Res Function(_$_MatchData) then) =
-      __$$_MatchDataCopyWithImpl<$Res>;
+abstract class _$$MatchDataImplCopyWith<$Res>
+    implements $MatchDataCopyWith<$Res> {
+  factory _$$MatchDataImplCopyWith(
+          _$MatchDataImpl value, $Res Function(_$MatchDataImpl) then) =
+      __$$MatchDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String path, Map<String, dynamic> arguments});
 }
 
 /// @nodoc
-class __$$_MatchDataCopyWithImpl<$Res>
-    extends _$MatchDataCopyWithImpl<$Res, _$_MatchData>
-    implements _$$_MatchDataCopyWith<$Res> {
-  __$$_MatchDataCopyWithImpl(
-      _$_MatchData _value, $Res Function(_$_MatchData) _then)
+class __$$MatchDataImplCopyWithImpl<$Res>
+    extends _$MatchDataCopyWithImpl<$Res, _$MatchDataImpl>
+    implements _$$MatchDataImplCopyWith<$Res> {
+  __$$MatchDataImplCopyWithImpl(
+      _$MatchDataImpl _value, $Res Function(_$MatchDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -85,7 +86,7 @@ class __$$_MatchDataCopyWithImpl<$Res>
     Object? path = null,
     Object? arguments = null,
   }) {
-    return _then(_$_MatchData(
+    return _then(_$MatchDataImpl(
       path: null == path
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
@@ -100,8 +101,8 @@ class __$$_MatchDataCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_MatchData with DiagnosticableTreeMixin implements _MatchData {
-  const _$_MatchData(
+class _$MatchDataImpl with DiagnosticableTreeMixin implements _MatchData {
+  const _$MatchDataImpl(
       {required this.path, required final Map<String, dynamic> arguments})
       : _arguments = arguments;
 
@@ -133,7 +134,7 @@ class _$_MatchData with DiagnosticableTreeMixin implements _MatchData {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MatchData &&
+            other is _$MatchDataImpl &&
             (identical(other.path, path) || other.path == path) &&
             const DeepCollectionEquality()
                 .equals(other._arguments, _arguments));
@@ -146,14 +147,14 @@ class _$_MatchData with DiagnosticableTreeMixin implements _MatchData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MatchDataCopyWith<_$_MatchData> get copyWith =>
-      __$$_MatchDataCopyWithImpl<_$_MatchData>(this, _$identity);
+  _$$MatchDataImplCopyWith<_$MatchDataImpl> get copyWith =>
+      __$$MatchDataImplCopyWithImpl<_$MatchDataImpl>(this, _$identity);
 }
 
 abstract class _MatchData implements MatchData {
   const factory _MatchData(
       {required final String path,
-      required final Map<String, dynamic> arguments}) = _$_MatchData;
+      required final Map<String, dynamic> arguments}) = _$MatchDataImpl;
 
   @override
   String get path;
@@ -161,6 +162,6 @@ abstract class _MatchData implements MatchData {
   Map<String, dynamic> get arguments;
   @override
   @JsonKey(ignore: true)
-  _$$_MatchDataCopyWith<_$_MatchData> get copyWith =>
+  _$$MatchDataImplCopyWith<_$MatchDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

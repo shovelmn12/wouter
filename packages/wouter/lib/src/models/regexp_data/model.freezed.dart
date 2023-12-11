@@ -63,22 +63,22 @@ class _$RegexpDataCopyWithImpl<$Res, $Val extends RegexpData>
 }
 
 /// @nodoc
-abstract class _$$_RegexpDataCopyWith<$Res>
+abstract class _$$RegexpDataImplCopyWith<$Res>
     implements $RegexpDataCopyWith<$Res> {
-  factory _$$_RegexpDataCopyWith(
-          _$_RegexpData value, $Res Function(_$_RegexpData) then) =
-      __$$_RegexpDataCopyWithImpl<$Res>;
+  factory _$$RegexpDataImplCopyWith(
+          _$RegexpDataImpl value, $Res Function(_$RegexpDataImpl) then) =
+      __$$RegexpDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({RegExp regexp, List<String> parameters});
 }
 
 /// @nodoc
-class __$$_RegexpDataCopyWithImpl<$Res>
-    extends _$RegexpDataCopyWithImpl<$Res, _$_RegexpData>
-    implements _$$_RegexpDataCopyWith<$Res> {
-  __$$_RegexpDataCopyWithImpl(
-      _$_RegexpData _value, $Res Function(_$_RegexpData) _then)
+class __$$RegexpDataImplCopyWithImpl<$Res>
+    extends _$RegexpDataCopyWithImpl<$Res, _$RegexpDataImpl>
+    implements _$$RegexpDataImplCopyWith<$Res> {
+  __$$RegexpDataImplCopyWithImpl(
+      _$RegexpDataImpl _value, $Res Function(_$RegexpDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_RegexpDataCopyWithImpl<$Res>
     Object? regexp = null,
     Object? parameters = null,
   }) {
-    return _then(_$_RegexpData(
+    return _then(_$RegexpDataImpl(
       regexp: null == regexp
           ? _value.regexp
           : regexp // ignore: cast_nullable_to_non_nullable
@@ -102,8 +102,8 @@ class __$$_RegexpDataCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_RegexpData with DiagnosticableTreeMixin implements _RegexpData {
-  const _$_RegexpData(
+class _$RegexpDataImpl with DiagnosticableTreeMixin implements _RegexpData {
+  const _$RegexpDataImpl(
       {required this.regexp, final List<String> parameters = const []})
       : _parameters = parameters;
 
@@ -136,7 +136,7 @@ class _$_RegexpData with DiagnosticableTreeMixin implements _RegexpData {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_RegexpData &&
+            other is _$RegexpDataImpl &&
             (identical(other.regexp, regexp) || other.regexp == regexp) &&
             const DeepCollectionEquality()
                 .equals(other._parameters, _parameters));
@@ -149,14 +149,14 @@ class _$_RegexpData with DiagnosticableTreeMixin implements _RegexpData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_RegexpDataCopyWith<_$_RegexpData> get copyWith =>
-      __$$_RegexpDataCopyWithImpl<_$_RegexpData>(this, _$identity);
+  _$$RegexpDataImplCopyWith<_$RegexpDataImpl> get copyWith =>
+      __$$RegexpDataImplCopyWithImpl<_$RegexpDataImpl>(this, _$identity);
 }
 
 abstract class _RegexpData implements RegexpData {
   const factory _RegexpData(
       {required final RegExp regexp,
-      final List<String> parameters}) = _$_RegexpData;
+      final List<String> parameters}) = _$RegexpDataImpl;
 
   @override
   RegExp get regexp;
@@ -164,6 +164,6 @@ abstract class _RegexpData implements RegexpData {
   List<String> get parameters;
   @override
   @JsonKey(ignore: true)
-  _$$_RegexpDataCopyWith<_$_RegexpData> get copyWith =>
+  _$$RegexpDataImplCopyWith<_$RegexpDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

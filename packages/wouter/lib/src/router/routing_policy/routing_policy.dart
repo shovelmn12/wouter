@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:wouter/wouter.dart';
 
 export 'url.dart';
 
-abstract class RoutingPolicy<T> {
+abstract class RoutingPolicy {
   const RoutingPolicy();
 
   /// removes [base] from [path]
@@ -23,13 +24,13 @@ abstract class RoutingPolicy<T> {
   List<String> createStack(String path);
 
   /// push [path] to [state]
-  T onPush<R>(String path, covariant T state, [ValueSetter<R>? onResult]);
+  List<RouteEntry> onPush<R>(String path, covariant List<RouteEntry> state, [ValueSetter<R>? onResult]);
 
   /// pop state
-  T onPop(T state, [dynamic result]);
+  List<RouteEntry> onPop(List<RouteEntry> state, [dynamic result]);
 
   /// returns state as if only [path] was pushed
-  T onReset(String path);
+  List<RouteEntry> onReset(String path);
 
   /// build result call back for [completer]
   ValueSetter<R?> buildOnResultCallback<R>(Completer<R?> completer);

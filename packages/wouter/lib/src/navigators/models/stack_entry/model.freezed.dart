@@ -79,11 +79,11 @@ class _$StackEntryCopyWithImpl<T, $Res, $Val extends StackEntry<T>>
 }
 
 /// @nodoc
-abstract class _$$_StackEntryCopyWith<T, $Res>
+abstract class _$$StackEntryImplCopyWith<T, $Res>
     implements $StackEntryCopyWith<T, $Res> {
-  factory _$$_StackEntryCopyWith(
-          _$_StackEntry<T> value, $Res Function(_$_StackEntry<T>) then) =
-      __$$_StackEntryCopyWithImpl<T, $Res>;
+  factory _$$StackEntryImplCopyWith(
+          _$StackEntryImpl<T> value, $Res Function(_$StackEntryImpl<T>) then) =
+      __$$StackEntryImplCopyWithImpl<T, $Res>;
   @override
   @useResult
   $Res call(
@@ -94,11 +94,11 @@ abstract class _$$_StackEntryCopyWith<T, $Res>
 }
 
 /// @nodoc
-class __$$_StackEntryCopyWithImpl<T, $Res>
-    extends _$StackEntryCopyWithImpl<T, $Res, _$_StackEntry<T>>
-    implements _$$_StackEntryCopyWith<T, $Res> {
-  __$$_StackEntryCopyWithImpl(
-      _$_StackEntry<T> _value, $Res Function(_$_StackEntry<T>) _then)
+class __$$StackEntryImplCopyWithImpl<T, $Res>
+    extends _$StackEntryCopyWithImpl<T, $Res, _$StackEntryImpl<T>>
+    implements _$$StackEntryImplCopyWith<T, $Res> {
+  __$$StackEntryImplCopyWithImpl(
+      _$StackEntryImpl<T> _value, $Res Function(_$StackEntryImpl<T>) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -109,7 +109,7 @@ class __$$_StackEntryCopyWithImpl<T, $Res>
     Object? builder = null,
     Object? arguments = null,
   }) {
-    return _then(_$_StackEntry<T>(
+    return _then(_$StackEntryImpl<T>(
       key: null == key
           ? _value.key
           : key // ignore: cast_nullable_to_non_nullable
@@ -132,8 +132,8 @@ class __$$_StackEntryCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$_StackEntry<T> extends _StackEntry<T> with DiagnosticableTreeMixin {
-  const _$_StackEntry(
+class _$StackEntryImpl<T> extends _StackEntry<T> with DiagnosticableTreeMixin {
+  const _$StackEntryImpl(
       {required this.key,
       required this.path,
       required this.builder,
@@ -176,7 +176,7 @@ class _$_StackEntry<T> extends _StackEntry<T> with DiagnosticableTreeMixin {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_StackEntry<T> &&
+            other is _$StackEntryImpl<T> &&
             (identical(other.key, key) || other.key == key) &&
             (identical(other.path, path) || other.path == path) &&
             (identical(other.builder, builder) || other.builder == builder) &&
@@ -191,8 +191,8 @@ class _$_StackEntry<T> extends _StackEntry<T> with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_StackEntryCopyWith<T, _$_StackEntry<T>> get copyWith =>
-      __$$_StackEntryCopyWithImpl<T, _$_StackEntry<T>>(this, _$identity);
+  _$$StackEntryImplCopyWith<T, _$StackEntryImpl<T>> get copyWith =>
+      __$$StackEntryImplCopyWithImpl<T, _$StackEntryImpl<T>>(this, _$identity);
 }
 
 abstract class _StackEntry<T> extends StackEntry<T> {
@@ -200,7 +200,7 @@ abstract class _StackEntry<T> extends StackEntry<T> {
       {required final String key,
       required final String path,
       required final WouterRouteBuilder<T> builder,
-      final Map<String, dynamic> arguments}) = _$_StackEntry<T>;
+      final Map<String, dynamic> arguments}) = _$StackEntryImpl<T>;
   const _StackEntry._() : super._();
 
   @override
@@ -213,6 +213,6 @@ abstract class _StackEntry<T> extends StackEntry<T> {
   Map<String, dynamic> get arguments;
   @override
   @JsonKey(ignore: true)
-  _$$_StackEntryCopyWith<T, _$_StackEntry<T>> get copyWith =>
+  _$$StackEntryImplCopyWith<T, _$StackEntryImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }

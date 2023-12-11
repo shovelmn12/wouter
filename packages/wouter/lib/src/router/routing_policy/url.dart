@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:wouter/wouter.dart';
 
-class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
+class URLRoutingPolicy implements RoutingPolicy {
   final Set<String> groups;
 
   const URLRoutingPolicy({
@@ -133,35 +133,39 @@ class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
   }
 
   @override
-  List<T> onPush<R>(String path, List<T> state, [ValueSetter<R>? onResult]) {
-    final nextStack = List<T>.of(state);
+  List<RouteEntry> onPush<R>(
+    String path,
+    List<RouteEntry> state, [
+    ValueSetter<R>? onResult,
+  ]) {
+    final nextStack = List<RouteEntry>.of(state);
 
     nextStack.add(RouteEntry<R>(
       path: path,
       onResult: onResult,
-    ) as T);
+    ));
 
-    return List<T>.unmodifiable(nextStack);
+    return List<RouteEntry>.unmodifiable(nextStack);
   }
 
   @override
-  List<T> onPop(List<T> state, [dynamic result]) {
-    final nextStack = List<T>.of(state);
+  List<RouteEntry> onPop(List<RouteEntry> state, [dynamic result]) {
+    final nextStack = List<RouteEntry>.of(state);
 
     if (nextStack.isNotEmpty) {
       nextStack.removeLast().onResult?.call(result);
     }
 
-    return List<T>.unmodifiable(nextStack);
+    return List<RouteEntry>.unmodifiable(nextStack);
   }
 
   @override
-  List<T> onReset(String path) {
+  List<RouteEntry> onReset(String path) {
     if (path == "/") {
-      return <T>[
+      return <RouteEntry>[
         RouteEntry(
           path: "/",
-        ) as T,
+        ),
       ];
     }
 
@@ -169,7 +173,7 @@ class URLRoutingPolicy<T extends RouteEntry> implements RoutingPolicy<List<T>> {
       if (!groups.contains(path)) ...onReset(popPath(path)),
       RouteEntry(
         path: path,
-      ) as T,
+      ),
     ];
   }
 
