@@ -1,9 +1,12 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:wouter/wouter.dart';
+
+part 'wouter.pop_scope.dart';
 
 /// A [Widget] to use when using nested routing with base path
 class Wouter extends StatefulWidget {
@@ -52,6 +55,9 @@ class Wouter extends StatefulWidget {
 class WouterState extends State<Wouter> with BaseWouter {
   final BehaviorSubject<List<RouteEntry>> _stackSubject = BehaviorSubject();
 
+  final BehaviorSubject<List<ValueGetter<bool>>> _popSubject =
+      BehaviorSubject();
+
   Stream<List<RouteEntry>> get stream => _stackSubject.stream.distinct();
 
   StreamSubscription<List<RouteEntry>>? _subscription;
@@ -77,7 +83,10 @@ class WouterState extends State<Wouter> with BaseWouter {
 
   @override
   bool get canPop =>
-      _stackSubject.value.length > 1 || (parent?.canPop ?? false);
+      (_stackSubject.value.length > 1 || (parent?.canPop ?? false));
+
+  bool get allowedToPop =>
+      _popSubject.value.fold(true, (acc, callback) => acc && callback());
 
   @override
   String get base => widget.base;
@@ -163,7 +172,8 @@ class WouterState extends State<Wouter> with BaseWouter {
   @override
   Widget build(BuildContext context) => Provider<WouterState>.value(
         value: this,
-        updateShouldNotify: (_, __) => true,
+        updateShouldNotify: (prev, next) =>
+            !const DeepCollectionEquality().equals(prev.stack, next.stack),
         child: widget.child,
       );
 
@@ -205,9 +215,11 @@ class WouterState extends State<Wouter> with BaseWouter {
 
     if (parent == null) {
       if (canPop) {
-        _stackSubject.add(
-          policy.onPop(_stackSubject.value, result),
-        );
+        if (allowedToPop) {
+          _stackSubject.add(
+            policy.onPop(_stackSubject.value, result),
+          );
+        }
 
         return true;
       }
@@ -242,4 +254,29 @@ class WouterState extends State<Wouter> with BaseWouter {
   @override
   void update(List<RouteEntry> Function(List<RouteEntry> state) update) =>
       _stackSubject.add(update(_stackSubject.value));
+
+  void _registerPopCallback(ValueGetter<bool> callback) {
+    final parent = this.parent;
+
+    if (parent == null) {
+      _popSubject.add([
+        ..._popSubject.valueOrNull ?? [],
+        callback,
+      ]);
+    } else {
+      parent._registerPopCallback(callback);
+    }
+  }
+
+  void _unregisterPopCallback(ValueGetter<bool> callback) {
+    final parent = this.parent;
+
+    if (parent == null) {
+      _popSubject.add((_popSubject.valueOrNull ?? [])
+          .where((cb) => cb != callback)
+          .toList());
+    } else {
+      parent._unregisterPopCallback(callback);
+    }
+  }
 }
