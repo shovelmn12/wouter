@@ -85,8 +85,8 @@ class WouterState extends State<Wouter> with BaseWouter {
   bool get canPop =>
       (_stackSubject.value.length > 1 || (parent?.canPop ?? false));
 
-  bool get allowedToPop =>
-      _popSubject.value.fold(true, (acc, callback) => acc && callback());
+  bool get allowedToPop => (parent?._popSubject.value ?? _popSubject.value)
+      .fold(true, (acc, callback) => acc && callback());
 
   @override
   String get base => widget.base;
@@ -172,8 +172,7 @@ class WouterState extends State<Wouter> with BaseWouter {
   @override
   Widget build(BuildContext context) => Provider<WouterState>.value(
         value: this,
-        updateShouldNotify: (prev, next) =>
-            !const DeepCollectionEquality().equals(prev.stack, next.stack),
+        updateShouldNotify: (prev, next) => true,
         child: widget.child,
       );
 
