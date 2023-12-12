@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:wouter/wouter.dart';
 
-class WouterSwitch<T extends Widget> extends StatelessWidget {
+class WouterSwitch extends StatelessWidget {
   final String? tag;
-  final Map<String, WouterRouteBuilder<T>> routes;
+  final Map<String, WouterWidgetBuilder> routes;
   final AnimatedSwitcherTransitionBuilder transitionBuilder;
   final AnimatedSwitcherLayoutBuilder layoutBuilder;
   final Curve switchInCurve;
@@ -34,8 +34,7 @@ class WouterSwitch<T extends Widget> extends StatelessWidget {
 
   Widget _builder(
     BuildContext context,
-    BaseWouter wouter,
-    List<T> stack,
+    List<WidgetBuilder> stack,
   ) =>
       (stack.isEmpty && fallback != null)
           ? fallback!
@@ -49,14 +48,18 @@ class WouterSwitch<T extends Widget> extends StatelessWidget {
                 switchOutCurve: switchOutCurve,
                 child: Stack(
                   key: ValueKey(stack.length),
-                  children: stack,
+                  children: stack
+                      .map((builder) => Builder(
+                            builder: builder,
+                          ))
+                      .toList(),
                 ),
               ),
             );
 
   @override
-  Widget build(BuildContext context) => BaseWouterNavigator<T>.builder(
-        tag: tag,
+  Widget build(BuildContext context) => WouterNavigator(
+        // tag: tag,
         routes: routes,
         builder: _builder,
       );

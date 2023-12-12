@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:wouter/src/router/provider.dart';
 import 'package:wouter/wouter.dart';
 
 class Reset extends StatefulWidget {
@@ -20,7 +21,7 @@ class _ResetState extends State<Reset> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(
-        (_) => context.read<WouterState>().reset(widget.to));
+        (_) => context.read<WouterActions>().reset(widget.to));
 
     super.initState();
   }

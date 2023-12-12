@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:wouter/wouter.dart';
 
-typedef WouterRouteBuilder<T> = T Function(
+typedef WouterWidgetBuilder = Widget Function(
   BuildContext context,
   Map<String, dynamic> arguments,
 );

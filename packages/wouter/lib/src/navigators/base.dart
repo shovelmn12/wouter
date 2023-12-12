@@ -1,115 +1,27 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:provider/provider.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:wouter/wouter.dart';
 
-part 'base.builder.dart';
+class WouterNavigator extends StatelessWidget {
+  final Map<String, WouterWidgetBuilder> routes;
+  final Widget Function(BuildContext, List<WidgetBuilder>) builder;
 
-abstract class BaseWouterNavigator<T> extends StatefulWidget {
-  final String? tag;
-  final Map<String, WouterRouteBuilder<T>> routes;
-
-  const BaseWouterNavigator({
+  const WouterNavigator({
     super.key,
-    this.tag,
     required this.routes,
+    required this.builder,
   });
 
-  const factory BaseWouterNavigator.builder({
-    Key? key,
-    String? tag,
-    required Map<String, WouterRouteBuilder<T>> routes,
-    required WouterStackBuilder<T> builder,
-  }) = BaseWouterNavigatorBuilder;
-}
-
-abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
-    extends State<T> {
-  final BehaviorSubject<List<StackEntry<W>>> _stackSubject =
-      BehaviorSubject.seeded(const []);
-  final BehaviorSubject<Map<String, WouterRouteBuilder<W>>> _routesSubject =
-      BehaviorSubject.seeded(const {});
-
-  late StreamSubscription<List<StackEntry<W>>> _subscription;
-
   @protected
-  WouterState get parent => context.read<WouterState>();
-
-  late WouterState _prevParent = parent;
-
-  @protected
-  Map<String, WouterRouteBuilder<W>> get routes => widget.routes;
-
-  @override
-  void initState() {
-    _routesSubject.add(routes);
-    _subscription = subscribe(parent);
-
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    final parent = this.parent;
-
-    if (_prevParent != parent) {
-      _prevParent = parent;
-      _subscription.cancel();
-      _subscription = subscribe(parent);
-    }
-
-    super.didChangeDependencies();
-  }
-
-  @override
-  void didUpdateWidget(covariant T oldWidget) {
-    if (!const DeepCollectionEquality()
-        .equals(oldWidget.routes, widget.routes)) {
-      _routesSubject.add(routes);
-    }
-
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void dispose() {
-    _dispose();
-
-    super.dispose();
-  }
-
-  void _dispose() async {
-    await _subscription.cancel();
-    await _stackSubject.close();
-    await _routesSubject.close();
-  }
-
-  @protected
-  StreamSubscription<List<StackEntry<W>>> subscribe(WouterState wouter) =>
-      Rx.combineLatest2(
-        wouter.stream
-            .where((stack) => stack.isNotEmpty)
-            .map((stack) => stack.last.path)
-            .distinct()
-            .map(wouter.policy.createStack)
-            .distinct(),
-        _routesSubject.stream.distinct(),
-        (stack, routes) => createStack(wouter.matcher, stack, routes),
-      ).distinct().listen(_stackSubject.add);
-
-  @protected
-  List<StackEntry<W>> createStack(
+  List<WidgetBuilder> createStack(
     PathMatcher matcher,
     List<String> stack,
-    Map<String, WouterRouteBuilder<W>> routes,
+    Map<String, WouterWidgetBuilder> routes,
   ) {
     final result = stack
-        .fold<Pair<List<StackEntry<W>>, Map<String, WouterRouteBuilder<W>?>>>(
+        .fold<Pair<List<WidgetBuilder>, Map<String, WouterWidgetBuilder?>>>(
       (
-        item1: <StackEntry<W>>[],
+        item1: <WidgetBuilder>[],
         item2: Map.of(routes),
       ),
       (state, path) {
@@ -123,14 +35,16 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
           return state;
         }
 
+        final (key, builder) = entry;
+
         return (
           item1: List.unmodifiable([
             ...state.item1,
-            entry,
+            builder,
           ]),
           item2: Map.unmodifiable({
             ...state.item2,
-            entry.key: null,
+            key: null,
           }),
         );
       },
@@ -140,10 +54,10 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
   }
 
   @protected
-  StackEntry<W>? matchPathToRoute(
+  (String, WidgetBuilder)? matchPathToRoute(
     String path,
     PathMatcher matcher,
-    List<MapEntry<String, WouterRouteBuilder<W>?>> routes,
+    List<MapEntry<String, WouterWidgetBuilder?>> routes,
   ) {
     for (final entry in routes) {
       final match = matcher(
@@ -153,17 +67,15 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
       );
 
       if (match != null) {
-        final value = entry.value;
+        final builder = entry.value;
 
-        if (value == null) {
+        if (builder == null) {
           return null;
         }
 
-        return StackEntry<W>(
-          key: entry.key,
-          path: match.path,
-          builder: value,
-          arguments: match.arguments,
+        return (
+          entry.key,
+          (context) => builder(context, match.arguments),
         );
       }
     }
@@ -171,19 +83,19 @@ abstract class BaseWouterNavigatorState<T extends BaseWouterNavigator<W>, W>
     return null;
   }
 
-  @protected
-  List<W> buildStack(BuildContext context, List<StackEntry<W>> stack) =>
-      stack.map((builder) => builder(context)).toList();
-
-  Widget builder(BuildContext context, List<W> stack);
-
   @override
-  Widget build(BuildContext context) => RepaintBoundary(
-        child: StreamBuilder<List<StackEntry<W>>>(
-          stream: _stackSubject.distinct(const DeepCollectionEquality().equals),
-          builder: (context, snapshot) => builder(
+  Widget build(BuildContext context) =>
+      ProxyProvider<WouterState, List<WidgetBuilder>>(
+        key: ObjectKey(routes),
+        update: (context, state, prev) => createStack(
+          state.matcher,
+          state.policy.createStack(state.path),
+          routes,
+        ),
+        child: Builder(
+          builder: (context) => builder(
             context,
-            buildStack(context, snapshot.data ?? const []),
+            context.watch<List<WidgetBuilder>>(),
           ),
         ),
       );
