@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:wouter/wouter.dart';
 
-class Wouter extends StatefulWidget {
+class RootWouter extends StatefulWidget {
   final PathMatcherBuilder? matcher;
 
   final RoutingPolicy? policy;
@@ -14,7 +14,7 @@ class Wouter extends StatefulWidget {
 
   final Widget child;
 
-  const Wouter({
+  const RootWouter({
     super.key,
     this.matcher,
     this.policy,
@@ -23,10 +23,10 @@ class Wouter extends StatefulWidget {
   });
 
   @override
-  State<Wouter> createState() => _WouterState();
+  State<RootWouter> createState() => _WouterState();
 }
 
-class _WouterState extends State<Wouter> {
+class _WouterState extends State<RootWouter> {
   late final BehaviorSubject<WouterState> _stateSubject;
 
   /// Push a [path].
@@ -169,5 +169,30 @@ class _WouterState extends State<Wouter> {
           ),
           child: widget.child,
         ),
+      );
+}
+
+class Wouter extends StatelessWidget {
+  final String base;
+  final Widget child;
+
+  const Wouter({
+    super.key,
+    this.base = '',
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) => ProxyProvider<WouterState, WouterState>(
+        update: (context, state, prev) => state.copyWith(
+          stack: state.stack
+              .where((entry) => entry.path.startsWith(base))
+              .map((entry) => entry.copyWith(
+                    path: state.policy.removeBase(base, entry.path),
+                  ))
+              .toList(),
+          base: base,
+        ),
+        child: child,
       );
 }

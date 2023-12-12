@@ -9,8 +9,9 @@ import 'package:wouter/wouter.dart';
 export 'functions.dart';
 
 class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
-  final BehaviorSubject<String> _pathSubject = BehaviorSubject();
-  final BehaviorSubject<WouterActions> _actionsSubject = BehaviorSubject();
+  final BehaviorSubject<String> _pathSubject;
+
+  final BehaviorSubject<WouterActions> _actionsSubject;
 
   final WidgetBuilder builder;
 
@@ -18,8 +19,11 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
   String get currentConfiguration => _pathSubject.valueOrNull ?? "";
 
   WouterRouterDelegate({
+    required BehaviorSubject<String> pathSubject,
+    required BehaviorSubject<WouterActions> actionsSubject,
     required this.builder,
-  }) {
+  })  : _pathSubject = pathSubject,
+        _actionsSubject = actionsSubject {
     _pathSubject.listen((event) => notifyListeners());
   }
 
@@ -32,7 +36,7 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
   }
 
   @override
-  Widget build(BuildContext context) => Wouter(
+  Widget build(BuildContext context) => RootWouter(
         child: _Sync(
           pathSubject: _pathSubject,
           actionsSubject: _actionsSubject,

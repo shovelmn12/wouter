@@ -63,7 +63,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final wouter = context.wouter;
+    final WouterActions(push: push) = context.wouter.actions;
 
     return Scaffold(
       appBar: AppBar(
@@ -71,7 +71,7 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Center(
         child: ElevatedButton(
-          onPressed: () => wouter.push("/people"),
+          onPressed: () => push("/people"),
           child: Text("See people"),
         ),
       ),
@@ -109,12 +109,12 @@ class AllPeopleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final wouter = context.wouter;
+    final WouterActions(pop: pop, push: push) = context.wouter.actions;
 
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () => wouter.pop(),
+          onPressed: () => pop(),
           icon: Icon(Icons.arrow_back),
         ),
         title: const Text("People"),
@@ -125,7 +125,7 @@ class AllPeopleScreen extends StatelessWidget {
               (person) => ListTile(
                 title: Text(
                     "${person["name"]["first"]} ${person["name"]["last"]}"),
-                onTap: () => wouter.push("./${person["_id"]}"),
+                onTap: () => push("./${person["_id"]}"),
               ),
             )
             .toList(),
@@ -144,12 +144,12 @@ class PersonDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final wouter = context.wouter;
+    final WouterActions(pop: pop) = context.wouter.actions;
 
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () => wouter.pop(),
+          onPressed: () => pop(),
           icon: Icon(Icons.arrow_back),
         ),
         title: Text("${person["name"]["first"]} ${person["name"]["last"]}"),
@@ -203,16 +203,11 @@ class _Router extends StatelessWidget {
 }
 
 class MyApp extends StatelessWidget {
-  final GlobalKey<WouterState> _wouterKey = GlobalKey();
-
   @override
   Widget build(BuildContext context) => MaterialApp.router(
-        routerConfig: WouterConfig(
-          wouter: Wouter(
-            key: _wouterKey,
-            child: _Router(),
-          ),
-        ),
+        routerConfig: WouterConfigBuilder(
+          builder: (context) => _Router(),
+        ).build(),
       );
 }
 
