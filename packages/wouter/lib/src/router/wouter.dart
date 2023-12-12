@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
@@ -85,8 +84,15 @@ class WouterState extends State<Wouter> with BaseWouter {
   bool get canPop =>
       (_stackSubject.value.length > 1 || (parent?.canPop ?? false));
 
-  bool get allowedToPop => (parent?._popSubject.value ?? _popSubject.value)
-      .fold(true, (acc, callback) => acc && callback());
+  bool get allowedToPop {
+    final callbacks = (parent?._popSubject.value ?? _popSubject.value);
+
+    if (callbacks.isEmpty) {
+      return true;
+    }
+
+    return callbacks.fold(true, (acc, callback) => acc && callback());
+  }
 
   @override
   String get base => widget.base;
@@ -110,6 +116,7 @@ class WouterState extends State<Wouter> with BaseWouter {
           path: "/",
         )
       ]);
+      _popSubject.add(const []);
     }
 
     _stackSubject
@@ -213,7 +220,15 @@ class WouterState extends State<Wouter> with BaseWouter {
     final parent = this.parent;
 
     if (parent == null) {
+      final canPop = this.canPop;
+
+      print("canPop $canPop");
+
       if (canPop) {
+        final allowedToPop = this.allowedToPop;
+
+        print("allowed $allowedToPop");
+
         if (allowedToPop) {
           _stackSubject.add(
             policy.onPop(_stackSubject.value, result),

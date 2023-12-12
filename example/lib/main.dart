@@ -208,7 +208,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp.router(
         routerConfig: WouterConfig(
-          wouter: Wouter(
+          key: _wouterKey,
+          builder: (context) => Wouter(
             key: _wouterKey,
             child: _Router(),
           ),
