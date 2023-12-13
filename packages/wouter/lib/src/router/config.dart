@@ -3,7 +3,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:wouter/wouter.dart';
 
 class WouterConfig extends RouterConfig<String> {
-  WouterConfig({
+  WouterConfig._({
     required BehaviorSubject<String> pathSubject,
     required BehaviorSubject<WouterActions> actionsSubject,
     required WidgetBuilder builder,
@@ -21,20 +21,14 @@ class WouterConfig extends RouterConfig<String> {
             onGetRoute: () => pathSubject.valueOrNull ?? "",
           ),
         );
-}
 
-class WouterConfigBuilder {
-  final WidgetBuilder builder;
-
-  WouterConfigBuilder({
-    required this.builder,
-  });
-
-  RouterConfig<String> build() {
+  factory WouterConfig({
+    required WidgetBuilder builder,
+  }) {
     final pathSubject = BehaviorSubject<String>();
     final actionsSubject = BehaviorSubject<WouterActions>();
 
-    return WouterConfig(
+    return WouterConfig._(
       pathSubject: pathSubject,
       actionsSubject: actionsSubject,
       builder: (context) => _DisposeHandler(
