@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,12 +25,18 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
     PathMatcherBuilder? matcher,
     RoutingPolicy policy = const URLRoutingPolicy(),
     String base = '',
+    String initial = '/',
     required this.builder,
   }) : _stateSubject = BehaviorSubject.seeded(WouterState(
           matcher: matcher?.call() ?? PathMatchers.regexp(),
           policy: policy,
           base: '',
-          stack: const [],
+          stack: [
+            if (initial.isNotEmpty)
+              RouteEntry(
+                path: initial,
+              ),
+          ],
         )) {
     _stateSubject
         .map((state) => state.fullPath)
@@ -55,7 +62,15 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
   Widget build(BuildContext context) => StreamProvider<WouterState>.value(
         value: _stateSubject,
         initialData: _state,
+        updateShouldNotify: (prev, next) =>
+            prev.fullPath != next.fullPath ||
+            !const DeepCollectionEquality().equals(
+                prev.stack.map((e) => e.path),
+                next.stack.map(
+                  (e) => e.path,
+                )),
         child: Provider<WouterActions>.value(
+          key: ValueKey(hashCode),
           value: _actions,
           child: Navigator(
             onPopPage: (route, result) => false,

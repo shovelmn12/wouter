@@ -8,7 +8,7 @@ class Reset extends StatefulWidget {
 
   const Reset({
     super.key,
-    this.to = "",
+    this.to = "./",
     this.child = const SizedBox.shrink(),
   });
 

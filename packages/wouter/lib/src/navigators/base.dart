@@ -18,6 +18,10 @@ class WouterNavigator extends StatelessWidget {
     List<String> stack,
     Map<String, WouterWidgetBuilder> routes,
   ) {
+    if (stack.isEmpty) {
+      return const [];
+    }
+
     final result = stack
         .fold<Pair<List<WidgetBuilder>, Map<String, WouterWidgetBuilder?>>>(
       (
