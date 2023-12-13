@@ -24,8 +24,6 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
     PathMatcherBuilder? matcher,
     RoutingPolicy policy = const URLRoutingPolicy(),
     String base = '',
-    ValueSetter<String>? onPathChanged,
-    ValueSetter<bool Function()>? popSetter,
     required this.builder,
   }) : _stateSubject = BehaviorSubject.seeded(WouterState(
           matcher: matcher?.call() ?? PathMatchers.regexp(),
@@ -33,12 +31,10 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
           base: '',
           stack: const [],
         )) {
-    _stateSubject.map((state) => state.fullPath).distinct().listen((path) {
-      notifyListeners();
-      onPathChanged?.call(path);
-    });
-
-    popSetter?.call(() => _actions.pop());
+    _stateSubject
+        .map((state) => state.fullPath)
+        .distinct()
+        .listen((path) => notifyListeners());
   }
 
   @override

@@ -205,9 +205,13 @@ class _Router extends StatelessWidget {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp.router(
-        routerConfig: WouterConfig(
+        // routerConfig: WouterConfig(
+        //   builder: (context) => _Router(),
+        // ),
+        routerDelegate: WouterRouterDelegate(
           builder: (context) => _Router(),
         ),
+        routeInformationParser: const WouterRouteInformationParser(),
       );
 }
 
