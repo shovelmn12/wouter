@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:rxdart/rxdart.dart';
 
 /// Converts [RouteInformation] to [Uri] and vice-versa.
 class WouterRouteInformationParser extends RouteInformationParser<String> {
@@ -19,14 +20,16 @@ class WouterRouteInformationParser extends RouteInformationParser<String> {
 
 class WouterRouteInformationProvider extends RouteInformationProvider
     with ChangeNotifier {
-  final ValueGetter<String> onGetRoute;
+  final BehaviorSubject<String> pathSubject;
 
   WouterRouteInformationProvider({
-    required this.onGetRoute,
-  });
+    required this.pathSubject,
+  }) {
+    pathSubject.listen((value) => notifyListeners());
+  }
 
   @override
   RouteInformation get value => RouteInformation(
-        uri: Uri.parse(onGetRoute()),
+        uri: Uri.parse(pathSubject.valueOrNull ?? ""),
       );
 }

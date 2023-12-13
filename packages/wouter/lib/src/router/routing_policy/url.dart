@@ -121,15 +121,15 @@ class URLRoutingPolicy implements RoutingPolicy {
     );
 
     if (next == "/") {
-      return [
+      return List<String>.unmodifiable([
         next,
-      ];
+      ]);
     }
 
-    return [
+    return List<String>.unmodifiable([
       if (!groups.contains(next)) ...createStack(popPath(next)),
       next,
-    ];
+    ]);
   }
 
   @override
@@ -162,19 +162,19 @@ class URLRoutingPolicy implements RoutingPolicy {
   @override
   List<RouteEntry> onReset(String path) {
     if (path == "/") {
-      return <RouteEntry>[
+      return List<RouteEntry>.unmodifiable([
         RouteEntry(
           path: "/",
         ),
-      ];
+      ]);
     }
 
-    return [
+    return List<RouteEntry>.unmodifiable([
       if (!groups.contains(path)) ...onReset(popPath(path)),
       RouteEntry(
         path: path,
       ),
-    ];
+    ]);
   }
 
   @override

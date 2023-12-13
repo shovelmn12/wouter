@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:wouter/src/router/provider.dart';
 import 'package:wouter/wouter.dart';
 
 class Reset extends StatefulWidget {

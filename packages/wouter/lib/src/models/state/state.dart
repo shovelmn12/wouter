@@ -14,7 +14,7 @@ class WouterState with _$WouterState {
 }
 
 extension WouterStatePathExtension on WouterState {
-  String get path => stack.last.path;
+  String get path => stack.lastOrNull?.path ?? "";
 }
 
 extension WouterStateCanPopExtension on WouterState {

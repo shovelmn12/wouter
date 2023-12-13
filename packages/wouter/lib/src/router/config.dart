@@ -1,61 +1,65 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:wouter/wouter.dart';
 
 class WouterConfig extends RouterConfig<String> {
   WouterConfig._({
-    required BehaviorSubject<String> pathSubject,
-    required BehaviorSubject<WouterActions> actionsSubject,
-    required WidgetBuilder builder,
-  }) : super(
-          routerDelegate: WouterRouterDelegate(
-            pathSubject: pathSubject,
-            actionsSubject: actionsSubject,
-            builder: builder,
-          ),
-          backButtonDispatcher: WouterBackButtonDispatcher(
-            onPop: () => actionsSubject.valueOrNull?.pop() ?? false,
-          ),
-          routeInformationParser: const WouterRouteInformationParser(),
-          routeInformationProvider: WouterRouteInformationProvider(
-            onGetRoute: () => pathSubject.valueOrNull ?? "",
-          ),
-        );
+    required super.routerDelegate,
+    required super.backButtonDispatcher,
+    required super.routeInformationParser,
+    required super.routeInformationProvider,
+  });
 
   factory WouterConfig({
+    PathMatcherBuilder? matcher,
+    RoutingPolicy policy = const URLRoutingPolicy(),
+    String base = "",
     required WidgetBuilder builder,
   }) {
     final pathSubject = BehaviorSubject<String>();
-    final actionsSubject = BehaviorSubject<WouterActions>();
+    final popSubject = BehaviorSubject<bool Function()>();
 
     return WouterConfig._(
-      pathSubject: pathSubject,
-      actionsSubject: actionsSubject,
-      builder: (context) => _DisposeHandler(
-        onDispose: () {
-          pathSubject.close();
-          actionsSubject.close();
-        },
-        child: builder(context),
+      routerDelegate: WouterRouterDelegate(
+        matcher: matcher,
+        policy: policy,
+        base: base,
+        onPathChanged: pathSubject.add,
+        popSetter: popSubject.add,
+        builder: (context) => _Dispose(
+          onDispose: () {
+            pathSubject.close();
+            popSubject.close();
+          },
+          builder: builder,
+        ),
+      ),
+      backButtonDispatcher: WouterBackButtonDispatcher(
+        onPop: () => SynchronousFuture(popSubject.valueOrNull?.call() ?? false),
+      ),
+      routeInformationParser: const WouterRouteInformationParser(),
+      routeInformationProvider: WouterRouteInformationProvider(
+        pathSubject: pathSubject,
       ),
     );
   }
 }
 
-class _DisposeHandler extends StatefulWidget {
+class _Dispose extends StatefulWidget {
   final VoidCallback onDispose;
-  final Widget child;
+  final WidgetBuilder builder;
 
-  const _DisposeHandler({
+  const _Dispose({
     required this.onDispose,
-    required this.child,
+    required this.builder,
   });
 
   @override
-  State<_DisposeHandler> createState() => _DisposeHandlerState();
+  State<_Dispose> createState() => _DisposeState();
 }
 
-class _DisposeHandlerState extends State<_DisposeHandler> {
+class _DisposeState extends State<_Dispose> {
   @override
   void dispose() {
     widget.onDispose();
@@ -64,5 +68,7 @@ class _DisposeHandlerState extends State<_DisposeHandler> {
   }
 
   @override
-  Widget build(BuildContext context) => widget.child;
+  Widget build(BuildContext context) => Builder(
+        builder: widget.builder,
+      );
 }
