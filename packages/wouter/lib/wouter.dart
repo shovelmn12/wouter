@@ -1,6 +1,5 @@
 library wouter;
 
-export 'src/back_button_dispatcher.dart';
 export 'src/delegate/delegate.dart';
 export 'src/extensions/extensions.dart';
 export 'src/models/models.dart';
