@@ -16,7 +16,6 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$WouterState {
-  PathMatcher get matcher => throw _privateConstructorUsedError;
   bool get canPop => throw _privateConstructorUsedError;
   String get base => throw _privateConstructorUsedError;
   List<RouteEntry> get stack => throw _privateConstructorUsedError;
@@ -32,8 +31,7 @@ abstract class $WouterStateCopyWith<$Res> {
           WouterState value, $Res Function(WouterState) then) =
       _$WouterStateCopyWithImpl<$Res, WouterState>;
   @useResult
-  $Res call(
-      {PathMatcher matcher, bool canPop, String base, List<RouteEntry> stack});
+  $Res call({bool canPop, String base, List<RouteEntry> stack});
 }
 
 /// @nodoc
@@ -49,16 +47,11 @@ class _$WouterStateCopyWithImpl<$Res, $Val extends WouterState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? matcher = null,
     Object? canPop = null,
     Object? base = null,
     Object? stack = null,
   }) {
     return _then(_value.copyWith(
-      matcher: null == matcher
-          ? _value.matcher
-          : matcher // ignore: cast_nullable_to_non_nullable
-              as PathMatcher,
       canPop: null == canPop
           ? _value.canPop
           : canPop // ignore: cast_nullable_to_non_nullable
@@ -83,8 +76,7 @@ abstract class _$$WouterStateImplCopyWith<$Res>
       __$$WouterStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {PathMatcher matcher, bool canPop, String base, List<RouteEntry> stack});
+  $Res call({bool canPop, String base, List<RouteEntry> stack});
 }
 
 /// @nodoc
@@ -98,16 +90,11 @@ class __$$WouterStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? matcher = null,
     Object? canPop = null,
     Object? base = null,
     Object? stack = null,
   }) {
     return _then(_$WouterStateImpl(
-      matcher: null == matcher
-          ? _value.matcher
-          : matcher // ignore: cast_nullable_to_non_nullable
-              as PathMatcher,
       canPop: null == canPop
           ? _value.canPop
           : canPop // ignore: cast_nullable_to_non_nullable
@@ -128,14 +115,11 @@ class __$$WouterStateImplCopyWithImpl<$Res>
 
 class _$WouterStateImpl implements _WouterState {
   const _$WouterStateImpl(
-      {required this.matcher,
-      required this.canPop,
+      {required this.canPop,
       required this.base,
       required final List<RouteEntry> stack})
       : _stack = stack;
 
-  @override
-  final PathMatcher matcher;
   @override
   final bool canPop;
   @override
@@ -150,7 +134,7 @@ class _$WouterStateImpl implements _WouterState {
 
   @override
   String toString() {
-    return 'WouterState(matcher: $matcher, canPop: $canPop, base: $base, stack: $stack)';
+    return 'WouterState(canPop: $canPop, base: $base, stack: $stack)';
   }
 
   @override
@@ -158,15 +142,14 @@ class _$WouterStateImpl implements _WouterState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WouterStateImpl &&
-            (identical(other.matcher, matcher) || other.matcher == matcher) &&
             (identical(other.canPop, canPop) || other.canPop == canPop) &&
             (identical(other.base, base) || other.base == base) &&
             const DeepCollectionEquality().equals(other._stack, _stack));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, matcher, canPop, base,
-      const DeepCollectionEquality().hash(_stack));
+  int get hashCode => Object.hash(
+      runtimeType, canPop, base, const DeepCollectionEquality().hash(_stack));
 
   @JsonKey(ignore: true)
   @override
@@ -177,13 +160,10 @@ class _$WouterStateImpl implements _WouterState {
 
 abstract class _WouterState implements WouterState {
   const factory _WouterState(
-      {required final PathMatcher matcher,
-      required final bool canPop,
+      {required final bool canPop,
       required final String base,
       required final List<RouteEntry> stack}) = _$WouterStateImpl;
 
-  @override
-  PathMatcher get matcher;
   @override
   bool get canPop;
   @override

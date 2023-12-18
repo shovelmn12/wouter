@@ -1,8 +1,8 @@
 part of 'delegate.dart';
 
 class _WouterActionsScope extends StatelessWidget {
-  final ValueSetter<bool Function<T>(String)> addPush;
-  final ValueSetter<bool Function<T>(String)> removePush;
+  final ValueSetter<bool Function(String)> addPush;
+  final ValueSetter<bool Function(String)> removePush;
   final ValueSetter<bool Function(String, [dynamic])> addPop;
   final ValueSetter<bool Function(String, [dynamic])> removePop;
   final Widget child;
@@ -20,7 +20,7 @@ class _WouterActionsScope extends StatelessWidget {
 }
 
 class WouterActionsScope extends StatefulWidget {
-  final bool Function<T>(String)? onPush;
+  final bool Function(String)? onPush;
   final bool Function(String, [dynamic])? onPop;
   final Widget child;
 

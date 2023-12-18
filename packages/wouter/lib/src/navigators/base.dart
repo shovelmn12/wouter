@@ -1,33 +1,38 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wouter/wouter.dart';
 
+typedef _Entry = (String, WidgetBuilder);
+
 class WouterNavigator extends StatelessWidget {
+  final PathMatcher? matcher;
   final Map<String, WouterWidgetBuilder> routes;
   final Widget Function(BuildContext, List<WidgetBuilder>) builder;
 
   const WouterNavigator({
     super.key,
+    this.matcher,
     required this.routes,
     required this.builder,
   });
 
   @protected
-  List<WidgetBuilder> createBuilderStack(
+  List<_Entry> createBuilderStack(
     PathMatcher matcher,
     List<String> stack,
     Map<String, WouterWidgetBuilder> routes,
   ) =>
-      stack.fold<Pair<List<WidgetBuilder>, Map<String, WouterWidgetBuilder?>>>(
+      stack.fold<(List<_Entry>, Map<String, WouterWidgetBuilder?>)>(
         (
-          item1: <WidgetBuilder>[],
-          item2: Map.of(routes),
+          <_Entry>[],
+          Map.of(routes),
         ),
         (state, path) {
           final entry = matchPathToRoute(
             path,
             matcher,
-            state.item2.entries.toList(),
+            state.$2.entries.toList(),
           );
 
           if (entry == null) {
@@ -37,17 +42,17 @@ class WouterNavigator extends StatelessWidget {
           final (key, builder) = entry;
 
           return (
-            item1: List.unmodifiable([
-              ...state.item1,
-              builder,
+            List<_Entry>.unmodifiable([
+              ...state.$1,
+              (path, builder),
             ]),
-            item2: Map.unmodifiable({
-              ...state.item2,
+            Map<String, WouterWidgetBuilder?>.unmodifiable({
+              ...state.$2,
               key: null,
             }),
           );
         },
-      ).item1;
+      ).$1;
 
   @protected
   (String, WidgetBuilder)? matchPathToRoute(
@@ -80,19 +85,37 @@ class WouterNavigator extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      ProxyProvider<WouterState, List<WidgetBuilder>>(
-        key: ObjectKey(routes),
-        update: (context, state, prev) => createBuilderStack(
-          state.matcher,
-          state.stack.map((e) => e.path).toList(),
-          routes,
-        ),
-        updateShouldNotify: (prev, next) => true,
-        child: Builder(
-          builder: (context) => builder(
-            context,
-            context.watch<List<WidgetBuilder>>(),
+  Widget build(BuildContext context) => Provider<PathMatcher>(
+        create: (context) => matcher ?? context.read<PathMatcher>(),
+        child: ProxyProvider<WouterState, List<_Entry>>(
+          key: ObjectKey(routes),
+          update: (context, state, prev) {
+            final stack = state.stack.map((e) => e.path).toList();
+
+            if (prev != null) {
+              final current = prev.map((e) => e.$1).toList();
+
+              if (const DeepCollectionEquality().equals(stack, current)) {
+                return prev;
+              }
+            }
+
+            return createBuilderStack(
+              context.read<PathMatcher>(),
+              stack,
+              routes,
+            );
+          },
+          updateShouldNotify: (prev, next) =>
+              !const DeepCollectionEquality().equals(
+            prev.map((e) => e.$1),
+            next.map((e) => e.$1),
+          ),
+          child: Builder(
+            builder: (context) => builder(
+              context,
+              context.watch<List<_Entry>>().map((e) => e.$2).toList(),
+            ),
           ),
         ),
       );

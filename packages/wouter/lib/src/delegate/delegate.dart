@@ -41,7 +41,6 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
     String initial = '/',
     required this.builder,
   }) : _stateSubject = BehaviorSubject.seeded(WouterState(
-          matcher: matcher?.call() ?? PathMatchers.regexp(),
           base: '',
           canPop: false,
           stack: [
@@ -107,22 +106,25 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
                 prev.stack.map((e) => e.path),
                 next.stack.map((e) => e.path),
               ),
-          child: Provider<WouterActions>.value(
-            key: ValueKey(hashCode),
-            value: _actions,
-            child: Navigator(
-              onPopPage: (route, result) =>
-                  route.didPop(result) || _actions.pop(result),
-              pages: [
-                MaterialPage(
-                  child: Container(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    child: Builder(
-                      builder: builder,
+          child: Provider<PathMatcher>.value(
+            value: PathMatchers.regexp(),
+            child: Provider<WouterActions>.value(
+              key: ValueKey(hashCode),
+              value: _actions,
+              child: Navigator(
+                onPopPage: (route, result) =>
+                    route.didPop(result) || _actions.pop(result),
+                pages: [
+                  MaterialPage(
+                    child: Container(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      child: Builder(
+                        builder: builder,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

@@ -6,7 +6,6 @@ part 'state.freezed.dart';
 @freezed
 class WouterState with _$WouterState {
   const factory WouterState({
-    required PathMatcher matcher,
     required bool canPop,
     required String base,
     required List<RouteEntry> stack,

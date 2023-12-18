@@ -18,7 +18,7 @@ typedef WouterActions = R Function<R>(
 );
 
 typedef WouterActionsCallbacks = ({
-  List<bool Function<T>(String)> push,
+  List<bool Function(String)> push,
   List<bool Function(String, [dynamic])> pop,
 });
 
