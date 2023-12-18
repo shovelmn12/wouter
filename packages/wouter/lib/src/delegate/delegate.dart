@@ -134,20 +134,35 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
     ValueSetter<WouterState> setter,
     ValueGetter<WouterActionsCallbacks> getCallbacks,
   ) {
-    push<T>(WouterState state, String path) => policy.push<T>(
-          state,
-          (path) => getCallbacks()
-              .push
-              .fold(true, (acc, callback) => acc && callback(path)),
-          path,
-        );
-    pop(WouterState state, [dynamic result]) => policy.pop(
-          state,
-          (path, [result]) => getCallbacks()
-              .pop
-              .fold(true, (acc, callback) => acc && callback(path, result)),
-          result,
-        );
+    push<R>(WouterState state, String path) {
+      final predicate = (path) => getCallbacks()
+          .push
+          .fold(true, (acc, callback) => acc && callback(path));
+
+      if (!predicate(path)) {
+        return (state, Future<R>.value());
+      }
+
+      return policy.push<R>(
+        state,
+        path,
+      );
+    }
+
+    pop(WouterState state, [dynamic result]) {
+      final predicate = (path, [result]) => getCallbacks()
+          .pop
+          .fold(true, (acc, callback) => acc && callback(path, result));
+
+      if (!predicate(state.path)) {
+        return (state, true);
+      }
+
+      return policy.pop(
+        state,
+        result,
+      );
+    }
 
     return <R>(action) {
       final (next, result) = action(

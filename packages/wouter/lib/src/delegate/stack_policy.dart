@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/widgets.dart';
 import 'package:wouter/wouter.dart';
 import 'package:path/path.dart';
 
@@ -23,15 +22,8 @@ class StackPolicy {
 
   (WouterState, Future<R?>) push<R>(
     WouterState state,
-    PushPredicate predicate,
     String path,
   ) {
-    final next = pathBuilder(state.fullPath, path);
-
-    if (!predicate(next)) {
-      return (state, Future<R>.value());
-    }
-
     final completer = Completer<R?>();
 
     return (
@@ -40,7 +32,7 @@ class StackPolicy {
         stack: List<RouteEntry>.unmodifiable([
           ...state.stack,
           RouteEntry<R>(
-            path: next,
+            path: path,
             onResult: (R? value) {
               if (completer.isCompleted) {
                 return;
@@ -55,19 +47,11 @@ class StackPolicy {
     );
   }
 
+  /// returns [WouterState] with popped stack and if stack can be popped again
   (WouterState, bool) pop(
-    WouterState state,
-    PopPredicate predicate, [
+    WouterState state, [
     dynamic result,
   ]) {
-    if (!predicate(state.fullPath, result)) {
-      return (state, true);
-    }
-
-    if (state.stack.isEmpty) {
-      return (state, false);
-    }
-
     final next = List<RouteEntry>.of(state.stack);
 
     if (next.isNotEmpty) {
@@ -79,7 +63,7 @@ class StackPolicy {
         canPop: next.length > 1,
         stack: List<RouteEntry>.unmodifiable(next),
       ),
-      true,
+      next.isNotEmpty,
     );
   }
 }

@@ -23,25 +23,33 @@ typedef WouterActionsCallbacks = ({
 });
 
 extension WouterReplaceActionExtension on WouterActions {
-  Future<R?> push<R>(String path) =>
-      this((actions, state) => actions.push<R>(state, path));
+  Future<R?> push<R>(String path) => this((actions, state) => actions.push<R>(
+        state,
+        actions.pathBuilder(state.fullPath, path),
+      ));
 
-  bool pop([dynamic result]) => this((actions, state) => actions.pop(state));
+  bool pop([dynamic result]) => this((actions, state) {
+        if (state.canPop) {
+          return actions.pop(state);
+        }
+
+        return (state, false);
+      });
 
   (WouterState, void) _reset(
     _Actions actions,
     WouterState state, [
     List<String> stack = const ["/"],
   ]) {
-    final (prev, popped) = actions.pop(state);
+    final (prev, canPop) = actions.pop(state);
 
-    if (popped) {
+    if (canPop) {
       return _reset(actions, prev, stack);
     }
 
     return (
       stack.fold(
-        state,
+        prev,
         (state, path) => actions.push(state, path).$1,
       ),
       null,
@@ -49,7 +57,9 @@ extension WouterReplaceActionExtension on WouterActions {
   }
 
   /// Resets the state as if only [path] been pushed.
-  void reset([List<String> stack = const ["/"]]) =>
+  void reset([
+    List<String> stack = const ["/"],
+  ]) =>
       this((actions, state) => _reset(
             actions,
             state,
