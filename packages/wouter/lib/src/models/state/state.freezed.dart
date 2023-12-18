@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$WouterState {
   PathMatcher get matcher => throw _privateConstructorUsedError;
-  RoutingPolicy get policy => throw _privateConstructorUsedError;
+  bool get canPop => throw _privateConstructorUsedError;
   String get base => throw _privateConstructorUsedError;
   List<RouteEntry> get stack => throw _privateConstructorUsedError;
 
@@ -33,10 +33,7 @@ abstract class $WouterStateCopyWith<$Res> {
       _$WouterStateCopyWithImpl<$Res, WouterState>;
   @useResult
   $Res call(
-      {PathMatcher matcher,
-      RoutingPolicy policy,
-      String base,
-      List<RouteEntry> stack});
+      {PathMatcher matcher, bool canPop, String base, List<RouteEntry> stack});
 }
 
 /// @nodoc
@@ -53,7 +50,7 @@ class _$WouterStateCopyWithImpl<$Res, $Val extends WouterState>
   @override
   $Res call({
     Object? matcher = null,
-    Object? policy = null,
+    Object? canPop = null,
     Object? base = null,
     Object? stack = null,
   }) {
@@ -62,10 +59,10 @@ class _$WouterStateCopyWithImpl<$Res, $Val extends WouterState>
           ? _value.matcher
           : matcher // ignore: cast_nullable_to_non_nullable
               as PathMatcher,
-      policy: null == policy
-          ? _value.policy
-          : policy // ignore: cast_nullable_to_non_nullable
-              as RoutingPolicy,
+      canPop: null == canPop
+          ? _value.canPop
+          : canPop // ignore: cast_nullable_to_non_nullable
+              as bool,
       base: null == base
           ? _value.base
           : base // ignore: cast_nullable_to_non_nullable
@@ -87,10 +84,7 @@ abstract class _$$WouterStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {PathMatcher matcher,
-      RoutingPolicy policy,
-      String base,
-      List<RouteEntry> stack});
+      {PathMatcher matcher, bool canPop, String base, List<RouteEntry> stack});
 }
 
 /// @nodoc
@@ -105,7 +99,7 @@ class __$$WouterStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? matcher = null,
-    Object? policy = null,
+    Object? canPop = null,
     Object? base = null,
     Object? stack = null,
   }) {
@@ -114,10 +108,10 @@ class __$$WouterStateImplCopyWithImpl<$Res>
           ? _value.matcher
           : matcher // ignore: cast_nullable_to_non_nullable
               as PathMatcher,
-      policy: null == policy
-          ? _value.policy
-          : policy // ignore: cast_nullable_to_non_nullable
-              as RoutingPolicy,
+      canPop: null == canPop
+          ? _value.canPop
+          : canPop // ignore: cast_nullable_to_non_nullable
+              as bool,
       base: null == base
           ? _value.base
           : base // ignore: cast_nullable_to_non_nullable
@@ -135,7 +129,7 @@ class __$$WouterStateImplCopyWithImpl<$Res>
 class _$WouterStateImpl implements _WouterState {
   const _$WouterStateImpl(
       {required this.matcher,
-      required this.policy,
+      required this.canPop,
       required this.base,
       required final List<RouteEntry> stack})
       : _stack = stack;
@@ -143,7 +137,7 @@ class _$WouterStateImpl implements _WouterState {
   @override
   final PathMatcher matcher;
   @override
-  final RoutingPolicy policy;
+  final bool canPop;
   @override
   final String base;
   final List<RouteEntry> _stack;
@@ -156,7 +150,7 @@ class _$WouterStateImpl implements _WouterState {
 
   @override
   String toString() {
-    return 'WouterState(matcher: $matcher, policy: $policy, base: $base, stack: $stack)';
+    return 'WouterState(matcher: $matcher, canPop: $canPop, base: $base, stack: $stack)';
   }
 
   @override
@@ -165,13 +159,13 @@ class _$WouterStateImpl implements _WouterState {
         (other.runtimeType == runtimeType &&
             other is _$WouterStateImpl &&
             (identical(other.matcher, matcher) || other.matcher == matcher) &&
-            (identical(other.policy, policy) || other.policy == policy) &&
+            (identical(other.canPop, canPop) || other.canPop == canPop) &&
             (identical(other.base, base) || other.base == base) &&
             const DeepCollectionEquality().equals(other._stack, _stack));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, matcher, policy, base,
+  int get hashCode => Object.hash(runtimeType, matcher, canPop, base,
       const DeepCollectionEquality().hash(_stack));
 
   @JsonKey(ignore: true)
@@ -184,14 +178,14 @@ class _$WouterStateImpl implements _WouterState {
 abstract class _WouterState implements WouterState {
   const factory _WouterState(
       {required final PathMatcher matcher,
-      required final RoutingPolicy policy,
+      required final bool canPop,
       required final String base,
       required final List<RouteEntry> stack}) = _$WouterStateImpl;
 
   @override
   PathMatcher get matcher;
   @override
-  RoutingPolicy get policy;
+  bool get canPop;
   @override
   String get base;
   @override

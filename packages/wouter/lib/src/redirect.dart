@@ -8,7 +8,7 @@ class Redirect extends StatefulWidget {
 
   const Redirect({
     super.key,
-    this.to = "./",
+    required this.to,
     this.child = const SizedBox.shrink(),
   });
 
@@ -19,8 +19,9 @@ class Redirect extends StatefulWidget {
 class _RedirectState extends State<Redirect> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback(
-        (_) => context.read<WouterActions>().replace(widget.to));
+    final WouterActions(replace: replace) = context.read<WouterActions>();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => replace(widget.to));
 
     super.initState();
   }

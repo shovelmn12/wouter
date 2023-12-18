@@ -6,12 +6,6 @@ typedef WouterWidgetBuilder = Widget Function(
   Map<String, dynamic> arguments,
 );
 
-typedef WouterStackBuilder<T> = Widget Function(
-  BuildContext context,
-  BaseWouter wouter,
-  List<T> stack,
-);
-
 typedef PathMatcherBuilder = PathMatcher Function();
 
 typedef PathMatcher = MatchData? Function(

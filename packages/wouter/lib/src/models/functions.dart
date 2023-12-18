@@ -6,8 +6,8 @@ typedef RegexpBuilder = RegexpData Function(
   bool prefix,
 });
 
+typedef PathBuilder = String Function(String current, String path);
 
+typedef PushPredicate = bool Function(String path);
 
-typedef PopPredicate<T> = bool Function(T value);
-
-
+typedef PopPredicate = bool Function(String path, [dynamic result]);

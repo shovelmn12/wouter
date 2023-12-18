@@ -7,7 +7,7 @@ part 'state.freezed.dart';
 class WouterState with _$WouterState {
   const factory WouterState({
     required PathMatcher matcher,
-    required RoutingPolicy policy,
+    required bool canPop,
     required String base,
     required List<RouteEntry> stack,
   }) = _WouterState;
@@ -15,10 +15,6 @@ class WouterState with _$WouterState {
 
 extension WouterStatePathExtension on WouterState {
   String get path => stack.lastOrNull?.path ?? "";
-}
-
-extension WouterStateCanPopExtension on WouterState {
-  bool get canPop => stack.length > 1;
 }
 
 extension WouterStateFullPathExtension on WouterState {

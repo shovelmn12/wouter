@@ -4,11 +4,11 @@ import 'package:wouter/wouter.dart';
 
 class Reset extends StatefulWidget {
   final Widget child;
-  final String to;
+  final List<String> to;
 
   const Reset({
     super.key,
-    this.to = "./",
+    required this.to,
     this.child = const SizedBox.shrink(),
   });
 
@@ -19,8 +19,9 @@ class Reset extends StatefulWidget {
 class _ResetState extends State<Reset> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback(
-        (_) => context.read<WouterActions>().reset(widget.to));
+    final WouterActions(reset: reset) = context.read<WouterActions>();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => reset(widget.to));
 
     super.initState();
   }

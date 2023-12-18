@@ -92,12 +92,13 @@ class PeopleScreen extends StatelessWidget {
             "/": (context, arguments) => const AllPeopleScreen(
                   key: ValueKey("all-people-screen"),
                 ),
-            r"/:id(\d+)": (context, arguments) => PersonDetailsScreen(
+            r"/:id([1-4])": (context, arguments) => PersonDetailsScreen(
                   key: ValueKey("people-${arguments["id"]}-screen"),
                   person: people[arguments["id"]]!,
                 ),
             "/:_(.*)": (context, arguments) => const Redirect(
                   key: ValueKey("people-redirect-screen"),
+                  to: "/people",
                 ),
           },
         ),
@@ -197,6 +198,7 @@ class _Router extends StatelessWidget {
               ),
           "/:_(.*)": (context, arguments) => const Redirect(
                 key: ValueKey("redirect-screen"),
+                to: "/",
               ),
         },
       );
