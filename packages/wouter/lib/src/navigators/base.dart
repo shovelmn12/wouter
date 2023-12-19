@@ -87,35 +87,20 @@ class WouterNavigator extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Provider<PathMatcher>(
         create: (context) => matcher ?? context.read<PathMatcher>(),
-        child: ProxyProvider<WouterState, List<_Entry>>(
+        child: Selector<WouterState, List<_Entry>>(
           key: ObjectKey(routes),
-          update: (context, state, prev) {
-            final stack = state.stack.map((e) => e.path).toList();
-
-            if (prev != null) {
-              final current = prev.map((e) => e.$1).toList();
-
-              if (const DeepCollectionEquality().equals(stack, current)) {
-                return prev;
-              }
-            }
-
-            return createBuilderStack(
-              context.read<PathMatcher>(),
-              stack,
-              routes,
-            );
-          },
-          updateShouldNotify: (prev, next) =>
-              !const DeepCollectionEquality().equals(
+          selector: (context, state) => createBuilderStack(
+            context.read<PathMatcher>(),
+            state.stack.map((e) => e.path).toList(),
+            routes,
+          ),
+          shouldRebuild: (prev, next) => !const DeepCollectionEquality().equals(
             prev.map((e) => e.$1),
             next.map((e) => e.$1),
           ),
-          child: Builder(
-            builder: (context) => builder(
-              context,
-              context.watch<List<_Entry>>().map((e) => e.$2).toList(),
-            ),
+          builder: (context, stack, child) => builder(
+            context,
+            stack.map((e) => e.$2).toList(),
           ),
         ),
       );

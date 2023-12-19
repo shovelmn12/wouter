@@ -14,24 +14,30 @@ class Wouter extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => Provider<WouterState>.value(
-        value: context.select(
-          (WouterState state) => state.copyWith(
-            stack: state.stack
-                .where((entry) => entry.path.startsWith(base))
-                .map((entry) => entry.copyWith(
-                      path: entry.path.replaceRange(0, base.length, ""),
-                    ))
-                .toList(),
-            base: base,
-          ),
+  Widget build(BuildContext context) => Selector<WouterState, WouterState>(
+        key: ValueKey('wouter-base-$base'),
+        selector: (context, state) => state.copyWith(
+          stack: state.stack
+              .where((entry) => entry.path.startsWith(base))
+              .map((entry) {
+            final path = entry.path.replaceRange(0, base.length, "");
+
+            return entry.copyWith(
+              path: path.isEmpty ? "/" : path,
+            );
+          }).toList(),
+          base: base,
         ),
-        updateShouldNotify: (prev, next) =>
+        shouldRebuild: (prev, next) =>
             prev.fullPath != next.fullPath ||
             !const DeepCollectionEquality().equals(
               prev.stack.map((e) => e.path),
               next.stack.map((e) => e.path),
             ),
+        builder: (context, state, child) => Provider.value(
+          value: state,
+          child: child,
+        ),
         child: child,
       );
 }
