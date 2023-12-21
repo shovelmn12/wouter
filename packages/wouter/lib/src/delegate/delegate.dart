@@ -68,10 +68,15 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
   Future<bool> popRoute() => SynchronousFuture(_actions.pop());
 
   @override
-  Future<void> setNewRoutePath(String configuration) =>
-      SynchronousFuture(_actions.reset([
+  Future<void> setNewRoutePath(String configuration) {
+    if (configuration != _state.fullPath) {
+      _actions.reset([
         configuration.isEmpty ? "/" : configuration,
-      ]));
+      ]);
+    }
+
+    return SynchronousFuture(null);
+  }
 
   @override
   Widget build(BuildContext context) => _WouterActionsScope(
