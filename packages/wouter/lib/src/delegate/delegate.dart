@@ -41,7 +41,7 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
     String initial = '/',
     required this.builder,
   }) : _stateSubject = BehaviorSubject.seeded(WouterState(
-          base: '',
+          base: base,
           canPop: false,
           stack: [
             if (initial.isNotEmpty)
