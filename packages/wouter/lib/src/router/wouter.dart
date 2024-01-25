@@ -26,7 +26,7 @@ class Wouter extends StatelessWidget {
               path: path.isEmpty ? "/" : path,
             );
           }).toList(),
-          base: base,
+          base: "${state.base}$base",
         ),
         shouldRebuild: (prev, next) =>
             prev.fullPath != next.fullPath ||
