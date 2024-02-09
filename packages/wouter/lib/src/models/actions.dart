@@ -28,13 +28,7 @@ extension WouterReplaceActionExtension on WouterActions {
         actions.pathBuilder(state.fullPath, path),
       ));
 
-  bool pop([dynamic result]) => this((actions, state) {
-        if (state.canPop) {
-          return actions.pop(state);
-        }
-
-        return (state, false);
-      });
+  bool pop([dynamic result]) => this((actions, state) => actions.pop(state));
 
   (WouterState, void) _reset(
     _Actions actions,
