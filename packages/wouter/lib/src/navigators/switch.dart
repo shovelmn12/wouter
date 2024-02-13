@@ -47,6 +47,7 @@ class WouterSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => WouterNavigator(
+        key: ObjectKey(routes),
         routes: routes,
         builder: _builder,
       );

@@ -22,20 +22,30 @@ class _WouterStateStreamableImpl implements WouterStateStreamable {
   }) {
     _subscription = parent
         .map((state) => state.copyWith(
-              stack: state.stack
-                  .sublist(1)
-                  .takeWhile((entry) => entry.path.startsWith(base))
-                  .map((entry) {
-                final path = entry.path.replaceRange(0, base.length, "");
-
-                return entry.copyWith(
-                  path: path.isEmpty ? "/" : path,
-                );
-              }).toList(),
+              stack: _buildStack(base, state.stack),
               base: "${state.base}$base",
             ))
         .distinct()
         .listen(_subject.add);
+  }
+
+  List<RouteEntry> _buildStack(String base, List<RouteEntry> stack) {
+    final start = stack.indexWhere((entry) => entry.path.startsWith(base));
+
+    if (start < 0) {
+      return const [];
+    }
+
+    return stack
+        .sublist(start)
+        .takeWhile((entry) => entry.path.startsWith(base))
+        .map((entry) {
+      final path = entry.path.replaceRange(0, base.length, "");
+
+      return entry.copyWith(
+        path: path.isEmpty ? "/" : path,
+      );
+    }).toList();
   }
 
   Future<void> close() async {
