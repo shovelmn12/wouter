@@ -1,11 +1,11 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:wouter/wouter.dart';
 
 typedef _Entry = (String, WidgetBuilder);
 
-class WouterNavigator extends StatelessWidget {
+class WouterNavigator extends StatefulWidget {
   final PathMatcher? matcher;
   final Map<String, WouterWidgetBuilder> routes;
   final Widget Function(BuildContext, List<WidgetBuilder>) builder;
@@ -16,6 +16,21 @@ class WouterNavigator extends StatelessWidget {
     required this.routes,
     required this.builder,
   });
+
+  @override
+  State<WouterNavigator> createState() => _WouterNavigatorState();
+}
+
+class _WouterNavigatorState extends State<WouterNavigator> {
+  late final Stream<List<_Entry>> _stream = context.wouter.stream
+      .map((state) => state.stack.map((e) => e.path).toList())
+      .distinct()
+      .map((stack) => createBuilderStack(
+            widget.matcher ?? context.read<PathMatcher>(),
+            stack,
+            widget.routes,
+          ))
+      .distinct();
 
   @protected
   List<_Entry> createBuilderStack(
@@ -86,21 +101,13 @@ class WouterNavigator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Provider<PathMatcher>(
-        create: (context) => matcher ?? context.read<PathMatcher>(),
-        child: Selector<WouterState, List<_Entry>>(
-          key: ObjectKey(routes),
-          selector: (context, state) => createBuilderStack(
-            context.read<PathMatcher>(),
-            state.stack.map((e) => e.path).toList(),
-            routes,
-          ),
-          shouldRebuild: (prev, next) => !const DeepCollectionEquality().equals(
-            prev.map((e) => e.$1),
-            next.map((e) => e.$1),
-          ),
-          builder: (context, stack, child) => builder(
+        create: (context) => widget.matcher ?? context.read<PathMatcher>(),
+        child: StreamBuilder<List<_Entry>>(
+          stream: _stream,
+          initialData: const [],
+          builder: (context, snapshot) => widget.builder(
             context,
-            stack.map((e) => e.$2).toList(),
+            snapshot.requireData.map((e) => e.$2).toList(),
           ),
         ),
       );

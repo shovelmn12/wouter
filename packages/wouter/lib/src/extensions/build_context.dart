@@ -11,7 +11,12 @@ class WouterSelector {
 
   const WouterSelector._(this._context);
 
-  WouterState get state => _context.watch<WouterState>();
+  WouterStateStreamable get _streamable =>
+      _context.read<WouterStateStreamable>();
 
-  WouterActions get actions => _context.watch<WouterActions>();
+  Stream<WouterState> get stream => _streamable.stream;
+
+  WouterState get state => _streamable.state;
+
+  WouterActions get actions => _context.read<WouterActions>();
 }

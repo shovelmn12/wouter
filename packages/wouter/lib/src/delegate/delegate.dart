@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,11 +7,19 @@ import 'package:rxdart/rxdart.dart';
 import 'package:wouter/wouter.dart';
 
 export 'stack_policy.dart';
+export 'streamable.dart';
+
+part 'delegate.actions.dart';
 
 part 'delegate.actions_scope.dart';
 
+part 'delegate.streamable.dart';
+
 class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
-  final BehaviorSubject<WouterState> _stateSubject;
+  final _WouterStateStreamableImpl _streamable;
+
+  BehaviorSubject<WouterState> get _stateSubject => _streamable._subject;
+
   final BehaviorSubject<WouterActionsCallbacks> _actionsCallbacksSubject =
       BehaviorSubject.seeded((
     push: [],
@@ -40,16 +47,10 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
     String base = '',
     String initial = '/',
     required this.builder,
-  }) : _stateSubject = BehaviorSubject.seeded(WouterState(
+  }) : _streamable = _WouterStateStreamableImpl(
           base: base,
-          canPop: false,
-          stack: [
-            if (initial.isNotEmpty)
-              RouteEntry(
-                path: initial,
-              ),
-          ],
-        )) {
+          initial: initial,
+        ) {
     _stateSubject
         .map((state) => state.fullPath)
         .distinct()
@@ -105,85 +106,31 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
         child: StreamProvider<WouterState>.value(
           value: _stateSubject,
           initialData: _state,
-          updateShouldNotify: (prev, next) =>
-              prev.fullPath != next.fullPath ||
-              !const DeepCollectionEquality().equals(
-                prev.stack.map((e) => e.path),
-                next.stack.map((e) => e.path),
-              ),
-          child: Provider<PathMatcher>.value(
-            value: PathMatchers.regexp(),
-            child: Provider<WouterActions>.value(
-              key: ValueKey(hashCode),
-              value: _actions,
-              child: Navigator(
-                onPopPage: (route, result) =>
-                    route.didPop(result) || _actions.pop(result),
-                pages: [
-                  MaterialPage(
-                    child: Container(
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                      child: Builder(
-                        builder: builder,
+          updateShouldNotify: (prev, next) => false,
+          child: Provider<WouterStateStreamable>.value(
+            value: _streamable,
+            child: Provider<PathMatcher>.value(
+              value: PathMatchers.regexp(),
+              child: Provider<WouterActions>.value(
+                key: ValueKey(hashCode),
+                value: _actions,
+                child: Navigator(
+                  onPopPage: (route, result) =>
+                      route.didPop(result) || _actions.pop(result),
+                  pages: [
+                    MaterialPage(
+                      child: Container(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        child: Builder(
+                          builder: builder,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
         ),
       );
-
-  WouterActions _createActions(
-    StackPolicy policy,
-    ValueGetter<WouterState> getter,
-    ValueSetter<WouterState> setter,
-    ValueGetter<WouterActionsCallbacks> getCallbacks,
-  ) {
-    push<R>(WouterState state, String path) {
-      final predicate = (path) => getCallbacks()
-          .push
-          .fold(true, (acc, callback) => acc && callback(path));
-
-      if (!predicate(path)) {
-        return (state, Future<R>.value());
-      }
-
-      return policy.push<R>(
-        state,
-        path,
-      );
-    }
-
-    pop(WouterState state, [dynamic result]) {
-      final predicate = (path, [result]) => getCallbacks()
-          .pop
-          .fold(true, (acc, callback) => acc && callback(path, result));
-
-      if (!predicate(state.path)) {
-        return (state, true);
-      }
-
-      return policy.pop(
-        state,
-        result,
-      );
-    }
-
-    return <R>(action) {
-      final (next, result) = action(
-        (
-          push: push,
-          pop: pop,
-          pathBuilder: policy.pathBuilder,
-        ),
-        getter(),
-      );
-
-      setter(next);
-
-      return result;
-    };
-  }
 }
