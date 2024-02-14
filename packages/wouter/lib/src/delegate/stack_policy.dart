@@ -52,6 +52,10 @@ class StackPolicy {
     WouterState state, [
     dynamic result,
   ]) {
+    if (!state.canPop) {
+      return (state, false);
+    }
+
     final next = List<RouteEntry>.of(state.stack);
 
     if (next.isNotEmpty) {
