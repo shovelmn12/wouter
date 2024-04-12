@@ -28,7 +28,7 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
 
   final WidgetBuilder builder;
 
-  late final WouterActions _actions = _createActions(
+  late final WouterAction _actions = _createActions(
     const StackPolicy(),
     () => _state,
     _stateSubject.add,
@@ -111,7 +111,7 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
             value: _streamable,
             child: Provider<PathMatcher>.value(
               value: PathMatchers.cachedRegexp(),
-              child: Provider<WouterActions>.value(
+              child: Provider<WouterAction>.value(
                 key: ValueKey(hashCode),
                 value: _actions,
                 child: Navigator(

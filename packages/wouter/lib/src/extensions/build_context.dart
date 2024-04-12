@@ -18,5 +18,5 @@ class WouterSelector {
 
   WouterState get state => _streamable.state;
 
-  WouterActions get actions => _context.read<WouterActions>();
+  WouterAction get actions => _context.read<WouterAction>();
 }

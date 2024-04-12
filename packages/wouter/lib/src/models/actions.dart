@@ -6,14 +6,14 @@ typedef PushAction = (WouterState, Future<R?>) Function<R>(WouterState, String);
 
 typedef PopAction = (WouterState, bool) Function(WouterState, [dynamic]);
 
-typedef Actions = ({
+typedef ActionBuilder = ({
   PushAction push,
   PopAction pop,
   PathBuilder pathBuilder,
 });
 
-typedef WouterActions = R Function<R>(
-  (WouterState, R) Function(Actions, WouterState),
+typedef WouterAction = R Function<R>(
+  (WouterState, R) Function(ActionBuilder, WouterState),
 );
 
 typedef WouterActionsCallbacks = ({
@@ -21,7 +21,7 @@ typedef WouterActionsCallbacks = ({
   List<bool Function(String, [dynamic])> pop,
 });
 
-extension WouterReplaceActionExtension on WouterActions {
+extension WouterActionsExtension on WouterAction {
   Future<R?> push<R>(String path) => this((actions, state) => actions.push<R>(
         state,
         actions.pathBuilder(state.fullPath, path),
@@ -30,7 +30,7 @@ extension WouterReplaceActionExtension on WouterActions {
   bool pop([dynamic result]) => this((actions, state) => actions.pop(state));
 
   (WouterState, void) _reset(
-    Actions actions,
+    ActionBuilder actions,
     WouterState state, [
     List<String> stack = const ["/"],
   ]) {
@@ -62,7 +62,7 @@ extension WouterReplaceActionExtension on WouterActions {
           ));
 
   (WouterState, Future<R?>) _replace<R>(
-    Actions actions,
+    ActionBuilder actions,
     WouterState state,
     String path, [
     dynamic result,

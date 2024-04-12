@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 import 'package:wouter/wouter.dart';
 
 class Redirect extends StatefulWidget {
@@ -19,9 +18,8 @@ class Redirect extends StatefulWidget {
 class _RedirectState extends State<Redirect> {
   @override
   void initState() {
-    final WouterActions(replace: replace) = context.read<WouterActions>();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) => replace(widget.to));
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => context.wouter.actions.replace(widget.to));
 
     super.initState();
   }

@@ -1,6 +1,6 @@
 part of 'delegate.dart';
 
-WouterActions _createActions(
+WouterAction _createActions(
   StackPolicy policy,
   ValueGetter<WouterState> getter,
   ValueSetter<WouterState> setter,
