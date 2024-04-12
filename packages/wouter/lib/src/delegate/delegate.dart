@@ -110,7 +110,7 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
           child: Provider<WouterStateStreamable>.value(
             value: _streamable,
             child: Provider<PathMatcher>.value(
-              value: PathMatchers.regexp(),
+              value: PathMatchers.cachedRegexp(),
               child: Provider<WouterActions>.value(
                 key: ValueKey(hashCode),
                 value: _actions,

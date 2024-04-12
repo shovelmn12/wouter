@@ -7,7 +7,7 @@ typedef _Entry = (String, WidgetBuilder);
 class WouterNavigator extends StatefulWidget {
   final PathMatcher? matcher;
   final Map<String, WouterWidgetBuilder> routes;
-  final Widget Function(BuildContext, List<WidgetBuilder>) builder;
+  final Widget Function(BuildContext, List<Widget>) builder;
 
   const WouterNavigator({
     super.key,
@@ -21,7 +21,7 @@ class WouterNavigator extends StatefulWidget {
 }
 
 class _WouterNavigatorState extends State<WouterNavigator> {
-  late final Stream<List<_Entry>> _stream = context.wouter.stream
+  late final Stream<List<Widget>> _stream = context.wouter.stream
       .map((state) => state.stack.map((e) => e.path).toList())
       .distinct()
       .map((stack) => createBuilderStack(
@@ -32,41 +32,49 @@ class _WouterNavigatorState extends State<WouterNavigator> {
       .distinct();
 
   @protected
-  List<_Entry> createBuilderStack(
+  List<Widget> createBuilderStack(
     PathMatcher matcher,
     List<String> stack,
     Map<String, WouterWidgetBuilder> routes,
   ) =>
-      stack.fold<(List<_Entry>, Map<String, WouterWidgetBuilder?>)>(
-        (
-          <_Entry>[],
-          Map.of(routes),
-        ),
-        (state, path) {
-          final entry = matchPathToRoute(
-            path,
-            matcher,
-            state.$2.entries.toList(),
-          );
+      stack
+          .fold<(List<_Entry>, Map<String, WouterWidgetBuilder?>)>(
+            (
+              <_Entry>[],
+              Map.of(routes),
+            ),
+            (state, path) {
+              final entry = matchPathToRoute(
+                path,
+                matcher,
+                state.$2.entries.toList(),
+              );
 
-          if (entry == null) {
-            return state;
-          }
+              if (entry == null) {
+                return state;
+              }
 
-          final (key, builder) = entry;
+              final (key, builder) = entry;
 
-          return (
-            List<_Entry>.unmodifiable([
-              ...state.$1,
-              (path, builder),
-            ]),
-            Map<String, WouterWidgetBuilder?>.unmodifiable({
-              ...state.$2,
-              key: null,
-            }),
-          );
-        },
-      ).$1;
+              return (
+                List<_Entry>.unmodifiable([
+                  ...state.$1,
+                  (path, builder),
+                ]),
+                Map<String, WouterWidgetBuilder?>.unmodifiable({
+                  ...state.$2,
+                  key: null,
+                }),
+              );
+            },
+          )
+          .$1
+          .map((entry) => RepaintBoundary(
+                child: Builder(
+                  builder: entry.$2,
+                ),
+              ))
+          .toList();
 
   @protected
   (String, WidgetBuilder)? matchPathToRoute(
@@ -101,12 +109,12 @@ class _WouterNavigatorState extends State<WouterNavigator> {
   @override
   Widget build(BuildContext context) => Provider<PathMatcher>(
         create: (context) => widget.matcher ?? context.read<PathMatcher>(),
-        child: StreamBuilder<List<_Entry>>(
+        child: StreamBuilder<List<Widget>>(
           stream: _stream,
           initialData: const [],
           builder: (context, snapshot) => widget.builder(
             context,
-            snapshot.requireData.map((e) => e.$2).toList(),
+            snapshot.requireData,
           ),
         ),
       );

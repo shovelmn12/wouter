@@ -24,7 +24,7 @@ class WouterSwitch extends StatelessWidget {
 
   Widget _builder(
     BuildContext context,
-    List<WidgetBuilder> stack,
+    List<Widget> stack,
   ) {
     if (stack.isEmpty && fallback != null) {
       return fallback!;
@@ -34,20 +34,13 @@ class WouterSwitch extends StatelessWidget {
       color: background ?? Theme.of(context).scaffoldBackgroundColor,
       child: Stack(
         alignment: Alignment.center,
-        children: stack
-            .map((builder) => RepaintBoundary(
-                  child: Builder(
-                    builder: builder,
-                  ),
-                ))
-            .toList(),
+        children: stack,
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) => WouterNavigator(
-        key: ObjectKey(routes),
         routes: routes,
         builder: _builder,
       );
