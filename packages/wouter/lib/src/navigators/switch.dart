@@ -1,42 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:wouter/wouter.dart';
 
-import 'base.dart';
-
-class WouterSwitch<T extends Page> extends StatelessWidget {
-  final Map<String, WouterRouteBuilder<T>> routes;
-  final List<NavigatorObserver> observers;
-  final TransitionDelegate<T> transition;
+class WouterSwitch extends StatelessWidget {
+  final Map<String, WouterWidgetBuilder> routes;
+  final Color? background;
+  final Widget? fallback;
 
   const WouterSwitch({
-    Key? key,
+    super.key,
     required this.routes,
-    this.observers = const [],
-    this.transition = const DefaultTransitionDelegate(),
-  }) : super(key: key);
+    this.background,
+    this.fallback,
+  });
+
+  static Widget defaultTransitionBuilder(
+    Widget child,
+    Animation<double> animation,
+  ) =>
+      FadeTransition(
+        opacity: animation,
+        child: child,
+      );
 
   Widget _builder(
     BuildContext context,
-    BaseWouter wouter,
-    List<T> stack,
-  ) =>
-      stack.isEmpty
-          ? const SizedBox.shrink()
-          : Navigator(
-              pages: stack,
-              observers: observers,
-              transitionDelegate: transition,
-              onPopPage: (route, result) {
-                final result = wouter.pop();
+    List<Widget> stack,
+  ) {
+    if (stack.isEmpty && fallback != null) {
+      return fallback!;
+    }
 
-                route.didPop(result);
-
-                return result;
-              },
-            );
+    return Container(
+      color: background ?? Theme.of(context).scaffoldBackgroundColor,
+      child: Stack(
+        alignment: Alignment.center,
+        children: stack,
+      ),
+    );
+  }
 
   @override
-  Widget build(BuildContext context) => BaseWouterNavigator<T>.builder(
+  Widget build(BuildContext context) => WouterNavigator(
         routes: routes,
         builder: _builder,
       );

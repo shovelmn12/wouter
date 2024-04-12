@@ -1,4 +1,3 @@
-// DATA
 import 'package:flutter/material.dart';
 import 'package:wouter/wouter.dart';
 
@@ -60,20 +59,24 @@ const Map<String, Map<String, dynamic>> people = {
 
 // SCREENS
 class HomeScreen extends StatelessWidget {
-  const HomeScreen();
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text("Home Screen"),
+  Widget build(BuildContext context) {
+    final WouterActions(push: push) = context.wouter.actions;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Home Screen"),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () => push("/people"),
+          child: Text("See people"),
         ),
-        body: Center(
-          child: ElevatedButton(
-            onPressed: () => context.wouter.push("/people"),
-            child: Text("See people"),
-          ),
-        ),
-      );
+      ),
+    );
+  }
 }
 
 class PeopleScreen extends StatelessWidget {
@@ -81,22 +84,21 @@ class PeopleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Wouter(
+        key: const ValueKey("people-wouter"),
         base: "/people",
         child: WouterSwitch(
+          key: const ValueKey("people-switch"),
           routes: {
-            "/": (context, arguments) => const MaterialPage(
+            "/": (context, arguments) => const AllPeopleScreen(
                   key: ValueKey("all-people-screen"),
-                  child: AllPeopleScreen(),
                 ),
-            r"/:id(\d+)": (context, arguments) => MaterialPage(
+            r"/:id([1-4])": (context, arguments) => PersonDetailsScreen(
                   key: ValueKey("people-${arguments["id"]}-screen"),
-                  child: PersonDetailsScreen(
-                    person: people[arguments["id"]]!,
-                  ),
+                  person: people[arguments["id"]]!,
                 ),
-            "/:_(.*)": (context, arguments) => const MaterialPage(
+            "/:_(.*)": (context, arguments) => const Redirect(
                   key: ValueKey("people-redirect-screen"),
-                  child: Redirect(),
+                  to: "/people",
                 ),
           },
         ),
@@ -104,97 +106,111 @@ class PeopleScreen extends StatelessWidget {
 }
 
 class AllPeopleScreen extends StatelessWidget {
-  const AllPeopleScreen();
+  const AllPeopleScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          leading: BackButton(
-            onPressed: () => Navigator.pop(context),
-          ),
-          title: const Text("People"),
+  Widget build(BuildContext context) {
+    final WouterActions(pop: pop, push: push) = context.wouter.actions;
+
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => pop(),
+          icon: Icon(Icons.arrow_back),
         ),
-        body: ListView(
-          children: people.values
-              .map(
-                (person) => ListTile(
-                  title: Text(
-                      "${person["name"]["first"]} ${person["name"]["last"]}"),
-                  onTap: () => context.wouter.push("./${person["_id"]}"),
-                ),
-              )
-              .toList(),
-        ),
-      );
+        title: const Text("People"),
+      ),
+      body: ListView(
+        children: people.values
+            .map(
+              (person) => ListTile(
+                title: Text(
+                    "${person["name"]["first"]} ${person["name"]["last"]}"),
+                onTap: () => push("./${person["_id"]}"),
+              ),
+            )
+            .toList(),
+      ),
+    );
+  }
 }
 
 class PersonDetailsScreen extends StatelessWidget {
   final Map<String, dynamic> person;
 
   const PersonDetailsScreen({
+    Key? key,
     required this.person,
-  });
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text("${person["name"]["first"]} ${person["name"]["last"]}"),
+  Widget build(BuildContext context) {
+    final WouterActions(pop: pop) = context.wouter.actions;
+
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => pop(),
+          icon: Icon(Icons.arrow_back),
         ),
-        body: ListView(
-          children: person.entries
-              .where((element) => element.key != "name" && element.key != "_id")
-              .map(
-                (e) => ListTile(
-                  title: Row(
-                    children: [
-                      Text(
-                        "${e.key}",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
+        title: Text("${person["name"]["first"]} ${person["name"]["last"]}"),
+      ),
+      body: ListView(
+        children: person.entries
+            .where((element) => element.key != "name" && element.key != "_id")
+            .map(
+              (e) => ListTile(
+                title: Row(
+                  children: [
+                    Text(
+                      "${e.key}",
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
                       ),
-                      const SizedBox(
-                        width: 16,
-                      ),
-                      Expanded(
-                        child: Text("${e.value}"),
-                      ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Expanded(
+                      child: Text("${e.value}"),
+                    ),
+                  ],
                 ),
-              )
-              .toList(),
-        ),
+              ),
+            )
+            .toList(),
+      ),
+    );
+  }
+}
+
+class _Router extends StatelessWidget {
+  const _Router();
+
+  @override
+  Widget build(BuildContext context) => WouterSwitch(
+        routes: {
+          "/": (context, arguments) => const HomeScreen(
+                key: ValueKey("home-screen"),
+              ),
+          "/people/:_(.*)": (context, arguments) => const PeopleScreen(
+                key: ValueKey("people-screen"),
+              ),
+          "/:_(.*)": (context, arguments) => const Redirect(
+                key: ValueKey("redirect-screen"),
+                to: "/",
+              ),
+        },
       );
 }
 
 class MyApp extends StatelessWidget {
-  final delegate = WouterRouterDelegate(
-    child: WouterSwitch(
-      routes: {
-        "/": (context, arguments) => const MaterialPage(
-              key: ValueKey("home-screen"),
-              child: HomeScreen(),
-            ),
-        "/people/:_(.*)": (context, arguments) => const MaterialPage(
-              key: ValueKey("people-screen"),
-              child: PeopleScreen(),
-            ),
-        "/:_(.*)": (context, arguments) => const MaterialPage(
-              key: ValueKey("redirect-screen"),
-              child: Redirect(),
-            ),
-      },
-    ),
-  );
-
   @override
   Widget build(BuildContext context) => MaterialApp.router(
-        routerDelegate: delegate,
-        routeInformationParser: const WouterRouteInformationParser(),
-        backButtonDispatcher: WouterBackButtonDispatcher(
-          delegate: delegate,
+        routerDelegate: WouterRouterDelegate(
+          builder: (context) => _Router(),
         ),
+        routeInformationParser: const WouterRouteInformationParser(),
       );
 }
 
