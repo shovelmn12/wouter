@@ -1,3 +1,6 @@
+## [0.2.0]
+- Using provider
+
 ## [0.1.8]
 - Dependency update
 
