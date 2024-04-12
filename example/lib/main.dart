@@ -62,21 +62,17 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final WouterActions(push: push) = context.wouter.actions;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Home Screen"),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () => push("/people"),
-          child: Text("See people"),
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: Text("Home Screen"),
         ),
-      ),
-    );
-  }
+        body: Center(
+          child: ElevatedButton(
+            onPressed: () => context.wouter.actions.push("/people"),
+            child: Text("See people"),
+          ),
+        ),
+      );
 }
 
 class PeopleScreen extends StatelessWidget {
@@ -110,7 +106,7 @@ class AllPeopleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final WouterActions(pop: pop, push: push) = context.wouter.actions;
+    final WouterAction(pop: pop, push: push) = context.wouter.actions;
 
     return Scaffold(
       appBar: AppBar(
@@ -144,44 +140,40 @@ class PersonDetailsScreen extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final WouterActions(pop: pop) = context.wouter.actions;
-
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => pop(),
-          icon: Icon(Icons.arrow_back),
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () => context.wouter.actions.pop(),
+            icon: Icon(Icons.arrow_back),
+          ),
+          title: Text("${person["name"]["first"]} ${person["name"]["last"]}"),
         ),
-        title: Text("${person["name"]["first"]} ${person["name"]["last"]}"),
-      ),
-      body: ListView(
-        children: person.entries
-            .where((element) => element.key != "name" && element.key != "_id")
-            .map(
-              (e) => ListTile(
-                title: Row(
-                  children: [
-                    Text(
-                      "${e.key}",
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
+        body: ListView(
+          children: person.entries
+              .where((element) => element.key != "name" && element.key != "_id")
+              .map(
+                (e) => ListTile(
+                  title: Row(
+                    children: [
+                      Text(
+                        "${e.key}",
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    Expanded(
-                      child: Text("${e.value}"),
-                    ),
-                  ],
+                      const SizedBox(
+                        width: 16,
+                      ),
+                      Expanded(
+                        child: Text("${e.value}"),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            )
-            .toList(),
-      ),
-    );
-  }
+              )
+              .toList(),
+        ),
+      );
 }
 
 class _Router extends StatelessWidget {
