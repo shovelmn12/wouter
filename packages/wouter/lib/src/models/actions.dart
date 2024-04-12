@@ -2,19 +2,18 @@ import 'dart:async';
 
 import 'package:wouter/wouter.dart';
 
-typedef _PushAction = (WouterState, Future<R?>) Function<R>(
-    WouterState, String);
+typedef PushAction = (WouterState, Future<R?>) Function<R>(WouterState, String);
 
-typedef _PopAction = (WouterState, bool) Function(WouterState, [dynamic]);
+typedef PopAction = (WouterState, bool) Function(WouterState, [dynamic]);
 
-typedef _Actions = ({
-  _PushAction push,
-  _PopAction pop,
+typedef Actions = ({
+  PushAction push,
+  PopAction pop,
   PathBuilder pathBuilder,
 });
 
 typedef WouterActions = R Function<R>(
-  (WouterState, R) Function(_Actions, WouterState),
+  (WouterState, R) Function(Actions, WouterState),
 );
 
 typedef WouterActionsCallbacks = ({
@@ -31,7 +30,7 @@ extension WouterReplaceActionExtension on WouterActions {
   bool pop([dynamic result]) => this((actions, state) => actions.pop(state));
 
   (WouterState, void) _reset(
-    _Actions actions,
+    Actions actions,
     WouterState state, [
     List<String> stack = const ["/"],
   ]) {
@@ -63,7 +62,7 @@ extension WouterReplaceActionExtension on WouterActions {
           ));
 
   (WouterState, Future<R?>) _replace<R>(
-    _Actions actions,
+    Actions actions,
     WouterState state,
     String path, [
     dynamic result,
