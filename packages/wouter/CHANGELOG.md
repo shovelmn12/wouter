@@ -1,3 +1,7 @@
+## [0.2.1]
+- Breaking: renamed WouterActions to WouterAction
+- Fix: Example
+
 ## [0.2.0]
 - Using provider
 
