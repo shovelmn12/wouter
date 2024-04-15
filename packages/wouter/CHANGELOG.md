@@ -1,3 +1,6 @@
+## [0.2.2]
+- Fix: Update navigation on routes keys change
+
 ## [0.2.1]
 - Breaking: renamed WouterActions to WouterAction
 - Fix: Example

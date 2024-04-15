@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wouter/wouter.dart';
@@ -30,6 +31,16 @@ class _WouterNavigatorState extends State<WouterNavigator> {
             widget.routes,
           ))
       .distinct();
+
+  @override
+  void didUpdateWidget(covariant WouterNavigator oldWidget) {
+    if (!const DeepCollectionEquality()
+        .equals(oldWidget.routes.keys, widget.routes.keys)) {
+      setState(() {});
+    }
+
+    super.didUpdateWidget(oldWidget);
+  }
 
   @protected
   List<Widget> createBuilderStack(
