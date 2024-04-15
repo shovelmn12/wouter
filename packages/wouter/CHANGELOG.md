@@ -1,3 +1,6 @@
+## [0.2.3]
+- Fix: WouterTab added equals field
+
 ## [0.2.2]
 - Fix: Update navigation on routes keys change
 
