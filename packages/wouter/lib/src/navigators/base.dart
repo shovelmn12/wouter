@@ -9,12 +9,14 @@ class WouterNavigator extends StatefulWidget {
   final PathMatcher? matcher;
   final Map<String, WouterWidgetBuilder> routes;
   final Widget Function(BuildContext, List<Widget>) builder;
+  final String? tag;
 
   const WouterNavigator({
     super.key,
     this.matcher,
     required this.routes,
     required this.builder,
+    this.tag,
   });
 
   @override
@@ -23,11 +25,12 @@ class WouterNavigator extends StatefulWidget {
 
 class _WouterNavigatorState extends State<WouterNavigator> {
   late final Stream<List<Widget>> _stream = context.wouter.stream
-      .map((state) => state.stack.map((e) => e.path).toList())
+      .map((state) => (state.base, state.stack.map((e) => e.path).toList()))
       .distinct()
-      .map((stack) => createBuilderStack(
+      .map((data) => createBuilderStack(
+            data.$1,
             widget.matcher ?? context.read<PathMatcher>(),
-            stack,
+            data.$2,
             widget.routes,
           ))
       .distinct();
@@ -44,52 +47,61 @@ class _WouterNavigatorState extends State<WouterNavigator> {
 
   @protected
   List<Widget> createBuilderStack(
+    String base,
     PathMatcher matcher,
     List<String> stack,
     Map<String, WouterWidgetBuilder> routes,
-  ) =>
-      stack
-          .fold<(List<_Entry>, Map<String, WouterWidgetBuilder?>)>(
-            (
-              <_Entry>[],
-              Map.of(routes),
-            ),
-            (state, path) {
-              final entry = matchPathToRoute(
-                path,
-                matcher,
-                state.$2.entries.toList(),
-              );
+  ) {
+    // print("${widget.tag ?? this} building $stack");
 
-              if (entry == null) {
-                return state;
-              }
+    return stack
+        .fold<(List<_Entry>, Map<String, WouterWidgetBuilder?>)>(
+          (
+            <_Entry>[],
+            Map.of(routes),
+          ),
+          (state, path) {
+            final entry = matchPathToRoute(
+              path,
+              base,
+              matcher,
+              state.$2.entries.toList(),
+            );
 
-              final (key, builder) = entry;
+            // print(
+            //     "${widget.tag ?? this} matching $path found $base${entry?.$1}");
 
-              return (
-                List<_Entry>.unmodifiable([
-                  ...state.$1,
-                  (path, builder),
-                ]),
-                Map<String, WouterWidgetBuilder?>.unmodifiable({
-                  ...state.$2,
-                  key: null,
-                }),
-              );
-            },
-          )
-          .$1
-          .map((entry) => RepaintBoundary(
-                child: Builder(
-                  builder: entry.$2,
-                ),
-              ))
-          .toList();
+            if (entry == null) {
+              return state;
+            }
+
+            final (key, builder) = entry;
+
+            return (
+              List<_Entry>.unmodifiable([
+                ...state.$1,
+                (path, builder),
+              ]),
+              Map<String, WouterWidgetBuilder?>.unmodifiable({
+                ...state.$2,
+                key: null,
+              }),
+            );
+          },
+        )
+        .$1
+        .map((entry) => RepaintBoundary(
+              child: Builder(
+                builder: entry.$2,
+              ),
+            ))
+        .toList();
+  }
 
   @protected
   (String, WidgetBuilder)? matchPathToRoute(
     String path,
+    String base,
     PathMatcher matcher,
     List<MapEntry<String, WouterWidgetBuilder?>> routes,
   ) {

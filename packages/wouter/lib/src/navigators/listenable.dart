@@ -1,11 +1,8 @@
 import 'dart:async';
 
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:wouter/wouter.dart';
-
-import 'equality/equality.dart';
 
 typedef WouterListenableWidgetBuilder<T> = Widget Function(
   BuildContext,
@@ -19,7 +16,20 @@ typedef DisposeListenable<T> = void Function(BuildContext, T);
 
 typedef OnGetListenableIndex<T> = int? Function(T);
 
-typedef OnRouteChanged<T> = void Function(T, int);
+typedef OnRouteChanged<T> = FutureOr<void> Function(T, int);
+
+typedef ToPathCallback = String? Function(
+  int index,
+  String base,
+  String path,
+  List<String> routes,
+);
+
+typedef ToIndexCallback = int? Function(
+  String base,
+  String path,
+  List<String> routes,
+);
 
 class WouterListenable<T extends Listenable> extends StatefulWidget {
   final CreateListenable<T> create;
@@ -28,7 +38,8 @@ class WouterListenable<T extends Listenable> extends StatefulWidget {
   final OnRouteChanged<T> onChanged;
   final Map<String, Widget> routes;
   final WouterListenableWidgetBuilder<T> builder;
-  final Equality<String> equals;
+  final ToPathCallback toPath;
+  final ToIndexCallback toIndex;
 
   const WouterListenable({
     super.key,
@@ -38,7 +49,8 @@ class WouterListenable<T extends Listenable> extends StatefulWidget {
     required this.onChanged,
     required this.routes,
     required this.builder,
-    this.equals = const StartsWithEquality(),
+    required this.toPath,
+    required this.toIndex,
   });
 
   @override
@@ -48,11 +60,13 @@ class WouterListenable<T extends Listenable> extends StatefulWidget {
 class _WouterListenableState<T extends Listenable>
     extends State<WouterListenable<T>> {
   final _subscription = CompositeSubscription();
+  final _changeSubject = BehaviorSubject.seeded(false);
 
   late final T _listenable = widget.create(
     context,
-    _pathToIndex(
-          context.wouter.state.path,
+    widget.toIndex(
+          context.wouter.state.base,
+          context.wouter.state.fullPath,
           widget.routes.keys.toList(),
         ) ??
         0,
@@ -63,49 +77,44 @@ class _WouterListenableState<T extends Listenable>
     _subscription
       ..add(_listenable
           .toStream<T>()
+          .where((event) => !_changeSubject.value)
           .mapNotNull(widget.index)
           .distinct()
-          .map((index) => _indexToPath(index, widget.routes.keys.toList()))
+          .map((index) => (index, widget.routes.keys.toList()))
           .distinct()
-          .withLatestFrom(context.wouter.stream, (path, state) => (path, state))
-          .where((data) =>
-              data.$2.fullPath.startsWith(data.$2.base) &&
-              !data.$2.fullPath.startsWith("${data.$2.base}${data.$1}"))
-          .map((data) => "${data.$2.base}${data.$1}")
+          .withLatestFrom(
+              context.wouter.stream, (data, state) => (data.$1, data.$2, state))
+          .mapNotNull((data) => widget.toPath(
+                data.$1,
+                data.$3.base,
+                data.$3.fullPath,
+                data.$2,
+              ))
           .listen(context.wouter.actions.replace))
       ..add(context.wouter.stream
-          .map((state) => state.path)
-          .where((path) => path.isNotEmpty)
+          .map((state) => (state.base, state.fullPath))
           .distinct()
-          .mapNotNull((path) => _pathToIndex(
-                path,
+          .mapNotNull((data) => widget.toIndex(
+                data.$1,
+                data.$2,
                 widget.routes.keys.toList(),
               ))
           .distinct()
-          .listen((index) => widget.onChanged(_listenable, index)));
+          .listen((index) async {
+        _changeSubject.add(true);
+
+        await widget.onChanged(_listenable, index);
+
+        _changeSubject.add(false);
+      }));
 
     super.initState();
-  }
-
-  String _indexToPath(int index, List<String> paths) => paths[index];
-
-  int? _pathToIndex(
-    String path,
-    List<String> paths,
-  ) {
-    final result =
-        paths.indexWhere((element) => widget.equals.equals(path, element));
-
-    if (result < 0) {
-      return null;
-    }
-
-    return result;
   }
 
   @override
   void dispose() {
     _subscription.dispose();
+    _changeSubject.close();
     widget.dispose(context, _listenable);
 
     super.dispose();

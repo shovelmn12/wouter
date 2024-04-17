@@ -1,19 +1,14 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:wouter/wouter.dart';
-
-import 'equality/equality.dart';
 
 class WouterTab extends StatefulWidget {
   final Map<String, Widget> routes;
   final WouterListenableWidgetBuilder<TabController> builder;
-  final Equality<String> equals;
 
   const WouterTab({
     super.key,
     required this.routes,
     required this.builder,
-    this.equals = const StartsWithEquality(),
   });
 
   @override
@@ -46,7 +41,25 @@ class _WouterTabState extends State<WouterTab>
           curve: Curves.easeInOut,
         ),
         routes: widget.routes,
-        equals: widget.equals,
         builder: widget.builder,
+        toIndex: (base, path, routes) {
+          final result =
+              routes.indexWhere((route) => path.startsWith("$base$route"));
+
+          if (result < 0) {
+            return null;
+          }
+
+          return result;
+        },
+        toPath: (index, base, path, routes) {
+          final route = routes[index];
+
+          if (path == "$base$route" || path.startsWith("$base$route")) {
+            return null;
+          }
+
+          return "$base$route";
+        },
       );
 }

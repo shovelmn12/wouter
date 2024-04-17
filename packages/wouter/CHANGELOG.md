@@ -1,3 +1,6 @@
+## [0.2.5]
+- Fix: WouterListenable routing
+
 ## [0.2.4]
 - Feature: Added WouterListenable and WouterPage
 

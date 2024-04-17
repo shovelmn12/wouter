@@ -5,22 +5,15 @@ class WouterSwitch extends StatelessWidget {
   final Map<String, WouterWidgetBuilder> routes;
   final Color? background;
   final Widget? fallback;
+  final String? tag;
 
   const WouterSwitch({
     super.key,
     required this.routes,
     this.background,
     this.fallback,
+    this.tag,
   });
-
-  static Widget defaultTransitionBuilder(
-    Widget child,
-    Animation<double> animation,
-  ) =>
-      FadeTransition(
-        opacity: animation,
-        child: child,
-      );
 
   Widget _builder(
     BuildContext context,
@@ -43,5 +36,6 @@ class WouterSwitch extends StatelessWidget {
   Widget build(BuildContext context) => WouterNavigator(
         routes: routes,
         builder: _builder,
+        tag: tag,
       );
 }

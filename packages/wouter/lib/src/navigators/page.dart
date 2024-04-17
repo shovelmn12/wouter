@@ -1,19 +1,14 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:wouter/wouter.dart';
-
-import 'equality/equality.dart';
 
 class WouterPage extends StatelessWidget {
   final Map<String, Widget> routes;
   final WouterListenableWidgetBuilder<PageController> builder;
-  final Equality<String> equals;
 
   const WouterPage({
     super.key,
     required this.routes,
     required this.builder,
-    this.equals = const StartsWithEquality(),
   });
 
   @override
@@ -31,7 +26,32 @@ class WouterPage extends StatelessWidget {
           curve: Curves.easeInOut,
         ),
         routes: routes,
-        equals: equals,
         builder: builder,
+        toIndex: (base, path, routes) {
+          final result = routes.indexWhere((route) {
+            if (route == "/") {
+              return path == "/";
+            }
+
+            final result = path.startsWith(route);
+
+            return result;
+          });
+
+          if (result < 0) {
+            return null;
+          }
+
+          return result;
+        },
+        toPath: (index, base, path, routes) {
+          final route = routes[index];
+
+          if (path == "$base$route" || path.startsWith("$base$route")) {
+            return null;
+          }
+
+          return "$base$route";
+        },
       );
 }
