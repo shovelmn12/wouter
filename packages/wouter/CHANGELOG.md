@@ -1,3 +1,6 @@
+## [0.2.4]
+- Feature: Added WouterListenable and WouterPage
+
 ## [0.2.3]
 - Fix: WouterTab added equals field
 
