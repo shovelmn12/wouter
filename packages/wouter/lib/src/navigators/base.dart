@@ -9,14 +9,12 @@ class WouterNavigator extends StatefulWidget {
   final PathMatcher? matcher;
   final Map<String, WouterWidgetBuilder> routes;
   final Widget Function(BuildContext, List<Widget>) builder;
-  final String? tag;
 
   const WouterNavigator({
     super.key,
     this.matcher,
     required this.routes,
     required this.builder,
-    this.tag,
   });
 
   @override

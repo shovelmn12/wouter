@@ -1,3 +1,6 @@
+## [0.2.7]
+- Removed: Unused fields
+
 ## [0.2.6]
 - Removed: Unused classes
 
