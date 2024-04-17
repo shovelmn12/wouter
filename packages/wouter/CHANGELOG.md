@@ -1,4 +1,4 @@
-## [0.2.5]
+## [0.2.6]
 - Removed: Unused classes
 
 ## [0.2.5]
