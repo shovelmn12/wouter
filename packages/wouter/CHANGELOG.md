@@ -1,3 +1,6 @@
+## [0.2.8]
+- Feature: added WouterNavigator entryBuilder
+
 ## [0.2.7]
 - Removed: Unused fields
 

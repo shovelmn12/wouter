@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:wouter/src/navigators/base.dart';
 import 'package:wouter/wouter.dart';
 
 class WouterSwitch extends StatelessWidget {
   final Map<String, WouterWidgetBuilder> routes;
   final Color? background;
   final Widget? fallback;
+  final WouterEntryBuilder entryBuilder;
 
   const WouterSwitch({
     super.key,
     required this.routes,
     this.background,
     this.fallback,
+    this.entryBuilder = WouterNavigator.defaultEntryBuilder,
   });
 
   Widget _builder(
@@ -34,5 +37,6 @@ class WouterSwitch extends StatelessWidget {
   Widget build(BuildContext context) => WouterNavigator(
         routes: routes,
         builder: _builder,
+        entryBuilder: entryBuilder,
       );
 }

@@ -5,17 +5,28 @@ import 'package:wouter/wouter.dart';
 
 typedef _Entry = (String, WidgetBuilder);
 
+typedef WouterStackBuilder = Widget Function(BuildContext, List<Widget>);
+typedef WouterEntryBuilder = Widget Function(WidgetBuilder);
+
 class WouterNavigator extends StatefulWidget {
   final PathMatcher? matcher;
   final Map<String, WouterWidgetBuilder> routes;
-  final Widget Function(BuildContext, List<Widget>) builder;
+  final WouterStackBuilder builder;
+  final WouterEntryBuilder entryBuilder;
 
   const WouterNavigator({
     super.key,
     this.matcher,
     required this.routes,
     required this.builder,
+    this.entryBuilder = defaultEntryBuilder,
   });
+
+  static Widget defaultEntryBuilder(WidgetBuilder builder) => RepaintBoundary(
+        child: Builder(
+          builder: builder,
+        ),
+      );
 
   @override
   State<WouterNavigator> createState() => _WouterNavigatorState();
@@ -66,9 +77,6 @@ class _WouterNavigatorState extends State<WouterNavigator> {
               state.$2.entries.toList(),
             );
 
-            // print(
-            //     "${widget.tag ?? this} matching $path found $base${entry?.$1}");
-
             if (entry == null) {
               return state;
             }
@@ -88,11 +96,7 @@ class _WouterNavigatorState extends State<WouterNavigator> {
           },
         )
         .$1
-        .map((entry) => RepaintBoundary(
-              child: Builder(
-                builder: entry.$2,
-              ),
-            ))
+        .map((entry) => widget.entryBuilder(entry.$2))
         .toList();
   }
 
