@@ -3,7 +3,7 @@ import 'package:wouter/src/navigators/base.dart';
 import 'package:wouter/wouter.dart';
 
 class WouterSwitch extends StatelessWidget {
-  final Map<String, WouterWidgetBuilder> routes;
+  final WouterRoutes routes;
   final Color? background;
   final Widget? fallback;
   final WouterEntryBuilder entryBuilder;

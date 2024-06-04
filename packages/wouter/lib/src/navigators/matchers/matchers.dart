@@ -18,9 +18,9 @@ abstract class PathMatchers {
           );
 
   static PathMatcher cachedRegexp() {
-    final regexpBuilder = cached(pathToRegexp);
+    final regexpBuilder = cacheRegexpBuilder(pathToRegexp);
 
-    return (
+    return cache((
       String path,
       String pattern, {
       bool prefix = true,
@@ -30,6 +30,6 @@ abstract class PathMatchers {
           pattern,
           regexpBuilder: regexpBuilder,
           prefix: prefix,
-        );
+        ));
   }
 }

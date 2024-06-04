@@ -1,7 +1,7 @@
 import 'package:path_to_regexp/path_to_regexp.dart';
 import 'package:wouter/wouter.dart';
 
-RegexpBuilder cached(RegexpBuilder builder) {
+RegexpBuilder cacheRegexpBuilder(RegexpBuilder builder) {
   final Map<String, RegexpData?> cache = {};
 
   return (
@@ -12,6 +12,21 @@ RegexpBuilder cached(RegexpBuilder builder) {
       cache['$pattern-$caseSensitive-$prefix'] ??= builder(
         pattern,
         caseSensitive: caseSensitive,
+        prefix: prefix,
+      );
+}
+
+PathMatcher cache(PathMatcher builder) {
+  final Map<String, MatchData?> cache = {};
+
+  return (
+    String path,
+    String pattern, {
+    bool prefix = false,
+  }) =>
+      cache['$pattern-$path-$prefix'] ??= builder(
+        path,
+        pattern,
         prefix: prefix,
       );
 }

@@ -1,3 +1,6 @@
+## [0.3.0]
+- Feature: support for loop routing
+
 ## [0.2.8]
 - Feature: added WouterNavigator entryBuilder
 

@@ -4,7 +4,7 @@ import 'package:wouter/wouter.dart' hide WouterState;
 part 'state.freezed.dart';
 
 @freezed
-class WouterState with _$WouterState {
+sealed class WouterState with _$WouterState {
   const factory WouterState({
     required bool canPop,
     required String base,

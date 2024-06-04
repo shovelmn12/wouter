@@ -101,11 +101,15 @@ class _WouterListenableState<T extends Listenable>
               ))
           .distinct()
           .listen((index) async {
-        _changeSubject.add(true);
+        if (!_changeSubject.isClosed) {
+          _changeSubject.add(true);
+        }
 
         await widget.onChanged(_listenable, index);
 
-        _changeSubject.add(false);
+        if (!_changeSubject.isClosed) {
+          _changeSubject.add(false);
+        }
       }));
 
     super.initState();

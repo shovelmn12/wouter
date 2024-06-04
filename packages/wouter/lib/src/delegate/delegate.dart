@@ -35,7 +35,7 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
     () => _callbacks,
   );
 
-  WouterState get _state => _stateSubject.value;
+  WouterState get _state => _streamable.state;
 
   WouterActionsCallbacks get _callbacks => _actionsCallbacksSubject.value;
 
@@ -103,31 +103,27 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
           pop: _callbacks.pop,
           push: _callbacks.push.where((cb) => cb != push).toList(),
         )),
-        child: StreamProvider<WouterState>.value(
-          value: _stateSubject,
-          initialData: _state,
-          updateShouldNotify: (prev, next) => false,
-          child: Provider<WouterStateStreamable>.value(
-            value: _streamable,
-            child: Provider<PathMatcher>.value(
-              value: PathMatchers.cachedRegexp(),
-              child: Provider<WouterAction>.value(
-                key: ValueKey(hashCode),
-                value: _actions,
-                child: Navigator(
-                  onPopPage: (route, result) =>
-                      route.didPop(result) || _actions.pop(result),
-                  pages: [
-                    MaterialPage(
-                      child: Container(
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                        child: Builder(
-                          builder: builder,
-                        ),
+        child: Provider<WouterStateStreamable>.value(
+          value: _streamable,
+          child: Provider<PathMatcher>.value(
+            value: PathMatchers.cachedRegexp(),
+            updateShouldNotify: (prev, next) => false,
+            child: Provider<WouterAction>.value(
+              key: ValueKey(hashCode),
+              value: _actions,
+              child: Navigator(
+                onPopPage: (route, result) =>
+                    route.didPop(result) || _actions.pop(result),
+                pages: [
+                  MaterialPage(
+                    child: Container(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      child: Builder(
+                        builder: builder,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

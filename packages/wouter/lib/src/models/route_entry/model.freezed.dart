@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$RouteEntry<T> {
   String get path => throw _privateConstructorUsedError;
-  ValueSetter<T>? get onResult => throw _privateConstructorUsedError;
+  ValueSetter<T> get onResult => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RouteEntryCopyWith<T, RouteEntry<T>> get copyWith =>
@@ -30,7 +30,7 @@ abstract class $RouteEntryCopyWith<T, $Res> {
           RouteEntry<T> value, $Res Function(RouteEntry<T>) then) =
       _$RouteEntryCopyWithImpl<T, $Res, RouteEntry<T>>;
   @useResult
-  $Res call({String path, ValueSetter<T>? onResult});
+  $Res call({String path, ValueSetter<T> onResult});
 }
 
 /// @nodoc
@@ -47,70 +47,70 @@ class _$RouteEntryCopyWithImpl<T, $Res, $Val extends RouteEntry<T>>
   @override
   $Res call({
     Object? path = null,
-    Object? onResult = freezed,
+    Object? onResult = null,
   }) {
     return _then(_value.copyWith(
       path: null == path
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
               as String,
-      onResult: freezed == onResult
+      onResult: null == onResult
           ? _value.onResult
           : onResult // ignore: cast_nullable_to_non_nullable
-              as ValueSetter<T>?,
+              as ValueSetter<T>,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$RouteEntryImplCopyWith<T, $Res>
+abstract class _$$PathRouteEntryImplCopyWith<T, $Res>
     implements $RouteEntryCopyWith<T, $Res> {
-  factory _$$RouteEntryImplCopyWith(
-          _$RouteEntryImpl<T> value, $Res Function(_$RouteEntryImpl<T>) then) =
-      __$$RouteEntryImplCopyWithImpl<T, $Res>;
+  factory _$$PathRouteEntryImplCopyWith(_$PathRouteEntryImpl<T> value,
+          $Res Function(_$PathRouteEntryImpl<T>) then) =
+      __$$PathRouteEntryImplCopyWithImpl<T, $Res>;
   @override
   @useResult
-  $Res call({String path, ValueSetter<T>? onResult});
+  $Res call({String path, ValueSetter<T> onResult});
 }
 
 /// @nodoc
-class __$$RouteEntryImplCopyWithImpl<T, $Res>
-    extends _$RouteEntryCopyWithImpl<T, $Res, _$RouteEntryImpl<T>>
-    implements _$$RouteEntryImplCopyWith<T, $Res> {
-  __$$RouteEntryImplCopyWithImpl(
-      _$RouteEntryImpl<T> _value, $Res Function(_$RouteEntryImpl<T>) _then)
+class __$$PathRouteEntryImplCopyWithImpl<T, $Res>
+    extends _$RouteEntryCopyWithImpl<T, $Res, _$PathRouteEntryImpl<T>>
+    implements _$$PathRouteEntryImplCopyWith<T, $Res> {
+  __$$PathRouteEntryImplCopyWithImpl(_$PathRouteEntryImpl<T> _value,
+      $Res Function(_$PathRouteEntryImpl<T>) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? path = null,
-    Object? onResult = freezed,
+    Object? onResult = null,
   }) {
-    return _then(_$RouteEntryImpl<T>(
+    return _then(_$PathRouteEntryImpl<T>(
       path: null == path
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
               as String,
-      onResult: freezed == onResult
+      onResult: null == onResult
           ? _value.onResult
           : onResult // ignore: cast_nullable_to_non_nullable
-              as ValueSetter<T>?,
+              as ValueSetter<T>,
     ));
   }
 }
 
 /// @nodoc
 
-class _$RouteEntryImpl<T>
+class _$PathRouteEntryImpl<T>
     with DiagnosticableTreeMixin
-    implements _RouteEntry<T> {
-  const _$RouteEntryImpl({required this.path, this.onResult});
+    implements PathRouteEntry<T> {
+  const _$PathRouteEntryImpl({required this.path, required this.onResult});
 
   @override
   final String path;
   @override
-  final ValueSetter<T>? onResult;
+  final ValueSetter<T> onResult;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -130,7 +130,7 @@ class _$RouteEntryImpl<T>
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RouteEntryImpl<T> &&
+            other is _$PathRouteEntryImpl<T> &&
             (identical(other.path, path) || other.path == path) &&
             (identical(other.onResult, onResult) ||
                 other.onResult == onResult));
@@ -142,21 +142,22 @@ class _$RouteEntryImpl<T>
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$RouteEntryImplCopyWith<T, _$RouteEntryImpl<T>> get copyWith =>
-      __$$RouteEntryImplCopyWithImpl<T, _$RouteEntryImpl<T>>(this, _$identity);
+  _$$PathRouteEntryImplCopyWith<T, _$PathRouteEntryImpl<T>> get copyWith =>
+      __$$PathRouteEntryImplCopyWithImpl<T, _$PathRouteEntryImpl<T>>(
+          this, _$identity);
 }
 
-abstract class _RouteEntry<T> implements RouteEntry<T> {
-  const factory _RouteEntry(
+abstract class PathRouteEntry<T> implements RouteEntry<T> {
+  const factory PathRouteEntry(
       {required final String path,
-      final ValueSetter<T>? onResult}) = _$RouteEntryImpl<T>;
+      required final ValueSetter<T> onResult}) = _$PathRouteEntryImpl<T>;
 
   @override
   String get path;
   @override
-  ValueSetter<T>? get onResult;
+  ValueSetter<T> get onResult;
   @override
   @JsonKey(ignore: true)
-  _$$RouteEntryImplCopyWith<T, _$RouteEntryImpl<T>> get copyWith =>
+  _$$PathRouteEntryImplCopyWith<T, _$PathRouteEntryImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }

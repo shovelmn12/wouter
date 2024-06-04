@@ -20,6 +20,7 @@ class _WouterStateStreamableImpl implements WouterStateStreamable {
             if (initial.isNotEmpty)
               RouteEntry(
                 path: initial,
+                onResult: (_) {},
               ),
           ],
         ));

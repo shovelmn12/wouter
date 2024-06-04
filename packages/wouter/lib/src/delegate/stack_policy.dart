@@ -59,7 +59,7 @@ class StackPolicy {
     final next = List<RouteEntry>.of(state.stack);
 
     if (next.isNotEmpty) {
-      next.removeLast().onResult?.call(result);
+      next.removeLast().onResult(result);
     }
 
     return (
