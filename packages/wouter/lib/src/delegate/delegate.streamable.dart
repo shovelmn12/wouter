@@ -5,7 +5,7 @@ class _WouterStateStreamableImpl implements WouterStateStreamable {
 
   @override
   late final Stream<WouterState> stream =
-      _subject.stream.publishValue().autoConnect();
+      _subject.stream.publishValue().autoConnect().distinct();
 
   @override
   WouterState get state => _subject.value;

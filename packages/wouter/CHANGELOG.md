@@ -1,3 +1,6 @@
+## [0.3.1]
+- Fix: set initial wouter state
+
 ## [0.3.0]
 - Feature: support for loop routing
 
