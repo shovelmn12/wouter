@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
@@ -101,6 +102,16 @@ class WouterNavigatorState extends State<WouterNavigator> {
   }
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    // properties.add(DiagnosticsProperty(
+    //   "stack",
+    //   _stack,
+    // ));
+
+    super.debugFillProperties(properties);
+  }
+
+  @override
   void dispose() {
     _subscription.cancel();
     _stack.close();
@@ -129,7 +140,8 @@ class WouterNavigatorState extends State<WouterNavigator> {
               return List<_Entry>.unmodifiable(
                 last != null && last.key == key
                     ? [
-                        if (stack.length > 1) ...stack.sublist(0, stack.length),
+                        if (stack.length > 1)
+                          ...stack.sublist(0, stack.length - 1),
                         (
                           key: key,
                           stack: List<RouteEntry>.unmodifiable([
@@ -161,6 +173,7 @@ class WouterNavigatorState extends State<WouterNavigator> {
                       base: state.base,
                     ),
                   ),
+                  lazy: false,
                   child: Builder(
                     builder: entry.builder,
                   ),

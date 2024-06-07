@@ -4,4 +4,7 @@ abstract class WouterStateStreamable {
   Stream<WouterState> get stream;
 
   WouterState get state;
+
+  @override
+  String toString() => "$state";
 }

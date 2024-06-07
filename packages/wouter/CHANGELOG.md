@@ -1,3 +1,6 @@
+## [0.3.2]
+- Fix: multiple mounting of same route
+
 ## [0.3.1]
 - Fix: set initial wouter state
 
