@@ -1,3 +1,6 @@
+## [0.3.3]
+- Fix: proving lazy state
+
 ## [0.3.2]
 - Fix: multiple mounting of same route
 

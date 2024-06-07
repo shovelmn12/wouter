@@ -173,7 +173,6 @@ class WouterNavigatorState extends State<WouterNavigator> {
                       base: state.base,
                     ),
                   ),
-                  lazy: false,
                   child: Builder(
                     builder: entry.builder,
                   ),
