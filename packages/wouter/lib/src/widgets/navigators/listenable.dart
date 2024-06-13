@@ -4,33 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:wouter/wouter.dart';
 
-typedef WouterListenableWidgetBuilder<T> = Widget Function(
-  BuildContext,
-  T,
-  List<Widget>,
-);
-
-typedef CreateListenable<T> = T Function(BuildContext, int);
-
-typedef DisposeListenable<T> = void Function(BuildContext, T);
-
-typedef OnGetListenableIndex<T> = int? Function(T);
-
-typedef OnRouteChanged<T> = FutureOr<void> Function(T, int);
-
-typedef ToPathCallback = String? Function(
-  int index,
-  String base,
-  String path,
-  List<String> routes,
-);
-
-typedef ToIndexCallback = int? Function(
-  String base,
-  String path,
-  List<String> routes,
-);
-
 class WouterListenable<T extends Listenable> extends StatefulWidget {
   final CreateListenable<T> create;
   final DisposeListenable<T> dispose;

@@ -1,3 +1,7 @@
+## [0.3.3]
+- Feature: replaceUntil action and ReplaceUntil widget
+- Breaking: rename Redirect to Replace 
+
 ## [0.3.2]
 - Fix: multiple mounting of same route
 

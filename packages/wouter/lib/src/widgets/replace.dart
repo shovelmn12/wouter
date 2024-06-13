@@ -1,21 +1,21 @@
 import 'package:flutter/widgets.dart';
 import 'package:wouter/wouter.dart';
 
-class Redirect extends StatefulWidget {
+class Replace extends StatefulWidget {
   final Widget child;
   final String to;
 
-  const Redirect({
+  const Replace({
     super.key,
     required this.to,
     this.child = const SizedBox.shrink(),
   });
 
   @override
-  State<Redirect> createState() => _RedirectState();
+  State<Replace> createState() => _ReplaceState();
 }
 
-class _RedirectState extends State<Redirect> {
+class _ReplaceState extends State<Replace> {
   @override
   void initState() {
     WidgetsBinding.instance

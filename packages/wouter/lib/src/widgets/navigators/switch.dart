@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wouter/src/navigators/base.dart';
 import 'package:wouter/wouter.dart';
 
 class WouterSwitch extends StatelessWidget {

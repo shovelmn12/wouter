@@ -3,3 +3,4 @@ export 'push.dart';
 export 'replace.dart';
 export 'reset.dart';
 export 'pop_until.dart';
+export 'replace_until.dart';
