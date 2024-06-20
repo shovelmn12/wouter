@@ -131,11 +131,17 @@ class WouterNavigatorState extends State<WouterNavigator> {
             (stack, entry) {
               final last = stack.lastOrNull;
 
-              final (key: key, builder: builder) = _matchPathToRoute(
+              final match = _matchPathToRoute(
                 entry.path,
                 matcher,
                 routes,
               );
+
+              if (match == null) {
+                return stack;
+              }
+
+              final (key: key, builder: builder) = match;
 
               return List<_Entry>.unmodifiable(
                 last != null && last.key == key
@@ -180,7 +186,7 @@ class WouterNavigatorState extends State<WouterNavigator> {
               ))
           .toList();
 
-  _EntryMatch _matchPathToRoute(
+  _EntryMatch? _matchPathToRoute(
     String path,
     PathMatcher matcher,
     List<MapEntry<String, WouterWidgetBuilder>> routes,
@@ -200,7 +206,7 @@ class WouterNavigatorState extends State<WouterNavigator> {
       }
     }
 
-    throw Exception("Route not found for $path");
+    return null;
   }
 
   @override

@@ -14,7 +14,9 @@ class StackPolicy {
     if (path.isEmpty) {
       return "/";
     } else if (path.startsWith("/")) {
-      return normalize(path);
+      return path;
+    } else if (path.startsWith(".#") || path.startsWith(".?")) {
+      return "$current${path.substring(1)}";
     } else {
       return normalize("$current/$path");
     }

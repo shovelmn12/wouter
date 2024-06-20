@@ -1,3 +1,7 @@
+## [0.3.4]
+- Feature: .# and .? support on build path (appending #... or ?... to the end of the route)
+- Breaking: no longer throws on no match found for route
+
 ## [0.3.3]
 - Feature: replaceUntil action and ReplaceUntil widget
 - Breaking: rename Redirect to Replace 
