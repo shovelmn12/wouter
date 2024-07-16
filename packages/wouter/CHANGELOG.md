@@ -1,3 +1,6 @@
+## [0.3.5]
+- Updated dependencies
+
 ## [0.3.4]
 - Feature: .# and .? support on build path (appending #... or ?... to the end of the route)
 - Breaking: no longer throws on no match found for route

@@ -19,7 +19,9 @@ mixin _$RouteEntry<T> {
   String get path => throw _privateConstructorUsedError;
   ValueSetter<T> get onResult => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RouteEntry
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RouteEntryCopyWith<T, RouteEntry<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -43,6 +45,8 @@ class _$RouteEntryCopyWithImpl<T, $Res, $Val extends RouteEntry<T>>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RouteEntry
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -81,6 +85,8 @@ class __$$PathRouteEntryImplCopyWithImpl<T, $Res>
       $Res Function(_$PathRouteEntryImpl<T>) _then)
       : super(_value, _then);
 
+  /// Create a copy of RouteEntry
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -139,7 +145,9 @@ class _$PathRouteEntryImpl<T>
   @override
   int get hashCode => Object.hash(runtimeType, path, onResult);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RouteEntry
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PathRouteEntryImplCopyWith<T, _$PathRouteEntryImpl<T>> get copyWith =>
@@ -156,8 +164,11 @@ abstract class PathRouteEntry<T> implements RouteEntry<T> {
   String get path;
   @override
   ValueSetter<T> get onResult;
+
+  /// Create a copy of RouteEntry
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PathRouteEntryImplCopyWith<T, _$PathRouteEntryImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }

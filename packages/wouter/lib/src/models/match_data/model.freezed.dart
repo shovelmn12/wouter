@@ -19,7 +19,9 @@ mixin _$MatchData {
   String get path => throw _privateConstructorUsedError;
   Map<String, dynamic> get arguments => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MatchData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MatchDataCopyWith<MatchData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -42,6 +44,8 @@ class _$MatchDataCopyWithImpl<$Res, $Val extends MatchData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MatchData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -80,6 +84,8 @@ class __$$MatchDataImplCopyWithImpl<$Res>
       _$MatchDataImpl _value, $Res Function(_$MatchDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MatchData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -144,7 +150,9 @@ class _$MatchDataImpl with DiagnosticableTreeMixin implements _MatchData {
   int get hashCode => Object.hash(
       runtimeType, path, const DeepCollectionEquality().hash(_arguments));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MatchData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MatchDataImplCopyWith<_$MatchDataImpl> get copyWith =>
@@ -160,8 +168,11 @@ abstract class _MatchData implements MatchData {
   String get path;
   @override
   Map<String, dynamic> get arguments;
+
+  /// Create a copy of MatchData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MatchDataImplCopyWith<_$MatchDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

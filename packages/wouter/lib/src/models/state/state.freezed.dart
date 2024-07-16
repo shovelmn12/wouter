@@ -20,7 +20,9 @@ mixin _$WouterState {
   String get base => throw _privateConstructorUsedError;
   List<RouteEntry> get stack => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WouterState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $WouterStateCopyWith<WouterState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -44,6 +46,8 @@ class _$WouterStateCopyWithImpl<$Res, $Val extends WouterState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of WouterState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -87,6 +91,8 @@ class __$$WouterStateImplCopyWithImpl<$Res>
       _$WouterStateImpl _value, $Res Function(_$WouterStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WouterState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -151,7 +157,9 @@ class _$WouterStateImpl implements _WouterState {
   int get hashCode => Object.hash(
       runtimeType, canPop, base, const DeepCollectionEquality().hash(_stack));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WouterState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$WouterStateImplCopyWith<_$WouterStateImpl> get copyWith =>
@@ -170,8 +178,11 @@ abstract class _WouterState implements WouterState {
   String get base;
   @override
   List<RouteEntry> get stack;
+
+  /// Create a copy of WouterState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$WouterStateImplCopyWith<_$WouterStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

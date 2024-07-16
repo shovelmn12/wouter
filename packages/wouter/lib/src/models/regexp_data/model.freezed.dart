@@ -19,7 +19,9 @@ mixin _$RegexpData {
   RegExp get regexp => throw _privateConstructorUsedError;
   List<String> get parameters => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RegexpData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RegexpDataCopyWith<RegexpData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -43,6 +45,8 @@ class _$RegexpDataCopyWithImpl<$Res, $Val extends RegexpData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RegexpData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -81,6 +85,8 @@ class __$$RegexpDataImplCopyWithImpl<$Res>
       _$RegexpDataImpl _value, $Res Function(_$RegexpDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RegexpData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -146,7 +152,9 @@ class _$RegexpDataImpl with DiagnosticableTreeMixin implements _RegexpData {
   int get hashCode => Object.hash(
       runtimeType, regexp, const DeepCollectionEquality().hash(_parameters));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RegexpData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RegexpDataImplCopyWith<_$RegexpDataImpl> get copyWith =>
@@ -162,8 +170,11 @@ abstract class _RegexpData implements RegexpData {
   RegExp get regexp;
   @override
   List<String> get parameters;
+
+  /// Create a copy of RegexpData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RegexpDataImplCopyWith<_$RegexpDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
