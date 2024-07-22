@@ -9,7 +9,7 @@ class WouterRouteInformationParser extends RouteInformationParser<String> {
   SynchronousFuture<String> parseRouteInformation(
     RouteInformation routeInformation,
   ) =>
-      SynchronousFuture("${routeInformation.uri}");
+      SynchronousFuture(routeInformation.uri.path);
 
   @override
   RouteInformation restoreRouteInformation(String configuration) =>

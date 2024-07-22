@@ -1,3 +1,6 @@
+## [0.3.6]
+- Feature: deep linking support for path only (removes host)
+
 ## [0.3.5]
 - Updated dependencies
 

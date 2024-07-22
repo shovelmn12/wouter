@@ -72,7 +72,8 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
   Future<void> setNewRoutePath(String configuration) {
     if (configuration != _state.fullPath) {
       _actions.reset([
-        configuration.isEmpty ? "/" : configuration,
+        "/",
+        if (configuration.isNotEmpty && configuration != "/") configuration,
       ]);
     }
 
