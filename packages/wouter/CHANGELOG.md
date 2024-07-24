@@ -1,3 +1,7 @@
+## [0.3.7]
+- Feature: parse route with context before setting path
+- Feat: merge all WouterStateStreamable
+
 ## [0.3.6]
 - Feature: deep linking support for path only (removes host)
 

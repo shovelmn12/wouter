@@ -13,12 +13,10 @@ part 'delegate.actions.dart';
 
 part 'delegate.actions_scope.dart';
 
-part 'delegate.streamable.dart';
-
 class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
-  final _WouterStateStreamableImpl _streamable;
+  late final WouterStateStreamable _streamable;
 
-  BehaviorSubject<WouterState> get _stateSubject => _streamable._subject;
+  final BehaviorSubject<WouterState> _stateSubject = BehaviorSubject();
 
   final BehaviorSubject<WouterActionsCallbacks> _actionsCallbacksSubject =
       BehaviorSubject.seeded((
@@ -47,11 +45,13 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
     String base = '',
     String initial = '/',
     required this.builder,
-  }) : _streamable = _WouterStateStreamableImpl(
-          base: base,
-          initial: initial,
-        ) {
-    _stateSubject
+  }) {
+    _streamable = WouterStateStreamable.root(
+      base: base,
+      source: _stateSubject.stream,
+      initial: initial,
+    );
+    _streamable.stream
         .map((state) => state.fullPath)
         .distinct()
         .listen((path) => notifyListeners());
@@ -59,7 +59,7 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
 
   @override
   void dispose() {
-    _stateSubject.close();
+    _streamable.dispose();
     _actionsCallbacksSubject.close();
 
     super.dispose();

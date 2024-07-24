@@ -1,12 +1,21 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
+typedef WouterParseRouteInformationCallback = String Function(
+  BuildContext,
+  RouteInformation,
+);
+
 /// Converts [RouteInformation] to [Uri] and vice-versa.
 class WouterRouteInformationParser extends RouteInformationParser<String> {
-  const WouterRouteInformationParser() : super();
+  final WouterParseRouteInformationCallback? parse;
+
+  const WouterRouteInformationParser({
+    this.parse,
+  }) : super();
 
   @override
-  SynchronousFuture<String> parseRouteInformation(
+  Future<String> parseRouteInformation(
     RouteInformation routeInformation,
   ) =>
       SynchronousFuture(routeInformation.uri.path);
@@ -16,4 +25,16 @@ class WouterRouteInformationParser extends RouteInformationParser<String> {
       RouteInformation(
         uri: Uri.parse(configuration),
       );
+
+  @override
+  Future<String> parseRouteInformationWithDependencies(
+    RouteInformation routeInformation,
+    BuildContext context,
+  ) {
+    if (parse != null) {
+      return SynchronousFuture(parse!(context, routeInformation));
+    }
+
+    return parseRouteInformation(routeInformation);
+  }
 }

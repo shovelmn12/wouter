@@ -7,8 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:wouter/wouter.dart';
 
-part 'base.wouter.dart';
-
 typedef WouterRoutes = Map<String, WouterWidgetBuilder>;
 
 typedef WouterStackBuilder = Widget Function(BuildContext, List<Widget>);
@@ -172,7 +170,7 @@ class WouterNavigatorState extends State<WouterNavigator> {
           )
           .map((entry) => widget.entryBuilder(
                 (context) => Provider(
-                  create: (context) => _WouterStateStreamableImpl(
+                  create: (context) => WouterStateStreamable.value(
                     state: WouterState(
                       stack: entry.stack,
                       canPop: state.canPop,
