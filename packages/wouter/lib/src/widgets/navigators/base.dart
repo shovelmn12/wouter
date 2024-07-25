@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
@@ -15,7 +14,7 @@ typedef WouterEntryBuilder = Widget Function(WidgetBuilder);
 
 typedef _Entry = ({
   String key,
-  List<RouteEntry> stack,
+  WouterState state,
   WidgetBuilder builder,
 });
 
@@ -48,9 +47,10 @@ class WouterNavigator extends StatefulWidget {
   State<WouterNavigator> createState() => WouterNavigatorState();
 }
 
-class WouterNavigatorState extends State<WouterNavigator> {
-  late final Stream<List<Widget>> _stream = Rx.combineLatest2(
-    context.wouter.stream.distinct().distinct((prev, next) =>
+class WouterNavigatorState extends State<WouterNavigator>
+    with WouterParentMixin {
+  late final _base = Rx.combineLatest2(
+    wouter.distinct((prev, next) =>
         const DeepCollectionEquality().equals(
           prev.stack.map((e) => e.path).toList(),
           next.stack.map((e) => e.path).toList(),
@@ -61,23 +61,37 @@ class WouterNavigatorState extends State<WouterNavigator> {
         widget.routes.entries,
       ),
     ),
-    (state, routes) => _createStack(
+    (state, routes) => _createEntries(
       widget.matcher ?? context.read<PathMatcher>(),
       state,
       routes,
     ),
-  ).distinct();
+  ).distinct().publishValue().autoConnect();
+
+  late final _stream = _base
+      .distinct((prev, next) => const DeepCollectionEquality().equals(
+            prev.map((e) => e.key),
+            next.map((e) => e.key),
+          ))
+      .map((entries) => entries
+          .mapIndexed((index, entry) => widget.entryBuilder(
+                (context) => Provider(
+                  create: (context) => WouterStateStreamable(
+                    source: _base
+                        .map((entries) => entries[index])
+                        .map((entry) => entry.state),
+                    state: entry.state,
+                  ),
+                  child: Builder(
+                    builder: entry.builder,
+                  ),
+                ),
+              ))
+          .toList());
 
   late final StreamSubscription<List<Widget>> _subscription;
 
-  late final BehaviorSubject<List<Widget>> _stack =
-      BehaviorSubject.seeded(_createStack(
-    widget.matcher ?? context.read<PathMatcher>(),
-    context.wouter.state,
-    List<MapEntry<String, WouterWidgetBuilder>>.unmodifiable(
-      widget.routes.entries,
-    ),
-  ));
+  late final BehaviorSubject<List<Widget>> _stack = BehaviorSubject();
 
   late final BehaviorSubject<WouterRoutes> _routes =
       BehaviorSubject.seeded(widget.routes);
@@ -100,16 +114,6 @@ class WouterNavigatorState extends State<WouterNavigator> {
   }
 
   @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    // properties.add(DiagnosticsProperty(
-    //   "stack",
-    //   _stack,
-    // ));
-
-    super.debugFillProperties(properties);
-  }
-
-  @override
   void dispose() {
     _subscription.cancel();
     _stack.close();
@@ -118,71 +122,62 @@ class WouterNavigatorState extends State<WouterNavigator> {
     super.dispose();
   }
 
-  List<Widget> _createStack(
+  List<_Entry> _createEntries(
     PathMatcher matcher,
     WouterState state,
     List<MapEntry<String, WouterWidgetBuilder>> routes,
   ) =>
-      state.stack
-          .fold<List<_Entry>>(
-            const <_Entry>[],
-            (stack, entry) {
-              final last = stack.lastOrNull;
+      state.stack.fold<List<_Entry>>(
+        const <_Entry>[],
+        (stack, entry) {
+          final last = stack.lastOrNull;
 
-              final match = _matchPathToRoute(
-                entry.path,
-                matcher,
-                routes,
-              );
+          final match = _matchPathToRoute(
+            entry.path,
+            matcher,
+            routes,
+          );
 
-              if (match == null) {
-                return stack;
-              }
+          if (match == null) {
+            return stack;
+          }
 
-              final (key: key, builder: builder) = match;
+          final (key: key, builder: builder) = match;
 
-              return List<_Entry>.unmodifiable(
-                last != null && last.key == key
-                    ? [
-                        if (stack.length > 1)
-                          ...stack.sublist(0, stack.length - 1),
-                        (
-                          key: key,
-                          stack: List<RouteEntry>.unmodifiable([
-                            ...last.stack,
-                            entry,
-                          ]),
-                          builder: builder,
-                        ),
-                      ]
-                    : [
-                        ...stack,
-                        (
-                          key: key,
-                          stack: List<RouteEntry>.unmodifiable([
-                            entry,
-                          ]),
-                          builder: builder,
-                        )
-                      ],
-              );
-            },
-          )
-          .map((entry) => widget.entryBuilder(
-                (context) => Provider(
-                  create: (context) => WouterStateStreamable.value(
-                    state: WouterState(
-                      stack: entry.stack,
-                      canPop: state.canPop,
-                      base: state.base,
+          return List<_Entry>.unmodifiable(
+            last != null && last.key == key
+                ? [
+                    if (stack.length > 1) ...stack.sublist(0, stack.length - 1),
+                    (
+                      key: key,
+                      state: WouterState(
+                        stack: List<RouteEntry>.unmodifiable([
+                          ...last.state.stack,
+                          entry,
+                        ]),
+                        canPop: state.canPop,
+                        base: state.base,
+                      ),
+                      builder: builder,
                     ),
-                  ),
-                  child: Builder(
-                    builder: entry.builder,
-                  ),
-                ),
-              ))
-          .toList();
+                  ]
+                : [
+                    ...stack,
+                    (
+                      key: key,
+                      state: WouterState(
+                        stack: List<RouteEntry>.unmodifiable([
+                          entry,
+                        ]),
+                        canPop: state.canPop,
+                        base: state.base,
+                      ),
+                      builder: builder,
+                    )
+                  ],
+          );
+        },
+      );
 
   _EntryMatch? _matchPathToRoute(
     String path,

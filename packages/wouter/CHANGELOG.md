@@ -1,3 +1,6 @@
+## [0.3.8]
+- Fix: didChangeDependencies of WouterStateStreamable
+
 ## [0.3.7]
 - Feature: parse route with context before setting path
 - Feat: merge all WouterStateStreamable

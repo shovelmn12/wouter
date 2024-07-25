@@ -31,7 +31,7 @@ class WouterListenable<T extends Listenable> extends StatefulWidget {
 }
 
 class _WouterListenableState<T extends Listenable>
-    extends State<WouterListenable<T>> {
+    extends State<WouterListenable<T>> with WouterParentMixin {
   final _subscription = CompositeSubscription();
   final _changeSubject = BehaviorSubject.seeded(false);
 
@@ -55,8 +55,7 @@ class _WouterListenableState<T extends Listenable>
           .distinct()
           .map((index) => (index, widget.routes.keys.toList()))
           .distinct()
-          .withLatestFrom(
-              context.wouter.stream, (data, state) => (data.$1, data.$2, state))
+          .withLatestFrom(wouter, (data, state) => (data.$1, data.$2, state))
           .mapNotNull((data) => widget.toPath(
                 data.$1,
                 data.$3.base,
@@ -64,7 +63,8 @@ class _WouterListenableState<T extends Listenable>
                 data.$2,
               ))
           .listen(context.wouter.actions.replace))
-      ..add(context.wouter.stream
+      ..add(wouter
+          .distinct()
           .map((state) => (state.base, state.fullPath))
           .distinct()
           .mapNotNull((data) => widget.toIndex(

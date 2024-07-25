@@ -14,9 +14,7 @@ part 'delegate.actions.dart';
 part 'delegate.actions_scope.dart';
 
 class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
-  late final WouterStateStreamable _streamable;
-
-  final BehaviorSubject<WouterState> _stateSubject = BehaviorSubject();
+  final BehaviorSubject<WouterState> _stateSubject;
 
   final BehaviorSubject<WouterActionsCallbacks> _actionsCallbacksSubject =
       BehaviorSubject.seeded((
@@ -25,6 +23,11 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
   ));
 
   final WidgetBuilder builder;
+
+  late final WouterStateStreamable _streamable = WouterStateStreamable(
+    source: _stateSubject.stream,
+    state: _stateSubject.value,
+  );
 
   late final WouterAction _actions = _createActions(
     const StackPolicy(),
@@ -45,12 +48,17 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
     String base = '',
     String initial = '/',
     required this.builder,
-  }) {
-    _streamable = WouterStateStreamable.root(
-      base: base,
-      source: _stateSubject.stream,
-      initial: initial,
-    );
+  }) : _stateSubject = BehaviorSubject.seeded(WouterState(
+          base: base,
+          canPop: false,
+          stack: [
+            if (initial.isNotEmpty)
+              RouteEntry(
+                path: initial,
+                onResult: (_) {},
+              ),
+          ],
+        )) {
     _streamable.stream
         .map((state) => state.fullPath)
         .distinct()
