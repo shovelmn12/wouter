@@ -1,3 +1,6 @@
+## [0.3.9]
+- Fix: dispose of WouterStateStreamable
+
 ## [0.3.8]
 - Fix: didChangeDependencies of WouterStateStreamable
 

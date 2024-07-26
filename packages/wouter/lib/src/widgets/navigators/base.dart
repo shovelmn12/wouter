@@ -82,6 +82,7 @@ class WouterNavigatorState extends State<WouterNavigator>
                         .map((entry) => entry.state),
                     state: entry.state,
                   ),
+                  dispose: (context, streamable) => streamable.dispose(),
                   child: Builder(
                     builder: entry.builder,
                   ),
