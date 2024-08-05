@@ -78,6 +78,7 @@ class WouterNavigatorState extends State<WouterNavigator>
                 (context) => Provider(
                   create: (context) => WouterStateStreamable(
                     source: _base
+                        .where((entries) => entries.length > index)
                         .map((entries) => entries[index])
                         .map((entry) => entry.state),
                     state: entry.state,

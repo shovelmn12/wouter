@@ -1,3 +1,6 @@
+## [0.4.0]
+- Fix: entries does not contain index in base navigator
+
 ## [0.3.9]
 - Fix: dispose of WouterStateStreamable
 
