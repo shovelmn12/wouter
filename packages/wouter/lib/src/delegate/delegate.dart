@@ -125,10 +125,13 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
                     route.didPop(result) || _actions.pop(result),
                 pages: [
                   MaterialPage(
-                    child: Container(
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                      child: Builder(
-                        builder: builder,
+                    child: PopScope(
+                      canPop: false,
+                      child: Container(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        child: Builder(
+                          builder: builder,
+                        ),
                       ),
                     ),
                   ),

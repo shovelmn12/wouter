@@ -6,8 +6,8 @@ WouterAction _createActions(
   ValueSetter<WouterState> setter,
   ValueGetter<WouterActionsCallbacks> getCallbacks,
 ) {
-  push<R>(WouterState state, String path) {
-    predicate(path) => getCallbacks()
+  (WouterState, Future<R?>) push<R>(WouterState state, String path) {
+    bool predicate(String path) => getCallbacks()
         .push
         .fold(true, (acc, callback) => acc && callback(path));
 
@@ -21,7 +21,7 @@ WouterAction _createActions(
     );
   }
 
-  pop(WouterState state, [dynamic result]) {
+  (WouterState, bool) pop(WouterState state, [dynamic result]) {
     predicate(path, [result]) => getCallbacks()
         .pop
         .fold(true, (acc, callback) => acc && callback(path, result));

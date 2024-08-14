@@ -1,3 +1,6 @@
+## [0.4.1]
+- Fix: duplicate route mount
+
 ## [0.4.0]
 - Fix: entries does not contain index in base navigator
 
