@@ -15,7 +15,6 @@ typedef WouterEntryBuilder = Widget Function(WidgetBuilder);
 typedef _Entry = ({
   String key,
   WouterState state,
-  WidgetBuilder builder,
 });
 
 typedef _EntryMatch = ({
@@ -50,17 +49,15 @@ class WouterNavigator extends StatefulWidget {
 class WouterNavigatorState extends State<WouterNavigator>
     with WouterParentMixin {
   late final _base = Rx.combineLatest2(
-    wouter.distinct((prev, next) =>
-        const DeepCollectionEquality().equals(
-          prev.stack.map((e) => e.path).toList(),
-          next.stack.map((e) => e.path).toList(),
-        ) &&
-        prev.base != next.base),
-    _routes.map(
-      (routes) => List<MapEntry<String, WouterWidgetBuilder>>.unmodifiable(
-        widget.routes.entries,
-      ),
+    wouter.distinct(
+      (prev, next) =>
+          const DeepCollectionEquality().equals(
+            prev.stack.map((e) => e.path).toList(),
+            next.stack.map((e) => e.path).toList(),
+          ) &&
+          prev.base != next.base,
     ),
+    _routes.distinct(),
     (state, routes) => _createEntries(
       widget.matcher ?? context.read<PathMatcher>(),
       state,
@@ -74,18 +71,38 @@ class WouterNavigatorState extends State<WouterNavigator>
             next.map((e) => e.key),
           ))
       .map((entries) => entries
-          .mapIndexed((index, entry) => widget.entryBuilder(
+          .mapIndexed((index, route) => widget.entryBuilder(
                 (context) => Provider(
+                  key: ValueKey('${route.key}-$index'),
                   create: (context) => WouterStateStreamable(
                     source: _base
                         .where((entries) => entries.length > index)
                         .map((entries) => entries[index])
                         .map((entry) => entry.state),
-                    state: entry.state,
+                    state: route.state,
                   ),
                   dispose: (context, streamable) => streamable.dispose(),
                   child: Builder(
-                    builder: entry.builder,
+                    builder: (context) => StreamBuilder<_EntryMatch>(
+                      stream: Rx.combineLatest2(
+                        context.wouter.stream
+                            .mapNotNull((state) => state.stack.lastOrNull)
+                            .distinct(),
+                        _routes,
+                        (entry, routes) => _matchPathToRoute(
+                          entry.path,
+                          widget.matcher ?? context.read<PathMatcher>(),
+                          routes,
+                        )!,
+                      ),
+                      initialData: _matchPathToRoute(
+                        context.wouter.state.stack.last.path,
+                        widget.matcher ?? context.read<PathMatcher>(),
+                        _routes.value,
+                      )!,
+                      builder: (context, snapshot) =>
+                          snapshot.requireData.builder(context),
+                    ),
                   ),
                 ),
               ))
@@ -95,8 +112,12 @@ class WouterNavigatorState extends State<WouterNavigator>
 
   late final BehaviorSubject<List<Widget>> _stack = BehaviorSubject();
 
-  late final BehaviorSubject<WouterRoutes> _routes =
-      BehaviorSubject.seeded(widget.routes);
+  late final BehaviorSubject<List<MapEntry<String, WouterWidgetBuilder>>>
+      _routes = BehaviorSubject.seeded(
+    List<MapEntry<String, WouterWidgetBuilder>>.unmodifiable(
+      widget.routes.entries,
+    ),
+  );
 
   @override
   void initState() {
@@ -109,7 +130,9 @@ class WouterNavigatorState extends State<WouterNavigator>
   void didUpdateWidget(covariant WouterNavigator oldWidget) {
     if (!const DeepCollectionEquality()
         .equals(oldWidget.routes.keys, widget.routes.keys)) {
-      _routes.add(widget.routes);
+      _routes.add(List<MapEntry<String, WouterWidgetBuilder>>.unmodifiable(
+        widget.routes.entries,
+      ));
     }
 
     super.didUpdateWidget(oldWidget);
@@ -160,7 +183,6 @@ class WouterNavigatorState extends State<WouterNavigator>
                         canPop: state.canPop,
                         base: state.base,
                       ),
-                      builder: builder,
                     ),
                   ]
                 : [
@@ -174,7 +196,6 @@ class WouterNavigatorState extends State<WouterNavigator>
                         canPop: state.canPop,
                         base: state.base,
                       ),
-                      builder: builder,
                     )
                   ],
           );

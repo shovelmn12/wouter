@@ -1,3 +1,6 @@
+## [0.4.2]
+- Fix: wouter route state
+
 ## [0.4.1]
 - Fix: duplicate route mount
 

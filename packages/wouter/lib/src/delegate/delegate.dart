@@ -121,8 +121,7 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
               key: ValueKey(hashCode),
               value: _actions,
               child: Navigator(
-                onPopPage: (route, result) =>
-                    route.didPop(result) || _actions.pop(result),
+                onDidRemovePage: (page) {},
                 pages: [
                   MaterialPage(
                     child: PopScope(
