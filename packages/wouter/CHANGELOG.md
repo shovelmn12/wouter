@@ -1,3 +1,6 @@
+## [0.4.3]
+- Fix: pop action
+
 ## [0.4.2]
 - Fix: wouter route state
 
