@@ -9,11 +9,7 @@ extension ReplaceWouterActionsExtension on WouterAction {
   ]) {
     final (prev, popped) = actions.pop(state, result);
 
-    if (popped) {
-      return actions.push<R>(prev, path);
-    }
-
-    return (state, Future<R>.value());
+    return actions.push<R>(prev, path);
   }
 
   Future<T?> replace<T>(String path, [dynamic result]) =>

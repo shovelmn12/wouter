@@ -1,3 +1,6 @@
+## [0.4.4]
+- Fix: replace action
+
 ## [0.4.3]
 - Fix: pop action
 
