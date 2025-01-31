@@ -1,3 +1,6 @@
+## [0.4.5]
+- Update: dependencies
+
 ## [0.4.4]
 - Fix: replace action
 
