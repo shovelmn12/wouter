@@ -1,4 +1,4 @@
-library wouter;
+library;
 
 export 'src/delegate/delegate.dart';
 export 'src/extensions/extensions.dart';

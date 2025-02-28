@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,80 +10,62 @@ part of 'model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 /// @nodoc
-mixin _$MatchData {
-  String get path => throw _privateConstructorUsedError;
-  Map<String, dynamic> get arguments => throw _privateConstructorUsedError;
+mixin _$MatchData implements DiagnosticableTreeMixin {
+  String get path;
+  Map<String, dynamic> get arguments;
 
   /// Create a copy of MatchData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $MatchDataCopyWith<MatchData> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $MatchDataCopyWith<$Res> {
-  factory $MatchDataCopyWith(MatchData value, $Res Function(MatchData) then) =
-      _$MatchDataCopyWithImpl<$Res, MatchData>;
-  @useResult
-  $Res call({String path, Map<String, dynamic> arguments});
-}
-
-/// @nodoc
-class _$MatchDataCopyWithImpl<$Res, $Val extends MatchData>
-    implements $MatchDataCopyWith<$Res> {
-  _$MatchDataCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of MatchData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $MatchDataCopyWith<MatchData> get copyWith =>
+      _$MatchDataCopyWithImpl<MatchData>(this as MatchData, _$identity);
+
   @override
-  $Res call({
-    Object? path = null,
-    Object? arguments = null,
-  }) {
-    return _then(_value.copyWith(
-      path: null == path
-          ? _value.path
-          : path // ignore: cast_nullable_to_non_nullable
-              as String,
-      arguments: null == arguments
-          ? _value.arguments
-          : arguments // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
-    ) as $Val);
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'MatchData'))
+      ..add(DiagnosticsProperty('path', path))
+      ..add(DiagnosticsProperty('arguments', arguments));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is MatchData &&
+            (identical(other.path, path) || other.path == path) &&
+            const DeepCollectionEquality().equals(other.arguments, arguments));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, path, const DeepCollectionEquality().hash(arguments));
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'MatchData(path: $path, arguments: $arguments)';
   }
 }
 
 /// @nodoc
-abstract class _$$MatchDataImplCopyWith<$Res>
-    implements $MatchDataCopyWith<$Res> {
-  factory _$$MatchDataImplCopyWith(
-          _$MatchDataImpl value, $Res Function(_$MatchDataImpl) then) =
-      __$$MatchDataImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $MatchDataCopyWith<$Res> {
+  factory $MatchDataCopyWith(MatchData value, $Res Function(MatchData) _then) =
+      _$MatchDataCopyWithImpl;
   @useResult
   $Res call({String path, Map<String, dynamic> arguments});
 }
 
 /// @nodoc
-class __$$MatchDataImplCopyWithImpl<$Res>
-    extends _$MatchDataCopyWithImpl<$Res, _$MatchDataImpl>
-    implements _$$MatchDataImplCopyWith<$Res> {
-  __$$MatchDataImplCopyWithImpl(
-      _$MatchDataImpl _value, $Res Function(_$MatchDataImpl) _then)
-      : super(_value, _then);
+class _$MatchDataCopyWithImpl<$Res> implements $MatchDataCopyWith<$Res> {
+  _$MatchDataCopyWithImpl(this._self, this._then);
+
+  final MatchData _self;
+  final $Res Function(MatchData) _then;
 
   /// Create a copy of MatchData
   /// with the given fields replaced by the non-null parameter values.
@@ -92,13 +75,13 @@ class __$$MatchDataImplCopyWithImpl<$Res>
     Object? path = null,
     Object? arguments = null,
   }) {
-    return _then(_$MatchDataImpl(
+    return _then(_self.copyWith(
       path: null == path
-          ? _value.path
+          ? _self.path
           : path // ignore: cast_nullable_to_non_nullable
               as String,
       arguments: null == arguments
-          ? _value._arguments
+          ? _self.arguments
           : arguments // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
     ));
@@ -107,8 +90,8 @@ class __$$MatchDataImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$MatchDataImpl with DiagnosticableTreeMixin implements _MatchData {
-  const _$MatchDataImpl(
+class _MatchData with DiagnosticableTreeMixin implements MatchData {
+  const _MatchData(
       {required this.path, required final Map<String, dynamic> arguments})
       : _arguments = arguments;
 
@@ -122,14 +105,16 @@ class _$MatchDataImpl with DiagnosticableTreeMixin implements _MatchData {
     return EqualUnmodifiableMapView(_arguments);
   }
 
+  /// Create a copy of MatchData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MatchData(path: $path, arguments: $arguments)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$MatchDataCopyWith<_MatchData> get copyWith =>
+      __$MatchDataCopyWithImpl<_MatchData>(this, _$identity);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'MatchData'))
       ..add(DiagnosticsProperty('path', path))
@@ -140,7 +125,7 @@ class _$MatchDataImpl with DiagnosticableTreeMixin implements _MatchData {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MatchDataImpl &&
+            other is _MatchData &&
             (identical(other.path, path) || other.path == path) &&
             const DeepCollectionEquality()
                 .equals(other._arguments, _arguments));
@@ -150,29 +135,49 @@ class _$MatchDataImpl with DiagnosticableTreeMixin implements _MatchData {
   int get hashCode => Object.hash(
       runtimeType, path, const DeepCollectionEquality().hash(_arguments));
 
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'MatchData(path: $path, arguments: $arguments)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$MatchDataCopyWith<$Res>
+    implements $MatchDataCopyWith<$Res> {
+  factory _$MatchDataCopyWith(
+          _MatchData value, $Res Function(_MatchData) _then) =
+      __$MatchDataCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String path, Map<String, dynamic> arguments});
+}
+
+/// @nodoc
+class __$MatchDataCopyWithImpl<$Res> implements _$MatchDataCopyWith<$Res> {
+  __$MatchDataCopyWithImpl(this._self, this._then);
+
+  final _MatchData _self;
+  final $Res Function(_MatchData) _then;
+
   /// Create a copy of MatchData
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$MatchDataImplCopyWith<_$MatchDataImpl> get copyWith =>
-      __$$MatchDataImplCopyWithImpl<_$MatchDataImpl>(this, _$identity);
+  $Res call({
+    Object? path = null,
+    Object? arguments = null,
+  }) {
+    return _then(_MatchData(
+      path: null == path
+          ? _self.path
+          : path // ignore: cast_nullable_to_non_nullable
+              as String,
+      arguments: null == arguments
+          ? _self._arguments
+          : arguments // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+    ));
+  }
 }
 
-abstract class _MatchData implements MatchData {
-  const factory _MatchData(
-      {required final String path,
-      required final Map<String, dynamic> arguments}) = _$MatchDataImpl;
-
-  @override
-  String get path;
-  @override
-  Map<String, dynamic> get arguments;
-
-  /// Create a copy of MatchData
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$MatchDataImplCopyWith<_$MatchDataImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

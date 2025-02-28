@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,87 +10,57 @@ part of 'state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$WouterState {
-  bool get canPop => throw _privateConstructorUsedError;
-  String get base => throw _privateConstructorUsedError;
-  List<RouteEntry> get stack => throw _privateConstructorUsedError;
+  bool get canPop;
+  String get base;
+  List<RouteEntry> get stack;
 
   /// Create a copy of WouterState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $WouterStateCopyWith<WouterState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $WouterStateCopyWith<$Res> {
-  factory $WouterStateCopyWith(
-          WouterState value, $Res Function(WouterState) then) =
-      _$WouterStateCopyWithImpl<$Res, WouterState>;
-  @useResult
-  $Res call({bool canPop, String base, List<RouteEntry> stack});
-}
-
-/// @nodoc
-class _$WouterStateCopyWithImpl<$Res, $Val extends WouterState>
-    implements $WouterStateCopyWith<$Res> {
-  _$WouterStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of WouterState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $WouterStateCopyWith<WouterState> get copyWith =>
+      _$WouterStateCopyWithImpl<WouterState>(this as WouterState, _$identity);
+
   @override
-  $Res call({
-    Object? canPop = null,
-    Object? base = null,
-    Object? stack = null,
-  }) {
-    return _then(_value.copyWith(
-      canPop: null == canPop
-          ? _value.canPop
-          : canPop // ignore: cast_nullable_to_non_nullable
-              as bool,
-      base: null == base
-          ? _value.base
-          : base // ignore: cast_nullable_to_non_nullable
-              as String,
-      stack: null == stack
-          ? _value.stack
-          : stack // ignore: cast_nullable_to_non_nullable
-              as List<RouteEntry>,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is WouterState &&
+            (identical(other.canPop, canPop) || other.canPop == canPop) &&
+            (identical(other.base, base) || other.base == base) &&
+            const DeepCollectionEquality().equals(other.stack, stack));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, canPop, base, const DeepCollectionEquality().hash(stack));
+
+  @override
+  String toString() {
+    return 'WouterState(canPop: $canPop, base: $base, stack: $stack)';
   }
 }
 
 /// @nodoc
-abstract class _$$WouterStateImplCopyWith<$Res>
-    implements $WouterStateCopyWith<$Res> {
-  factory _$$WouterStateImplCopyWith(
-          _$WouterStateImpl value, $Res Function(_$WouterStateImpl) then) =
-      __$$WouterStateImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $WouterStateCopyWith<$Res> {
+  factory $WouterStateCopyWith(
+          WouterState value, $Res Function(WouterState) _then) =
+      _$WouterStateCopyWithImpl;
   @useResult
   $Res call({bool canPop, String base, List<RouteEntry> stack});
 }
 
 /// @nodoc
-class __$$WouterStateImplCopyWithImpl<$Res>
-    extends _$WouterStateCopyWithImpl<$Res, _$WouterStateImpl>
-    implements _$$WouterStateImplCopyWith<$Res> {
-  __$$WouterStateImplCopyWithImpl(
-      _$WouterStateImpl _value, $Res Function(_$WouterStateImpl) _then)
-      : super(_value, _then);
+class _$WouterStateCopyWithImpl<$Res> implements $WouterStateCopyWith<$Res> {
+  _$WouterStateCopyWithImpl(this._self, this._then);
+
+  final WouterState _self;
+  final $Res Function(WouterState) _then;
 
   /// Create a copy of WouterState
   /// with the given fields replaced by the non-null parameter values.
@@ -100,17 +71,17 @@ class __$$WouterStateImplCopyWithImpl<$Res>
     Object? base = null,
     Object? stack = null,
   }) {
-    return _then(_$WouterStateImpl(
+    return _then(_self.copyWith(
       canPop: null == canPop
-          ? _value.canPop
+          ? _self.canPop
           : canPop // ignore: cast_nullable_to_non_nullable
               as bool,
       base: null == base
-          ? _value.base
+          ? _self.base
           : base // ignore: cast_nullable_to_non_nullable
               as String,
       stack: null == stack
-          ? _value._stack
+          ? _self.stack
           : stack // ignore: cast_nullable_to_non_nullable
               as List<RouteEntry>,
     ));
@@ -119,8 +90,8 @@ class __$$WouterStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$WouterStateImpl implements _WouterState {
-  const _$WouterStateImpl(
+class _WouterState implements WouterState {
+  const _WouterState(
       {required this.canPop,
       required this.base,
       required final List<RouteEntry> stack})
@@ -138,16 +109,19 @@ class _$WouterStateImpl implements _WouterState {
     return EqualUnmodifiableListView(_stack);
   }
 
+  /// Create a copy of WouterState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'WouterState(canPop: $canPop, base: $base, stack: $stack)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$WouterStateCopyWith<_WouterState> get copyWith =>
+      __$WouterStateCopyWithImpl<_WouterState>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$WouterStateImpl &&
+            other is _WouterState &&
             (identical(other.canPop, canPop) || other.canPop == canPop) &&
             (identical(other.base, base) || other.base == base) &&
             const DeepCollectionEquality().equals(other._stack, _stack));
@@ -157,32 +131,54 @@ class _$WouterStateImpl implements _WouterState {
   int get hashCode => Object.hash(
       runtimeType, canPop, base, const DeepCollectionEquality().hash(_stack));
 
+  @override
+  String toString() {
+    return 'WouterState(canPop: $canPop, base: $base, stack: $stack)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$WouterStateCopyWith<$Res>
+    implements $WouterStateCopyWith<$Res> {
+  factory _$WouterStateCopyWith(
+          _WouterState value, $Res Function(_WouterState) _then) =
+      __$WouterStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call({bool canPop, String base, List<RouteEntry> stack});
+}
+
+/// @nodoc
+class __$WouterStateCopyWithImpl<$Res> implements _$WouterStateCopyWith<$Res> {
+  __$WouterStateCopyWithImpl(this._self, this._then);
+
+  final _WouterState _self;
+  final $Res Function(_WouterState) _then;
+
   /// Create a copy of WouterState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$WouterStateImplCopyWith<_$WouterStateImpl> get copyWith =>
-      __$$WouterStateImplCopyWithImpl<_$WouterStateImpl>(this, _$identity);
+  $Res call({
+    Object? canPop = null,
+    Object? base = null,
+    Object? stack = null,
+  }) {
+    return _then(_WouterState(
+      canPop: null == canPop
+          ? _self.canPop
+          : canPop // ignore: cast_nullable_to_non_nullable
+              as bool,
+      base: null == base
+          ? _self.base
+          : base // ignore: cast_nullable_to_non_nullable
+              as String,
+      stack: null == stack
+          ? _self._stack
+          : stack // ignore: cast_nullable_to_non_nullable
+              as List<RouteEntry>,
+    ));
+  }
 }
 
-abstract class _WouterState implements WouterState {
-  const factory _WouterState(
-      {required final bool canPop,
-      required final String base,
-      required final List<RouteEntry> stack}) = _$WouterStateImpl;
-
-  @override
-  bool get canPop;
-  @override
-  String get base;
-  @override
-  List<RouteEntry> get stack;
-
-  /// Create a copy of WouterState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$WouterStateImplCopyWith<_$WouterStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on
