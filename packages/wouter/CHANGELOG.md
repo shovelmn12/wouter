@@ -1,3 +1,7 @@
+## [0.4.7]
+- Update: dependencies
+- Add: popCount(int times)
+
 ## [0.4.6]
 - Update: dependencies
 
