@@ -1,5 +1,6 @@
 ## [0.4.8]
 - Update: docs
+- Update: dependencies
 
 ## [0.4.7]
 - Update: dependencies
