@@ -109,7 +109,8 @@ WouterAction _createActions(
       (
         push: push, // The push implementation defined above
         pop: pop, // The pop implementation defined above
-        pathBuilder: policy.pathBuilder, // Path building utility from the policy
+        pathBuilder:
+            policy.pathBuilder, // Path building utility from the policy
       ),
       getter(), // Current WouterState
     );

@@ -39,8 +39,9 @@ extension ResetWouterActionExtension on WouterAction {
     return (
       stack.fold(
         prev, // Start with the state after all pops.
-        (currentState, path) =>
-            actions.push(currentState, path).$1, // Push path, take the new state.
+        (currentState, path) => actions
+            .push(currentState, path)
+            .$1, // Push path, take the new state.
       ),
       null, // Void result for the reset operation.
     );

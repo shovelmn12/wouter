@@ -64,7 +64,8 @@ extension ReplaceUntilWouterActionExtension on WouterAction {
             (state, true),
             (acc, entryToPop) => actions.pop(
               acc.$1, // The WouterState from the previous pop or initial state
-              result?.call(entryToPop.path), // Result for the route being popped
+              result
+                  ?.call(entryToPop.path), // Result for the route being popped
             ),
           ).$1; // Extract the WouterState from the tuple returned by fold.
 
