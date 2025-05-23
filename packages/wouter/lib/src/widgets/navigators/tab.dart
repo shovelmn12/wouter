@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wouter/wouter.dart';
-import 'package:collection/collection.dart';
 
 /// A widget that synchronizes a `TabController` (and typically a `TabBar` and
 /// `TabBarView`) with Wouter's navigation state.
