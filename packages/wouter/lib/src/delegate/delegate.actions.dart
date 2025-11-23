@@ -83,7 +83,7 @@ WouterAction _createActions(
         .pop
         .fold(true, (acc, callback) => acc && callback(path, result));
 
-    if (!predicate(state.path)) {
+    if (!predicate(state.path, result)) {
       // If any predicate fails, return current state and true.
       // The 'true' here implies the pop was "handled" by being prevented.
       return (state, true);

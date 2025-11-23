@@ -100,7 +100,9 @@ Wouter aims to:
         "/:_(.*)": (context, args) => Redirect(
           to: authService.isUserAuth ? "/home" : "/auth",
         ),
-      }
+      },
+      // Alternatively, use the `fallback` property for unmatched routes
+      // fallback: const NotFoundPage(),
     )
     ```
     Changes to `isUserAuth` will naturally rebuild the `WouterSwitch`, updating the available routes without needing explicit guard mechanisms within the routing package itself.
@@ -414,6 +416,8 @@ class MyApp extends StatelessWidget {
         // Fallback for any unmatched route
         '/:_(.*)': (context, arguments) => const NotFoundScreen(),
       },
+      // Alternatively, you can use the `fallback` parameter of WouterSwitch
+      // fallback: const NotFoundScreen(),
     ),
   );
 
