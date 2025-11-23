@@ -245,9 +245,22 @@ Widgets to easily integrate Wouter with common Flutter UI patterns.
 Synchronizes a generic Flutter `Listenable` (e.g., `ChangeNotifier`, `ValueNotifier`) with Wouter's navigation state. Useful for custom scenarios.
 
 ```dart
-const WouterListenable<T extends Listenable>({
-  // ... create, dispose, index, onChanged, routes, builder, toPath, toIndex ...
-});
+WouterListenable<MyListenable>(
+  create: (context, index) => MyListenable(initialIndex: index),
+  dispose: (context, listenable) => listenable.dispose(),
+  index: (listenable) => listenable.currentIndex,
+  onChanged: (listenable, index) => listenable.jumpTo(index),
+  toPath: (index, base, path, routes) => "$base${routes[index]}",
+  toIndex: (base, path, routes) => routes.indexWhere((r) => path.startsWith("$base$r")),
+  routes: {
+    '/first': (context, args) => FirstWidget(),
+    '/second': (context, args) => SecondWidget(),
+  },
+  builder: (context, listenable, childWidgets) {
+    // Build your UI using the listenable and the list of child widgets
+    return Column(children: childWidgets);
+  },
+);
 ```
 
 ### WouterTab
@@ -367,6 +380,10 @@ WouterActionsScope(
       return false; // Prevent navigation
     }
     return true; // Allow
+  },
+  onPop: (path, result) {
+    // Intercept pop actions
+    return true;
   },
   child: MyAppContent(),
 )
