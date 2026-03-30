@@ -86,13 +86,13 @@ class StackPolicy {
         canPop: state.stack.isNotEmpty,
         stack: List<RouteEntry>.unmodifiable([
           ...state.stack,
-          RouteEntry<R>(
+          RouteEntry(
             path: path,
-            onResult: (R? value) {
+            onResult: (Object? value) {
               if (completer.isCompleted) {
                 return; // Avoid completing more than once
               }
-              completer.complete(value);
+              completer.complete(value as R?);
             },
           ),
         ]),
@@ -107,8 +107,7 @@ class StackPolicy {
   /// its `onResult` callback, passing the provided [result].
   ///
   /// - [state]: The current [WouterState].
-  /// - [result]: An optional dynamic value to be passed as the result to the
-  ///   popped route's `onResult` callback.
+  /// - [result]: An optional value to pass to the popped route's `onResult`.
   ///
   /// Returns a record `(WouterState, bool)` containing:
   ///   - The new [WouterState] with the updated stack and `canPop` status.
@@ -119,7 +118,7 @@ class StackPolicy {
   ///     are still routes on the stack.
   (WouterState, bool) pop(
     WouterState state, [
-    dynamic result,
+    Object? result,
   ]) {
     // Create a mutable copy of the stack.
     final next = List<RouteEntry>.of(state.stack);

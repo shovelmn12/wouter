@@ -9,7 +9,7 @@ extension PopWouterActionExtension on WouterAction {
   /// a no-op and returns `false`. Otherwise, it delegates to the underlying
   /// `actions.pop` mechanism.
   ///
-  /// - [result]: An optional dynamic value to pass back to the route that is
+  /// - [result]: An optional value to pass back to the route that is
   ///   being revealed by this pop operation.
   ///   **Note**: In the current implementation of this specific extension method,
   ///   the provided `result` is not explicitly passed to `actions.pop(state)`.
@@ -28,7 +28,7 @@ extension PopWouterActionExtension on WouterAction {
   /// // Pop the current route with a result
   /// bool didPopWithResult = context.wouter.actions.pop('dataFromPoppedRoute');
   /// ```
-  bool pop([dynamic result]) =>
+  bool pop([Object? result]) =>
       // `this` refers to the WouterAction instance.
       // It invokes the WouterAction dispatcher with a handler function.
       this((actions, state) {

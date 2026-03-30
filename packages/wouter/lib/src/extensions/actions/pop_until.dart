@@ -16,7 +16,7 @@ extension PopUntilWouterActionExtension on WouterAction {
   /// - [predicate]: A function `bool Function(String)` that takes the path of
   ///   a [RouteEntry] and returns `true` if this is the route to stop at.
   ///   Popping will cease *before* this route is popped.
-  /// - [result]: An optional function `dynamic Function(String)?` that can
+  /// - [result]: An optional function `Object? Function(String)?` that can
   ///   provide a result for each route being popped. This function is called
   ///   with the `path` of the route being popped, and its return value is
   ///   passed as the result for that specific pop operation. If `null`, no
@@ -42,7 +42,7 @@ extension PopUntilWouterActionExtension on WouterAction {
   /// ```
   void popUntil(
     bool Function(String) predicate, [
-    dynamic Function(String)? result,
+    Object? Function(String)? result,
   ]) =>
       // `this` refers to the WouterAction instance.
       // It invokes the WouterAction dispatcher with a handler function.

@@ -36,7 +36,7 @@ extension PopCountWouterActionExtension on WouterAction {
   /// ```
   void popCount(
     int times, [
-    dynamic Function(String)? result,
+    Object? Function(String)? result,
   ]) =>
       // `this` refers to the WouterAction instance.
       // It invokes the WouterAction dispatcher with a handler function.

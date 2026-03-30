@@ -27,13 +27,13 @@ typedef PushAction = (WouterState, Future<R?>) Function<R>(WouterState, String);
 ///
 /// - Parameters:
 ///   - `WouterState`: The current state of the Wouter router before the pop.
-///   - `[dynamic result]`: An optional result to pass back to the route
+///   - `[Object? result]`: An optional result to pass back to the route
 ///     that is being revealed by this pop operation.
 /// - Returns: A record `(WouterState, bool)` containing:
 ///   - The new `WouterState` after the pop operation has been processed.
 ///   - A `bool` indicating whether the pop operation was successful (e.g.,
 ///     `true` if a route was actually popped, `false` if there was nothing to pop).
-typedef PopAction = (WouterState, bool) Function(WouterState, [dynamic]);
+typedef PopAction = (WouterState, bool) Function(WouterState, [Object?]);
 
 /// A record type that bundles core navigation actions and utilities.
 ///
@@ -106,10 +106,10 @@ typedef WouterAction = R Function<R>(
 /// - `pop`: A list of callback functions invoked when a "pop" action occurs.
 ///   - Each callback receives:
 ///     - `String`: The path of the route being popped from.
-///     - `[dynamic result]`: The optional result being passed during the pop.
+///     - `[Object? result]`: The optional result being passed during the pop.
 ///   - It returns a `bool`. Similar to `push` callbacks, this might control
 ///     the pop behavior.
 typedef WouterActionsCallbacks = ({
   List<bool Function(String)> push,
-  List<bool Function(String, [dynamic])> pop,
+  List<bool Function(String, [Object?])> pop,
 });

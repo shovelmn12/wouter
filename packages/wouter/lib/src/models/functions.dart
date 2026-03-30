@@ -46,7 +46,7 @@ typedef PushPredicate = bool Function(String path);
 /// Returns `true` if the pop action should proceed, `false` otherwise.
 /// This can be used for implementing navigation guards (e.g., "are you sure
 /// you want to leave?") or pre-pop checks.
-typedef PopPredicate = bool Function(String path, [dynamic result]);
+typedef PopPredicate = bool Function(String path, [Object? result]);
 
 /// A builder function that creates a widget for a specific route.
 ///

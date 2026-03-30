@@ -71,19 +71,19 @@ WouterAction _createActions(
   /// Otherwise, it delegates the pop operation to the provided [policy.pop].
   ///
   /// - [state]: The current [WouterState] before the pop.
-  /// - [result]: An optional dynamic result to pass to the previous route.
+  /// - [result]: An optional result to pass to the previous route.
   ///
   /// Returns a record `(WouterState, bool)` containing the new state
   /// after the pop (or original state if aborted) and a boolean indicating
   /// success (or if the pop was "handled" by predicates).
-  (WouterState, bool) pop(WouterState state, [dynamic result]) {
+  (WouterState, bool) pop(WouterState state, [Object? result]) {
     // Defines a predicate that checks all registered pop callbacks.
     // The pop proceeds only if all callbacks return true.
-    predicate(path, [result]) => getCallbacks()
+    bool predicate(String path, [Object? popResult]) => getCallbacks()
         .pop
-        .fold(true, (acc, callback) => acc && callback(path, result));
+        .fold(true, (acc, callback) => acc && callback(path, popResult));
 
-    if (!predicate(state.path)) {
+    if (!predicate(state.path, result)) {
       // If any predicate fails, return current state and true.
       // The 'true' here implies the pop was "handled" by being prevented.
       return (state, true);

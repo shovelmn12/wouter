@@ -18,7 +18,7 @@ extension ReplaceWouterActionsExtension on WouterAction {
     ActionBuilder actions,
     WouterState state,
     String path, [
-    dynamic result,
+    Object? result,
   ]) {
     // Pop the current route, potentially passing a result.
     // `prev` is the WouterState after the pop.
@@ -38,7 +38,7 @@ extension ReplaceWouterActionsExtension on WouterAction {
   /// - Generic Type `<T>`: Represents the potential type of the result that
   ///   might be returned when the new (replacing) route is eventually popped.
   /// - [path]: The path of the new route to navigate to.
-  /// - [result]: An optional dynamic value to pass as the result to the
+  /// - [result]: An optional value to pass as the result to the
   ///   route that is being replaced (i.e., the route being popped).
   ///
   /// Returns a `Future<T?>` that will complete with the result when the
@@ -55,7 +55,7 @@ extension ReplaceWouterActionsExtension on WouterAction {
   /// // Replace and await a result from the new page
   /// String? newUserData = await context.wouter.actions.replace<String>('/edit-profile');
   /// ```
-  Future<T?> replace<T>(String path, [dynamic result]) =>
+  Future<T?> replace<T>(String path, [Object? result]) =>
       // `this` refers to the WouterAction instance.
       // It invokes the WouterAction dispatcher with a handler function.
       this((actions, state) {

@@ -15,10 +15,10 @@ class _WouterActionsScope extends StatelessWidget {
   final ValueSetter<bool Function(String)> removePush;
 
   /// Callback to add a pop interceptor.
-  final ValueSetter<bool Function(String, [dynamic])> addPop;
+  final ValueSetter<bool Function(String, [Object?])> addPop;
 
   /// Callback to remove a pop interceptor.
-  final ValueSetter<bool Function(String, [dynamic])> removePop;
+  final ValueSetter<bool Function(String, [Object?])> removePop;
 
   /// The child widget.
   final Widget child;
@@ -79,10 +79,10 @@ class WouterActionsScope extends StatefulWidget {
   /// An optional callback invoked before a "pop" navigation action.
   ///
   /// It receives the `String` path of the route being popped from and an
-  /// optional `dynamic` result.
+  /// optional pop result.
   /// If it returns `false`, the pop action is prevented.
   /// If it returns `true` or is `null`, the pop action proceeds.
-  final bool Function(String, [dynamic])? onPop;
+  final bool Function(String, [Object?])? onPop;
 
   /// The child widget to which this scope applies.
   final Widget child;
@@ -138,7 +138,7 @@ class _WouterActionsScopeState extends State<WouterActionsScope> {
 
   /// Internal handler for pop actions.
   /// Calls the user-provided [widget.onPop] if available, otherwise defaults to `true`.
-  bool _onPop(String path, [dynamic result]) =>
+  bool _onPop(String path, [Object? result]) =>
       widget.onPop?.call(path, result) ?? true;
 
   /// Builds the widget by simply returning its [widget.child].

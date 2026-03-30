@@ -42,6 +42,8 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
     pop: [], // Initial empty list of pop callbacks
   ));
 
+  final PathMatcherBuilder? _matcher;
+
   /// The main widget builder function provided by the user to build the
   /// application's UI based on the current Wouter state.
   final WidgetBuilder builder;
@@ -85,12 +87,12 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
   ///   It typically uses routing widgets like [Wouter] or [Switch] to display
   ///   content based on the current route.
   WouterRouterDelegate({
-    PathMatcherBuilder?
-        matcher, // Note: matcher is not directly used in this snippet, but might be by _createActions or PathMatchers
+    PathMatcherBuilder? matcher,
     String base = '',
     String initial = '/',
     required this.builder,
-  }) : _stateSubject = BehaviorSubject.seeded(WouterState(
+  })  : _matcher = matcher,
+        _stateSubject = BehaviorSubject.seeded(WouterState(
           base: base,
           canPop:
               false, // Initially, we assume we can't pop further from the root
@@ -193,7 +195,7 @@ class WouterRouterDelegate extends RouterDelegate<String> with ChangeNotifier {
           child: Provider<PathMatcher>.value(
             // Provides a default cached RegExp-based path matcher.
             // updateShouldNotify is false as the matcher instance itself doesn't change.
-            value: PathMatchers.cachedRegexp(),
+            value: _matcher?.call() ?? PathMatchers.cachedRegexp(),
             updateShouldNotify: (prev, next) => false,
             child: Provider<WouterAction>.value(
               // Keyed to ensure it's correctly updated if the delegate itself is replaced.

@@ -14,31 +14,22 @@ part of 'model.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$RouteEntry<T> implements DiagnosticableTreeMixin {
+mixin _$RouteEntry {
   String get path;
-  ValueSetter<T> get onResult;
+  RouteResultCallback get onResult;
 
   /// Create a copy of RouteEntry
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $RouteEntryCopyWith<T, RouteEntry<T>> get copyWith =>
-      _$RouteEntryCopyWithImpl<T, RouteEntry<T>>(
-          this as RouteEntry<T>, _$identity);
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties
-      ..add(DiagnosticsProperty('type', 'RouteEntry<$T>'))
-      ..add(DiagnosticsProperty('path', path))
-      ..add(DiagnosticsProperty('onResult', onResult));
-  }
+  $RouteEntryCopyWith<RouteEntry> get copyWith =>
+      _$RouteEntryCopyWithImpl<RouteEntry>(this as RouteEntry, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is RouteEntry<T> &&
+            other is RouteEntry &&
             (identical(other.path, path) || other.path == path) &&
             (identical(other.onResult, onResult) ||
                 other.onResult == onResult));
@@ -48,27 +39,26 @@ mixin _$RouteEntry<T> implements DiagnosticableTreeMixin {
   int get hashCode => Object.hash(runtimeType, path, onResult);
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RouteEntry<$T>(path: $path, onResult: $onResult)';
+  String toString() {
+    return 'RouteEntry(path: $path, onResult: $onResult)';
   }
 }
 
 /// @nodoc
-abstract mixin class $RouteEntryCopyWith<T, $Res> {
+abstract mixin class $RouteEntryCopyWith<$Res> {
   factory $RouteEntryCopyWith(
-          RouteEntry<T> value, $Res Function(RouteEntry<T>) _then) =
+          RouteEntry value, $Res Function(RouteEntry) _then) =
       _$RouteEntryCopyWithImpl;
   @useResult
-  $Res call({String path, ValueSetter<T> onResult});
+  $Res call({String path, RouteResultCallback onResult});
 }
 
 /// @nodoc
-class _$RouteEntryCopyWithImpl<T, $Res>
-    implements $RouteEntryCopyWith<T, $Res> {
+class _$RouteEntryCopyWithImpl<$Res> implements $RouteEntryCopyWith<$Res> {
   _$RouteEntryCopyWithImpl(this._self, this._then);
 
-  final RouteEntry<T> _self;
-  final $Res Function(RouteEntry<T>) _then;
+  final RouteEntry _self;
+  final $Res Function(RouteEntry) _then;
 
   /// Create a copy of RouteEntry
   /// with the given fields replaced by the non-null parameter values.
@@ -86,42 +76,34 @@ class _$RouteEntryCopyWithImpl<T, $Res>
       onResult: null == onResult
           ? _self.onResult
           : onResult // ignore: cast_nullable_to_non_nullable
-              as ValueSetter<T>,
+              as RouteResultCallback,
     ));
   }
 }
 
 /// @nodoc
 
-class PathRouteEntry<T> with DiagnosticableTreeMixin implements RouteEntry<T> {
+class PathRouteEntry implements RouteEntry {
   const PathRouteEntry({required this.path, required this.onResult});
 
   @override
   final String path;
   @override
-  final ValueSetter<T> onResult;
+  final RouteResultCallback onResult;
 
   /// Create a copy of RouteEntry
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $PathRouteEntryCopyWith<T, PathRouteEntry<T>> get copyWith =>
-      _$PathRouteEntryCopyWithImpl<T, PathRouteEntry<T>>(this, _$identity);
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties
-      ..add(DiagnosticsProperty('type', 'RouteEntry<$T>'))
-      ..add(DiagnosticsProperty('path', path))
-      ..add(DiagnosticsProperty('onResult', onResult));
-  }
+  $PathRouteEntryCopyWith<PathRouteEntry> get copyWith =>
+      _$PathRouteEntryCopyWithImpl<PathRouteEntry>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is PathRouteEntry<T> &&
+            other is PathRouteEntry &&
             (identical(other.path, path) || other.path == path) &&
             (identical(other.onResult, onResult) ||
                 other.onResult == onResult));
@@ -131,29 +113,29 @@ class PathRouteEntry<T> with DiagnosticableTreeMixin implements RouteEntry<T> {
   int get hashCode => Object.hash(runtimeType, path, onResult);
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RouteEntry<$T>(path: $path, onResult: $onResult)';
+  String toString() {
+    return 'RouteEntry(path: $path, onResult: $onResult)';
   }
 }
 
 /// @nodoc
-abstract mixin class $PathRouteEntryCopyWith<T, $Res>
-    implements $RouteEntryCopyWith<T, $Res> {
+abstract mixin class $PathRouteEntryCopyWith<$Res>
+    implements $RouteEntryCopyWith<$Res> {
   factory $PathRouteEntryCopyWith(
-          PathRouteEntry<T> value, $Res Function(PathRouteEntry<T>) _then) =
+          PathRouteEntry value, $Res Function(PathRouteEntry) _then) =
       _$PathRouteEntryCopyWithImpl;
   @override
   @useResult
-  $Res call({String path, ValueSetter<T> onResult});
+  $Res call({String path, RouteResultCallback onResult});
 }
 
 /// @nodoc
-class _$PathRouteEntryCopyWithImpl<T, $Res>
-    implements $PathRouteEntryCopyWith<T, $Res> {
+class _$PathRouteEntryCopyWithImpl<$Res>
+    implements $PathRouteEntryCopyWith<$Res> {
   _$PathRouteEntryCopyWithImpl(this._self, this._then);
 
-  final PathRouteEntry<T> _self;
-  final $Res Function(PathRouteEntry<T>) _then;
+  final PathRouteEntry _self;
+  final $Res Function(PathRouteEntry) _then;
 
   /// Create a copy of RouteEntry
   /// with the given fields replaced by the non-null parameter values.
@@ -163,7 +145,7 @@ class _$PathRouteEntryCopyWithImpl<T, $Res>
     Object? path = null,
     Object? onResult = null,
   }) {
-    return _then(PathRouteEntry<T>(
+    return _then(PathRouteEntry(
       path: null == path
           ? _self.path
           : path // ignore: cast_nullable_to_non_nullable
@@ -171,7 +153,7 @@ class _$PathRouteEntryCopyWithImpl<T, $Res>
       onResult: null == onResult
           ? _self.onResult
           : onResult // ignore: cast_nullable_to_non_nullable
-              as ValueSetter<T>,
+              as RouteResultCallback,
     ));
   }
 }
